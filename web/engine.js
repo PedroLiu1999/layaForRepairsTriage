@@ -1,8 +1,11 @@
 // Workflow engine: a workflow is a directed acyclic graph of three node kinds.
 //
 //   decision  asks Laya ONE typed question (choice | score | noul) and follows the route that matches the answer.
-//             If the answer's confidence is below the node's threshold, it follows `onLowConfidence` instead
-//             (usually a human-review outcome). No `onLowConfidence` means "take the answer anyway, but flag it".
+//             The gate is the BRANCH PROBABILITY: the share of the model's probability that went down the chosen
+//             route. If it is below the node's threshold (`minConfidence`, else the global one), the run follows
+//             `onLowConfidence` instead (usually a person). No `onLowConfidence` = take the branch anyway, but flag it.
+//             Yes/no nodes may set `cutoff` (default 0.5): the p(true) needed to take the "true" branch. A low
+//             cutoff makes a fail-closed gate, e.g. block when p(destructive) >= 0.3.
 //   task      an automation step (send a message, open a ticket, call a webhook...). Runs, then goes to `next`.
 //   outcome   a terminal node with a disposition: "auto" (fully automated), "human" (a person decides) or "block".
 //
@@ -64,11 +67,19 @@ export function optionProbs(q, answer) {
   return { ...answer.probabilities };
 }
 
-/** The option the answer selects: argmax for choice, rounded expected score for score, p>=0.5 for noul. */
-export function selectedOption(q, answer) {
+/** The option the answer selects: argmax for choice, rounded expected score for score, p >= cutoff for noul. */
+export function selectedOption(q, answer, cutoff = 0.5) {
   if (q.type === "choice") return answer.choice;
   if (q.type === "score") return String(Math.min(q.criteria.length - 1, Math.max(0, Math.round(answer.score))));
-  return answer.noul >= 0.5 ? "true" : "false";
+  return answer.noul >= cutoff ? "true" : "false";
+}
+
+/** The option a node selects and the probability mass on the route it leads to (the gating value). */
+export function branchOf(node, answer) {
+  const selected = selectedOption(node.question, answer, node.cutoff ?? 0.5);
+  const routeKey = routeKeyForOption(node, selected);
+  const mass = routeMass(node, answer);
+  return { selected, routeKey, p: mass[routeKey] ?? 0, mass };
 }
 
 /** Probability mass flowing down each route of a decision node (sums options that share a route). */
@@ -90,6 +101,14 @@ export function template(str, ctx) {
     const v = path.split(".").reduce((o, k) => (o == null ? undefined : o[k]), ctx);
     return v == null ? "" : typeof v === "object" ? JSON.stringify(v) : String(v);
   });
+}
+
+/** Short stable fingerprint of a question, so recorded answers are only reused while the question is unchanged. */
+export function questionKey(q) {
+  const s = JSON.stringify(q);
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+  return h.toString(36);
 }
 
 /** Build the Laya `state` for a workflow input. */
@@ -128,6 +147,7 @@ export function validateWorkflow(wf) {
       if (unrouted.length) errs.push(`${id}: no route for option(s) ${unrouted.map((k) => `"${optionLabel(q, k)}"`).join(", ")}`);
       if (n.onLowConfidence) ref(id, n.onLowConfidence, "onLowConfidence");
       if (n.minConfidence != null && !(n.minConfidence >= 0 && n.minConfidence <= 1)) errs.push(`${id}: minConfidence must be between 0 and 1`);
+      if (n.cutoff != null && (q.type !== "noul" || !(n.cutoff > 0 && n.cutoff < 1))) errs.push(`${id}: cutoff is for yes/no questions and must be between 0 and 1`);
     } else if (n.type === "task") {
       if (!n.next) errs.push(`${id}: a task needs "next"`); else ref(id, n.next, "next");
     } else if (n.type === "outcome") {
@@ -214,16 +234,15 @@ export async function runWorkflow(wf, input, ask, opts = {}) {
       const s0 = now();
       const answer = await ask(node.question, state, id);
       const q = node.question;
-      const opt = selectedOption(q, answer);
+      const { selected: opt, routeKey, p, mass } = branchOf(node, answer);
       const thr = node.minConfidence ?? threshold;
-      const low = answer.confidence < thr;
-      const routeKey = routeKeyForOption(node, opt);
+      const low = p < thr;
       const to = low && node.onLowConfidence ? node.onLowConfidence : node.routes[routeKey];
       answers[id] = { ...answer, selected: opt, label: optionLabel(q, opt) };
       const step = {
         nodeId: id, kind: "decision", label: node.label || q.instructions, question: q, answer, selected: opt,
-        selectedLabel: optionLabel(q, opt), probs: optionProbs(q, answer), routeMass: routeMass(node, answer),
-        confidence: answer.confidence, threshold: thr, lowConfidence: low, escalated: low && !!node.onLowConfidence,
+        selectedLabel: optionLabel(q, opt), probs: optionProbs(q, answer), routeMass: mass, cutoff: node.cutoff,
+        confidence: p, layaConfidence: answer.confidence, threshold: thr, lowConfidence: low, escalated: low && !!node.onLowConfidence,
         routeKey: low && node.onLowConfidence ? LOW : routeKey, to, ms: now() - s0,
       };
       steps.push(step); await opts.onStep?.(step);

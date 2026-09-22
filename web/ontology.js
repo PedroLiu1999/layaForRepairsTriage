@@ -41,7 +41,7 @@ const OBJECT_PROPS = [
 ];
 const DATA_PROPS = [
   ["label", "string"], ["instructions", "string"], ["text", "string"], ["domain", "string"], ["disposition", "string"],
-  ["confidence", "decimal"], ["probability", "decimal"], ["threshold", "decimal"], ["lowConfidence", "boolean"],
+  ["confidence", "decimal"], ["layaConfidence", "decimal"], ["probability", "decimal"], ["cutoff", "decimal"], ["threshold", "decimal"], ["lowConfidence", "boolean"],
   ["channel", "string"], ["at", "dateTime"], ["source", "string"],
 ];
 
@@ -85,6 +85,7 @@ export function buildOntology(workflows, runs = []) {
       const data = { label: n.label || n.question?.instructions || nid };
       if (n.type === "task") data.channel = n.channel || "task";
       if (n.type === "outcome") data.disposition = n.disposition;
+      if (n.cutoff != null) data.cutoff = n.cutoff;
       ind(N, type, data, { workflowId: wf.id, nodeId: nid });
       link(W, "hasNode", N);
       if (n.type === "decision") {
@@ -115,7 +116,7 @@ export function buildOntology(workflows, runs = []) {
       if (s.kind === "decision") {
         const D = ind(iri.dec(run.id, s.nodeId), "Decision", {
           label: `${s.label}: ${s.selectedLabel}`, confidence: s.confidence, probability: s.probs[s.selected],
-          threshold: s.threshold, lowConfidence: s.lowConfidence,
+          layaConfidence: s.layaConfidence, threshold: s.threshold, lowConfidence: s.lowConfidence,
         }, { workflowId: wf.id, runId: run.id, nodeId: s.nodeId });
         link(R, "hasDecision", D); link(D, "atNode", iri.node(wf.id, s.nodeId));
         link(D, "selected", iri.opt(wf.id, s.nodeId, s.selected), { weight: s.probs[s.selected] });

@@ -17,13 +17,18 @@ export const WORKFLOWS = [
         question: { type: "choice", instructions: "Which team should handle this ticket?", criteria: {
           bug: "Something is broken or not working", how_to: "A question about how to use the product",
           billing: "Charges, invoices, refunds or plans", account_access: "Login, password or account access" } },
-        routes: { bug: "urgency", how_to: "send_article", billing: "billing_queue", account_access: "reset_link" },
+        routes: { bug: "blocked", how_to: "send_article", billing: "billing_queue", account_access: "reset_link" },
         onLowConfidence: "human_triage",
+      },
+      blocked: {
+        type: "decision", label: "Customer blocked right now?",
+        question: { type: "noul", instructions: "The customer cannot work at all right now because of this problem" },
+        routes: { true: "page_oncall", false: "urgency" },
       },
       urgency: {
         type: "decision", label: "How urgent is the bug?",
         question: { type: "score", instructions: "How urgent is this problem for the customer?", criteria: ["Can wait", "This week", "Today", "Right now"] },
-        routes: { "0-1": "backlog", "2": "eng_queue", "3": "page_oncall" },
+        routes: { "0-1": "backlog", "2+": "eng_queue" },
       },
       send_article: { type: "task", channel: "email", label: "Reply with help-center article", template: "Auto-reply to customer re: \"{{input.subject}}\" with the top help-center article.", next: "resolved" },
       reset_link: { type: "task", channel: "email", label: "Send secure reset link", template: "Send a password/2FA reset link for \"{{input.subject}}\".", next: "resolved" },
@@ -51,29 +56,27 @@ export const WORKFLOWS = [
     name: "AI agent action guardrail",
     domain: "AI safety",
     entity: "AgentAction",
-    description: "Gate an action an autonomous agent wants to take. Fails closed: any risk signal stops the run.",
+    description: "Gate an action an autonomous agent wants to take. Fails closed: deletions are blocked, and anything the model is unsure about waits for a person.",
     input: {},
-    start: "destructive",
+    start: "kind",
     nodes: {
-      destructive: {
-        type: "decision", label: "Destructive / irreversible?",
-        question: { type: "noul", instructions: "The action deletes, overwrites or changes data in a way that cannot be undone" },
-        routes: { true: "block", false: "external" },
-      },
-      external: {
-        type: "decision", label: "Touches money or the outside world?",
-        question: { type: "noul", instructions: "The action sends money, emails or messages to people outside the company, or publishes something publicly" },
-        routes: { true: "approval", false: "risk" },
-      },
-      risk: {
-        type: "decision", label: "Overall risk",
-        question: { type: "score", instructions: "How risky is it to let the agent do this without a human?", criteria: ["Low", "Medium", "High", "Critical"] },
-        routes: { "0": "log_run", "1": "approval", "2+": "block" },
+      kind: {
+        type: "decision", label: "What kind of action?",
+        question: { type: "choice", instructions: "What kind of action is this?", criteria: {
+          read_only: "Only reads or summarizes information", reversible_change: "A change that can easily be reviewed or undone",
+          data_deletion: "Deletes or overwrites data", external_effect: "Sends money, emails or messages to people outside" } },
+        routes: { read_only: "log_run", reversible_change: "data_loss", data_deletion: "block", external_effect: "approval" },
         onLowConfidence: "approval",
       },
-      log_run: { type: "task", channel: "audit", label: "Write audit log entry", template: "Audit: agent action auto-approved.", next: "approved" },
-      approval: { type: "task", channel: "chat", label: "Request approval in #agent-ops", template: "Approval requested for agent action.", next: "held" },
-      block: { type: "task", channel: "audit", label: "Block and record reason", template: "Blocked agent action (destructive or high risk).", next: "blocked" },
+      data_loss: {
+        type: "decision", label: "Could it lose data?",
+        question: { type: "noul", instructions: "Running this could permanently lose data" },
+        cutoff: 0.3,
+        routes: { true: "block", false: "log_run" },
+      },
+      log_run: { type: "task", channel: "audit", label: "Write audit log entry", template: "Audit: agent action auto-approved ({{answers.kind.selected}}).", next: "approved" },
+      approval: { type: "task", channel: "chat", label: "Request approval in #agent-ops", template: "Approval requested: {{input.text}}", next: "held" },
+      block: { type: "task", channel: "audit", label: "Block and record reason", template: "Blocked agent action ({{answers.kind.selected}}).", next: "blocked" },
       approved: { type: "outcome", disposition: "auto", label: "Approved, runs automatically" },
       held: { type: "outcome", disposition: "human", label: "Held for human approval" },
       blocked: { type: "outcome", disposition: "block", label: "Blocked" },
@@ -105,8 +108,8 @@ export const WORKFLOWS = [
       impact: {
         type: "decision", label: "Customers affected now?",
         question: { type: "noul", instructions: "Customers are affected by this problem right now" },
+        cutoff: 0.6,
         routes: { true: "owner", false: "owner_quiet" },
-        onLowConfidence: "owner",
       },
       owner: {
         type: "decision", label: "Owning team",
@@ -148,19 +151,21 @@ export const WORKFLOWS = [
       injury: {
         type: "decision", label: "Anyone injured?",
         question: { type: "noul", instructions: "Someone was injured or needed medical treatment" },
+        cutoff: 0.45,
         routes: { true: "bodily_injury", false: "fraud" },
       },
       fraud: {
         type: "decision", label: "Fraud indicators?",
         question: { type: "noul", instructions: "The claim shows signs of possible fraud, such as inconsistent details, a very recent policy, or pressure to pay quickly in cash" },
+        cutoff: 0.28,
         routes: { true: "siu", false: "claim_type" },
-        onLowConfidence: "adjuster",
       },
       claim_type: {
         type: "decision", label: "Claim type",
         question: { type: "choice", instructions: "What type of claim is this?", criteria: {
           auto_glass: "Windshield or window glass damage only", auto_collision: "Vehicle collision damage", property_water: "Water damage to a home", theft: "Theft or burglary" } },
         routes: { auto_glass: "size", auto_collision: "adjuster", property_water: "size", theft: "police_report" },
+        onLowConfidence: "adjuster",
       },
       size: {
         type: "decision", label: "Estimated loss size",
@@ -190,30 +195,34 @@ export const WORKFLOWS = [
     name: "Invoice approval (AP)",
     domain: "Finance operations",
     entity: "Invoice",
-    description: "Accounts-payable: check that an incoming invoice matches a purchase order, look for duplicates, and approve by amount tier.",
+    description: "Accounts payable: check that an incoming invoice references a purchase order, catch repeats, and route approval by what was bought.",
     input: {},
     start: "has_po",
     nodes: {
       has_po: {
         type: "decision", label: "References a purchase order?",
         question: { type: "noul", instructions: "The invoice references a purchase order number" },
+        cutoff: 0.4,
         routes: { true: "duplicate", false: "request_po" },
       },
       duplicate: {
-        type: "decision", label: "Possible duplicate?",
-        question: { type: "noul", instructions: "This invoice may be a duplicate of one that was already sent or paid" },
-        routes: { true: "dup_hold", false: "amount" },
+        type: "decision", label: "Repeat of an earlier invoice?",
+        question: { type: "noul", instructions: "The sender says this is a repeat or second copy of an invoice they already sent" },
+        cutoff: 0.4,
+        routes: { true: "dup_hold", false: "spend" },
+      },
+      spend: {
+        type: "decision", label: "What is it for?",
+        question: { type: "choice", instructions: "What is this invoice for?", criteria: {
+          supplies: "Office supplies and small consumables", equipment: "Computer hardware or equipment",
+          services: "Consulting or professional services", contract: "A large annual contract or subscription" } },
+        routes: { supplies: "schedule", equipment: "manager", services: "manager", contract: "cfo" },
         onLowConfidence: "ap_review",
       },
-      amount: {
-        type: "decision", label: "Amount tier",
-        question: { type: "score", instructions: "How large is the invoice amount?", criteria: ["Under $1,000", "$1,000 to $10,000", "$10,000 to $50,000", "Over $50,000"] },
-        routes: { "0-1": "schedule", "2": "manager", "3": "cfo" },
-      },
       request_po: { type: "task", channel: "email", label: "Ask vendor for PO number", template: "Email vendor: please resend the invoice with a PO number.", next: "waiting" },
-      schedule: { type: "task", channel: "webhook", label: "Schedule payment run", template: "Schedule for next payment run ({{answers.amount.label}}).", next: "approved" },
-      manager: { type: "task", channel: "chat", label: "Request manager sign-off", template: "Manager sign-off needed ({{answers.amount.label}}).", next: "signoff" },
-      cfo: { type: "task", channel: "chat", label: "Request CFO sign-off", template: "CFO sign-off needed ({{answers.amount.label}}).", next: "signoff" },
+      schedule: { type: "task", channel: "webhook", label: "Schedule payment run", template: "Schedule for next payment run ({{answers.spend.selected}}).", next: "approved" },
+      manager: { type: "task", channel: "chat", label: "Request budget-owner sign-off", template: "Budget-owner sign-off needed ({{answers.spend.selected}}).", next: "signoff" },
+      cfo: { type: "task", channel: "chat", label: "Request CFO sign-off", template: "CFO sign-off needed for an annual contract.", next: "signoff" },
       dup_hold: { type: "task", channel: "ticket", label: "Hold as suspected duplicate", template: "Hold: suspected duplicate invoice.", next: "blocked" },
       approved: { type: "outcome", disposition: "auto", label: "Approved and scheduled" },
       signoff: { type: "outcome", disposition: "human", label: "Awaiting sign-off" },
@@ -241,9 +250,10 @@ export const WORKFLOWS = [
     nodes: {
       reason: {
         type: "decision", label: "Why a refund?",
-        question: { type: "choice", instructions: "What is the main reason for the refund request?", criteria: {
-          damaged: "Item arrived damaged or defective", not_received: "Order never arrived", changed_mind: "Customer changed their mind or it doesn't fit", wrong_item: "Wrong item was sent" } },
-        routes: { damaged: "photo", not_received: "tracking", changed_mind: "window", wrong_item: "label" },
+        question: { type: "choice", instructions: "Why does the customer want a refund or return?", criteria: {
+          damaged: "The item arrived broken or defective", not_received: "The order never arrived",
+          doesnt_fit: "Wrong size, doesn't fit, or they no longer want it", wrong_item: "A different item than ordered was sent" } },
+        routes: { damaged: "photo", not_received: "tracking", doesnt_fit: "old", wrong_item: "label" },
         onLowConfidence: "agent",
       },
       photo: {
@@ -251,10 +261,11 @@ export const WORKFLOWS = [
         question: { type: "noul", instructions: "The customer says they have attached or can provide photos of the problem" },
         routes: { true: "refund", false: "ask_photo" },
       },
-      window: {
-        type: "decision", label: "Within 30 days?",
-        question: { type: "noul", instructions: "The purchase was made within the last 30 days" },
-        routes: { true: "label", false: "decline" },
+      old: {
+        type: "decision", label: "Bought months ago?",
+        question: { type: "noul", instructions: "The purchase was several months ago" },
+        cutoff: 0.45,
+        routes: { true: "decline", false: "label" },
         onLowConfidence: "agent",
       },
       tracking: { type: "task", channel: "webhook", label: "Check carrier tracking", template: "Query carrier API for tracking status.", next: "agent" },
@@ -288,6 +299,7 @@ export const WORKFLOWS = [
       threat: {
         type: "decision", label: "Threat of violence?",
         question: { type: "noul", instructions: "The comment threatens violence or harm against a person" },
+        cutoff: 0.4,
         routes: { true: "escalate", false: "spam" },
       },
       spam: {
@@ -299,7 +311,7 @@ export const WORKFLOWS = [
       toxicity: {
         type: "decision", label: "Toxicity",
         question: { type: "score", instructions: "How toxic or insulting is the language?", criteria: ["None", "Mild", "Strong", "Severe"] },
-        routes: { "0": "publish", "1": "review", "2+": "remove" },
+        routes: { "0-1": "publish", "2+": "remove" },
         onLowConfidence: "review",
       },
       escalate: { type: "task", channel: "page", label: "Escalate to safety team", template: "Escalate possible threat to the safety team.", next: "removed" },

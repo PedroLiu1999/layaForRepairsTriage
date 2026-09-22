@@ -58,7 +58,7 @@ function diagramElements(wf) {
   const els = [{ data: { id: "__trigger", label: `▶ ${wf.entity || "Input"}`, tip: "Trigger: a new " + (wf.entity || "input") + " arrives" }, classes: "trigger" }];
   for (const [id, n] of Object.entries(wf.nodes)) {
     if (n.type === "decision") {
-      const label = `${trunc(n.label || n.question.instructions, 44)}\n〈${QT[n.question.type]}〉`;
+      const label = `${trunc(n.label || n.question.instructions, 44)}\n〈${QT[n.question.type]}${n.cutoff != null ? `, yes if p ≥ ${n.cutoff}` : ""}〉`;
       els.push({ data: { id, label, base: label, tip: `${n.question.instructions}\nOptions: ${optionKeys(n.question).map((k) => optionLabel(n.question, k)).join(", ")}` }, classes: "decision" });
     } else if (n.type === "task") {
       const label = `${n.channel ? n.channel.toUpperCase() + " · " : ""}${n.label}`;
@@ -86,9 +86,10 @@ function diagramStyle(P) {
     { selector: ".outcome.auto", style: { "background-color": P.autoSoft, "border-color": P.auto } },
     { selector: ".outcome.human", style: { "background-color": P.humanSoft, "border-color": P.human } },
     { selector: ".outcome.block", style: { "background-color": P.blockSoft, "border-color": P.block } },
-    { selector: "edge.low", style: { "line-style": "dashed", "line-color": P.human, "target-arrow-color": P.human, color: P.human } },
+    { selector: "edge.low", style: { "line-style": "dashed", "line-color": P.human, "target-arrow-color": P.human, color: P.human, label: "", "source-label": "data(label)", "source-text-offset": 58, "source-text-margin-y": -8 } },
     { selector: "node.visited", style: { "border-width": 4, "underlay-color": P.accent, "underlay-opacity": 0.14, "underlay-padding": 6 } },
     { selector: "node.current", style: { "underlay-opacity": 0.3, "underlay-padding": 10 } },
+    { selector: "node.decision.visited", style: { "underlay-opacity": 0, "border-width": 5, "background-color": P.card } },
     { selector: "edge.taken", style: { width: 4, "line-color": P.accent, "target-arrow-color": P.accent, color: P.ink, "font-weight": 700, "z-index": 10 } },
     { selector: "edge.taken.low", style: { "line-color": P.human, "target-arrow-color": P.human } },
     { selector: "edge.mass", style: { width: "data(w)" } },
@@ -130,13 +131,13 @@ export function overlayRun(cy, run, upto = Infinity) {
       const n = cy.$id(s.nodeId); lit(n.addClass("visited"));
       if (i === steps.length - 1 && steps.length < run.steps.length) n.addClass("current");
       if (s.kind === "decision") {
-        n.data("label", `${n.data("base")}\n${s.selectedLabel} · conf ${s.confidence.toFixed(2)}`);
+        n.data("label", `${n.data("base")}\n${s.selectedLabel} · p ${s.confidence.toFixed(2)}`);
         n.outgoers("edge").forEach((e) => {
           const key = e.data("key");
           const m = key === LOW ? null : s.routeMass[key] ?? 0;
           if (m != null) { e.data("label", `${e.data("base")} · ${pct(m)}`); e.data("w", 1.2 + 6 * m); e.addClass("mass"); lit(e); e.style("opacity", 0.35 + 0.65 * m); }
           if (key === s.routeKey && e.data("target") === s.to) { e.addClass("taken"); e.style("opacity", 1); }
-          if (key === LOW) { e.data("label", s.lowConfidence ? `low confidence (${s.confidence.toFixed(2)} < ${s.threshold.toFixed(2)})` : e.data("base")); lit(e); e.style("opacity", s.lowConfidence ? 1 : 0.5); }
+          if (key === LOW) { e.data("label", s.lowConfidence ? `low confidence (p ${s.confidence.toFixed(2)} <${s.threshold.toFixed(2)})` : e.data("base")); lit(e); e.style("opacity", s.lowConfidence ? 1 : 0.5); }
         });
       } else if (s.kind === "task") {
         n.outgoers("edge").forEach((e) => { lit(e); e.addClass("taken"); });
@@ -186,7 +187,7 @@ export function renderTree(container, wf, run) {
     const sid = `s${i}`;
     if (s.kind === "decision") {
       const q = s.question;
-      els.push({ data: { id: sid, label: `${trunc(s.label, 40)}\nconfidence ${s.confidence.toFixed(2)}`, tip: `${q.instructions}\nconfidence ${s.confidence.toFixed(3)}, threshold ${s.threshold.toFixed(2)}` }, classes: "decision" + (s.lowConfidence ? " low" : "") });
+      els.push({ data: { id: sid, label: `${trunc(s.label, 40)}\nbranch p ${s.confidence.toFixed(2)}`, tip: `${q.instructions}\nbranch probability ${s.confidence.toFixed(3)} (threshold ${s.threshold.toFixed(2)})${s.cutoff != null ? `\nyes if p(true) ≥ ${s.cutoff}` : ""}\nLaya confidence ${(s.layaConfidence ?? 0).toFixed(3)}` }, classes: "decision" + (s.lowConfidence ? " low" : "") });
       els.push({ data: { id: `${prev}->${sid}`, source: prev, target: sid, label: "" }, classes: "path" });
       const node = wf.nodes[s.nodeId];
       for (const k of optionKeys(q)) {
@@ -199,7 +200,7 @@ export function renderTree(container, wf, run) {
       }
       prev = `${sid}:${s.selected}`;
       if (s.escalated) {
-        els.push({ data: { id: `${sid}:low`, label: `low confidence\n${s.confidence.toFixed(2)} < ${s.threshold.toFixed(2)}` }, classes: "lowbox" });
+        els.push({ data: { id: `${sid}:low`, label: `low confidence\np ${s.confidence.toFixed(2)} < ${s.threshold.toFixed(2)}` }, classes: "lowbox" });
         els.push({ data: { id: `${sid}->${sid}:low`, source: sid, target: `${sid}:low`, label: "" }, classes: "path low" });
         prev = `${sid}:low`;
       }
@@ -230,7 +231,9 @@ export function renderTree(container, wf, run) {
     { selector: ".outcome.block", style: { "background-color": P.blockSoft, "border-color": P.block } },
   ];
   const cy = cytoscape({ container, elements: els, style, wheelSensitivity: 0.25, minZoom: 0.15, maxZoom: 2.5, boxSelectionEnabled: false });
-  runLayout(cy, { name: "dagre", rankDir: "LR", nodeSep: 14, rankSep: 60 });
+  // left-to-right reads best on wide screens; stack top-to-bottom when the pane is narrow
+  const wide = container.clientWidth >= 760;
+  runLayout(cy, { name: "dagre", rankDir: wide ? "LR" : "TB", nodeSep: 14, rankSep: wide ? 60 : 40 });
   tip(cy);
   return cy;
 }
@@ -326,7 +329,7 @@ export function renderOntology(container, onto, opts, onSelect) {
 
 /** Run a layout and fit the viewport once it has settled (dagre can finish after run() returns). */
 function runLayout(cy, opts) {
-  const fit = () => { cy.resize(); cy.fit(undefined, 16); };
+  const fit = () => { if (cy.destroyed()) return; cy.resize(); cy.fit(undefined, 16); };
   cy.one("layoutstop", () => requestAnimationFrame(fit));
   cy.layout({ padding: 16, fit: true, ...opts }).run();
 }

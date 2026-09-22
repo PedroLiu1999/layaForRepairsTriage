@@ -43,8 +43,9 @@ A workflow is plain data: a DAG of three node types. `engine.js` runs it, and no
       routes: { damaged: "photo", not_received: "tracking", ... },
       onLowConfidence: "agent"                 // below the confidence threshold -> a person
     },
-    window: { type: "decision", question: { type: "noul", instructions: "The purchase was made within the last 30 days" },
-              routes: { true: "label", false: "decline" } },
+    old:    { type: "decision", question: { type: "noul", instructions: "The purchase was several months ago" },
+              cutoff: 0.45,                    // p(true) needed to take the "true" branch
+              routes: { true: "decline", false: "label" } },
     urgency: { type: "decision", question: { type: "score", instructions: "...", criteria: ["Low", "Medium", "High", "Critical"] },
               routes: { "0-1": "queue", "2+": "page" } },   // score routes are level ranges
     label:  { type: "task", channel: "email", label: "Send prepaid return label", template: "…{{answers.reason.selected}}…", next: "done" },
@@ -53,13 +54,15 @@ A workflow is plain data: a DAG of three node types. `engine.js` runs it, and no
 }
 ```
 
-- **decision**: one typed question to the model. `choice` routes by criterion key, `score` routes by level range on the rounded expected score (`"2"`, `"0-1"`, `"2+"`), and `noul` (yes/no) routes by `"true"`/`"false"`. If the answer's confidence is below the threshold (the global slider, or a per-node `minConfidence`), the run follows `onLowConfidence` instead.
+- **decision**: one typed question to the model. `choice` routes by criterion key, `score` routes by level range on the rounded expected score (`"2"`, `"0-1"`, `"2+"`), and `noul` (yes/no) routes by `"true"`/`"false"`. If the **branch probability** is below the threshold (the global slider, or a per-node `minConfidence`), the run follows `onLowConfidence` instead. With no `onLowConfidence`, it takes the branch anyway and flags it. Yes/no nodes can set a `cutoff`, the p(true) needed to take the "true" branch (default 0.5). A low cutoff makes a fail-closed gate, for example "treat it as data-losing if p ≥ 0.3".
 - **task**: an automation step with a templated side effect. The effects are simulated in the page, and the optional webhook receives the full decision record.
 - **outcome**: a terminal disposition.
 
 **Batch answering.** With this on (the default), all of a workflow's decision nodes are answered in one batched forward pass, so each run records the answer to every question, including those off the path it took. That lets the threshold slider re-route the current run instantly and powers the analytics sweep. Turn it off to ask only the questions on the path, one call per node.
 
-**Confidence** is Laya's own: 1 minus the normalized entropy for choice and score questions, and max(p, 1 − p) for yes/no, after the model's per-question-type calibration temperature. The numbers come from a quantized build, so treat them as approximate.
+**Why gate on branch probability.** The gate is the share of the model's probability that went down the chosen route: the top option's probability for a choice, the summed probability of the levels in a score range, and p or 1 − p for yes/no. Laya's own `confidence` (1 minus normalized entropy) is also recorded and shown. On a four-option question, though, it reads low even when the answer is clearly right (for example 0.48 for a correct "bug" at 78% probability), so a single threshold on it would send almost everything to a person. With branch probability, one slider means the same thing on every node: "act on your own only if at least X of the probability agrees".
+
+**How the built-in questions were chosen.** Every question phrasing and cutoff was checked against this model's real outputs for the examples, and phrasings it handles poorly were replaced. For example, it is weak at comparing dollar amounts, so invoices are routed by what was bought rather than by amount tier. Yes/no probabilities from this checkpoint are compressed toward the middle by its calibration temperature (about 2.0), which is why some yes/no nodes set a `cutoff` below 0.5. At the default threshold of 0.5 the 37 examples end up 14 automated, 17 with a person and 6 blocked. The escalations fall on the ambiguous or misread cases: a money transfer read as a "reversible change" (p 0.43), a force-push (0.47), a four-month-old return (0.32). All numbers come from the quantized int8 build, so treat them as approximate.
 
 ## Before the model is downloaded
 

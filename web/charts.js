@@ -1,3 +1,5 @@
+import { branchOf } from "./engine.js";
+
 // Small hand-rolled SVG charts for the Analytics tab. Colours come from the page's CSS variables, so the charts
 // follow light/dark mode. Every mark has a <title> so values are readable on hover.
 
@@ -28,7 +30,7 @@ export function kpis(el, runs) {
  */
 export function sweepChart(el, series, threshold) {
   if (!series.length || !series.some((s) => s.n)) { el.innerHTML = empty("Run a few cases to see how the threshold trades automation for review."); return; }
-  const W = 520, H = 230, m = { l: 36, r: 10, t: 8, b: 28 };
+  const W = 520, H = 246, m = { l: 36, r: 10, t: 8, b: 42 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
   const t0 = series[0].t, t1 = series[series.length - 1].t;
   const x = (t) => m.l + ((t - t0) / (t1 - t0)) * iw, y = (v) => m.t + ih - v * ih;
@@ -43,7 +45,7 @@ export function sweepChart(el, series, threshold) {
     ["auto", layer(() => 0, (f) => f.a)], ["human", layer((f) => f.a, (f) => f.a + f.h)], ["block", layer((f) => f.a + f.h, (f) => f.a + f.h + f.b)],
   ];
   const ticksY = [0, 0.25, 0.5, 0.75, 1].map((v) => `<g class="axis"><line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke-dasharray="${v ? "2 3" : ""}"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${pct(v)}</text></g>`).join("");
-  const ticksX = frac.filter((_, i) => i % 4 === 0).map((f) => `<text x="${x(f.t)}" y="${H - 8}" text-anchor="middle">${f.t.toFixed(2)}</text>`).join("");
+  const ticksX = frac.filter((_, i) => i % 4 === 0).map((f) => `<text x="${x(f.t)}" y="${m.t + ih + 16}" text-anchor="middle">${f.t.toFixed(2)}</text>`).join("");
   const cur = frac.reduce((best, f) => (Math.abs(f.t - threshold) < Math.abs(best.t - threshold) ? f : best), frac[0]);
   const bw = iw / (frac.length - 1);
   const hover = frac.map((f) => `<rect x="${x(f.t) - bw / 2}" y="${m.t}" width="${bw}" height="${ih}" fill="transparent"><title>threshold ${f.t.toFixed(2)} (${f.n} runs)\nautomated ${pct(f.a)} · human ${pct(f.h)} · blocked ${pct(f.b)}</title></rect>`).join("");
@@ -53,7 +55,7 @@ export function sweepChart(el, series, threshold) {
     <line x1="${x(threshold)}" x2="${x(threshold)}" y1="${m.t}" y2="${m.t + ih}" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 3"/>
     <text x="${Math.min(x(threshold) + 4, W - 120)}" y="${m.t + 12}" style="fill:var(--ink);font-weight:600">now ${threshold.toFixed(2)}: ${pct(cur.a)} automated</text>
     ${ticksX}
-    <text x="${m.l + iw / 2}" y="${H}" text-anchor="middle">confidence threshold</text>
+    <text x="${m.l + iw / 2}" y="${H - 4}" text-anchor="middle">threshold (branch probability)</text>
     ${hover}
   </svg>${legend()}`;
 }
@@ -65,7 +67,7 @@ export function confChart(el, wf, runs, threshold) {
   for (const r of runs) {
     const pool = { ...(r.allAnswers || {}), ...r.answers };
     const visited = new Set(r.steps.map((s) => s.nodeId));
-    rows.forEach(([id], ri) => { const a = pool[id]; if (a) pts.push({ ri, id, c: a.confidence, visited: visited.has(id), sel: a.label ?? a.choice ?? "", text: r.input.text }); });
+    rows.forEach(([id, n], ri) => { const a = pool[id]; if (!a) return; const b = branchOf(n, a); pts.push({ ri, id, c: b.p, visited: visited.has(id), sel: b.selected, text: r.input.text }); });
   }
   if (!pts.length) { el.innerHTML = empty("No decisions recorded for this workflow yet."); return; }
   const rowH = 34, W = 520, m = { l: 150, r: 12, t: 6, b: 26 }, H = m.t + rows.length * rowH + m.b, iw = W - m.l - m.r;
@@ -81,7 +83,7 @@ export function confChart(el, wf, runs, threshold) {
     const thr = wf.nodes[p.id].minConfidence ?? threshold;
     const yy = m.t + p.ri * rowH + rowH / 2 + jitter(i) * (rowH - 12);
     const col = p.c < thr ? "var(--human)" : "var(--decision)";
-    return `<circle cx="${x(p.c).toFixed(1)}" cy="${yy.toFixed(1)}" r="${p.visited ? 4.5 : 3}" fill="${col}" fill-opacity="${p.visited ? 0.85 : 0.35}" stroke="var(--card)" stroke-width="1"><title>${esc(String(p.sel))} · confidence ${p.c.toFixed(3)}${p.visited ? "" : " (answered in batch, not on the path)"}\n${esc(p.text.slice(0, 90))}</title></circle>`;
+    return `<circle cx="${x(p.c).toFixed(1)}" cy="${yy.toFixed(1)}" r="${p.visited ? 4.5 : 3}" fill="${col}" fill-opacity="${p.visited ? 0.85 : 0.35}" stroke="var(--card)" stroke-width="1"><title>${esc(String(p.sel))} · branch p ${p.c.toFixed(3)}${p.visited ? "" : " (answered in batch, not on the path)"}\n${esc(p.text.slice(0, 90))}</title></circle>`;
   }).join("");
   el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Confidence per decision node">${grid}${labels}${dots}</svg>
     <div class="legendrow"><span><i style="background:var(--decision)"></i>at or above threshold</span><span><i style="background:var(--human)"></i>below threshold</span><span>faint dots: answered in the batch but off the path taken</span></div>`;

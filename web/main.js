@@ -1,6 +1,6 @@
 // Page wiring: model loading, running workflows, and the five views (diagram, decision graph, ontology,
 // analytics, editor). Workflow logic lives in engine.js, graph drawing in graphs.js, the ontology in ontology.js.
-import { runWorkflow, replayAt, validateWorkflow, decisionNodes, buildState, DISPOSITIONS } from "./engine.js";
+import { runWorkflow, replayAt, validateWorkflow, decisionNodes, buildState, questionKey, DISPOSITIONS } from "./engine.js";
 import { WORKFLOWS } from "./workflows.js";
 import { renderDiagram, overlayRun, overlayTraffic, clearOverlay, renderTree, renderOntology } from "./graphs.js";
 import { buildOntology, toTurtle, toJsonLd, describe } from "./ontology.js";
@@ -104,7 +104,7 @@ function recordedFor(w, input) {
   const hit = list.find((x) => x.text === input.text && (x.subject || "") === (input.subject || ""));
   if (!hit) return null;
   // recorded answers are only valid if the questions are unchanged (an edited workflow must use the live model)
-  const sameQ = decisionNodes(w).every(({ id, node }) => hit.questions?.[id] === JSON.stringify(node.question));
+  const sameQ = decisionNodes(w).every(({ id, node }) => hit.questions?.[id] === questionKey(node.question));
   return sameQ ? hit.answers : null;
 }
 
@@ -209,7 +209,7 @@ function summary(run) {
     id: run.id, workflow: run.workflowId, at: run.at, source: run.source, threshold: run.threshold, input: run.input,
     outcome: run.outcome, decisions: run.steps.filter((s) => s.kind === "decision").map((s) => ({
       node: s.nodeId, question: s.question.instructions, selected: s.selected, label: s.selectedLabel,
-      probabilities: s.probs, confidence: s.confidence, lowConfidence: s.lowConfidence, routedTo: s.to,
+      probabilities: s.probs, branchProbability: s.confidence, layaConfidence: s.layaConfidence, cutoff: s.cutoff, lowConfidence: s.lowConfidence, routedTo: s.to,
     })),
     effects: run.effects.map((e) => ({ node: e.nodeId, channel: e.channel, text: e.text })),
     model: run.source === "model" ? { name: S.model?.model, build: S.model?.variant, backend: S.model?.backend } : { name: S.recorded?.model, build: S.recorded?.variant, recorded: true },
@@ -223,10 +223,11 @@ function showResult(run) {
   const w = wf();
   $("resultCard").hidden = false;
   const o = run.outcome, d = DISPOSITIONS[o.disposition];
-  const why = run.steps.filter((s) => s.kind === "decision" && s.escalated).map((s) => `“${s.label}” confidence ${s.confidence.toFixed(2)} < ${s.threshold.toFixed(2)}`);
+  const why = run.steps.filter((s) => s.kind === "decision" && s.escalated).map((s) => `“${s.label}” branch p ${s.confidence.toFixed(2)} < ${s.threshold.toFixed(2)}`);
+  const nDec = run.steps.filter((s) => s.kind === "decision").length;
   const src = run.source === "recorded" ? "recorded answers from the same model" : `${(run.totalMs / 1000).toFixed(1)} s on this device`;
   $("outcome").innerHTML = `<div class="outcome ${o.disposition}"><div class="k">${esc(d.label)}</div><div class="t">${esc(o.label)}</div>
-    <div class="d">${why.length ? "Escalated: " + esc(why.join("; ")) + ". " : ""}${esc(o.detail || "")} ${run.steps.filter((s) => s.kind === "decision").length} decisions · ${esc(src)}${run.whatIf ? ` · re-routed at threshold ${run.threshold.toFixed(2)}` : ""}</div></div>`;
+    <div class="d">${why.length ? "Escalated: " + esc(why.join("; ")) + ". " : ""}${esc(o.detail || "")} ${nDec} decision${nDec === 1 ? "" : "s"} · ${esc(src)}${run.whatIf ? ` · re-routed at threshold ${run.threshold.toFixed(2)}` : ""}</div></div>`;
   $("trace").innerHTML = run.steps.map((s) => {
     if (s.kind === "decision") {
       const bars = Object.entries(s.probs).map(([k, p]) => {
@@ -235,7 +236,7 @@ function showResult(run) {
       }).join("");
       const dest = w.nodes[s.to]?.label || s.to;
       return `<li class="decision"><div class="h">${esc(s.label)} → ${esc(s.selectedLabel)}</div>
-        <div class="s">confidence ${s.confidence.toFixed(2)} ${s.lowConfidence ? `<span class="low">below ${s.threshold.toFixed(2)}${s.escalated ? ", escalated" : ", flagged"}</span>` : `≥ ${s.threshold.toFixed(2)}`} · next: ${esc(dest)}</div>
+        <div class="s">branch p ${s.confidence.toFixed(2)} ${s.lowConfidence ? `<span class="low">below ${s.threshold.toFixed(2)}${s.escalated ? ", escalated" : ", flagged"}</span>` : `≥ ${s.threshold.toFixed(2)}`}${s.cutoff != null ? ` · yes if p ≥ ${s.cutoff}` : ""} · Laya confidence ${(s.layaConfidence ?? 0).toFixed(2)} · next: ${esc(dest)}</div>
         <div class="bars">${bars}</div></li>`;
     }
     if (s.kind === "task") return `<li class="task"><div class="h">${esc(s.label)}</div><div class="s">${esc(s.effect.text)}</div></li>`;
@@ -457,7 +458,13 @@ function selectWorkflow(id) {
   });
   S.last = [...runsOf(w.id)].pop() || null; S.shown = null;
   if (S.last) showResult(S.last); else $("resultCard").hidden = true;
-  if (!$("message").value || S.selectedExample != null) fillExample(0);
+  if (S.last) {
+    // show the input of the run that is on screen
+    $("message").value = S.last.input.text; $("subject").value = S.last.input.subject || "";
+    S.selectedExample = w.examples.findIndex((ex) => ex.text === S.last.input.text);
+    [...$("examples").children].forEach((b, j) => b.classList.toggle("active", j === S.selectedExample));
+    updateRunHint();
+  } else if (!$("message").value || S.selectedExample != null) fillExample(0);
   S.dirty = { tree: true, ontology: true, analytics: true };
   S.cy.diagram?.destroy(); S.cy.diagram = null;
   const u = new URL(location.href); u.searchParams.set("wf", id); history.replaceState(null, "", u);
@@ -547,7 +554,8 @@ window.__lw = {
       for (const ex of w.examples) {
         const input = { text: ex.text, ...(w.input?.subject ? { subject: ex.subject || "" } : {}) };
         const { answers } = await answerAll(w, input);
-        out.workflows[w.id].push({ ...input, answers, questions: Object.fromEntries(decisionNodes(w).map(({ id, node }) => [id, JSON.stringify(node.question)])) });
+        for (const a of Object.values(answers)) delete a.legend; // the legend is the question's own criteria
+        out.workflows[w.id].push({ ...input, answers, questions: Object.fromEntries(decisionNodes(w).map(({ id, node }) => [id, questionKey(node.question)])) });
       }
     }
     return out;

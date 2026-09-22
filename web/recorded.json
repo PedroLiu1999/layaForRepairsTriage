@@ -1,0 +1,1326 @@
+{
+ "model": "laya-typed-decisions",
+ "source": "convaiinnovations/laya-typed-decisions",
+ "variant": "q8e8",
+ "backend": "wasm",
+ "createdAt": "2026-09-22T22:49:16.517Z",
+ "workflows": {
+  "support-triage": [
+   {
+    "text": "Since the last update the app closes as soon as I open it. I have a client demo in one hour and nothing works!",
+    "subject": "App crashes on launch",
+    "answers": {
+     "category": {
+      "type": "choice",
+      "choice": "bug",
+      "probabilities": {
+       "bug": 0.7834,
+       "how_to": 0.1351,
+       "billing": 0.0394,
+       "account_access": 0.0421
+      },
+      "confidence": 0.4789
+     },
+     "blocked": {
+      "type": "noul",
+      "noul": 0.6657,
+      "confidence": 0.6657
+     },
+     "urgency": {
+      "type": "score",
+      "score": 2.3213,
+      "probabilities": {
+       "0": 0.0155,
+       "1": 0.1565,
+       "2": 0.3192,
+       "3": 0.5088
+      },
+      "confidence": 0.2331
+     }
+    },
+    "questions": {
+     "category": "1d29dm4",
+     "blocked": "xhxnz5",
+     "urgency": "1bnfc1i"
+    }
+   },
+   {
+    "text": "Hi, where can I find the option to export my reports as a CSV file? I looked in settings but couldn't see it.",
+    "subject": "How do I export to CSV?",
+    "answers": {
+     "category": {
+      "type": "choice",
+      "choice": "how_to",
+      "probabilities": {
+       "bug": 0.3452,
+       "how_to": 0.4845,
+       "billing": 0.0704,
+       "account_access": 0.0999
+      },
+      "confidence": 0.1811
+     },
+     "blocked": {
+      "type": "noul",
+      "noul": 0.1953,
+      "confidence": 0.8047
+     },
+     "urgency": {
+      "type": "score",
+      "score": 1.8575,
+      "probabilities": {
+       "0": 0.1051,
+       "1": 0.24,
+       "2": 0.3472,
+       "3": 0.3077
+      },
+      "confidence": 0.0556
+     }
+    },
+    "questions": {
+     "category": "1d29dm4",
+     "blocked": "xhxnz5",
+     "urgency": "1bnfc1i"
+    }
+   },
+   {
+    "text": "I was billed twice for my monthly plan this month. Please refund the duplicate charge.",
+    "subject": "Charged twice",
+    "answers": {
+     "category": {
+      "type": "choice",
+      "choice": "billing",
+      "probabilities": {
+       "bug": 0.146,
+       "how_to": 0.0453,
+       "billing": 0.7652,
+       "account_access": 0.0435
+      },
+      "confidence": 0.45
+     },
+     "blocked": {
+      "type": "noul",
+      "noul": 0.5226,
+      "confidence": 0.5226
+     },
+     "urgency": {
+      "type": "score",
+      "score": 2.2153,
+      "probabilities": {
+       "0": 0.0329,
+       "1": 0.1912,
+       "2": 0.3036,
+       "3": 0.4723
+      },
+      "confidence": 0.1742
+     }
+    },
+    "questions": {
+     "category": "1d29dm4",
+     "blocked": "xhxnz5",
+     "urgency": "1bnfc1i"
+    }
+   },
+   {
+    "text": "I changed phones and now I can't get the two-factor code, so I can't log in to my account.",
+    "subject": "Locked out",
+    "answers": {
+     "category": {
+      "type": "choice",
+      "choice": "account_access",
+      "probabilities": {
+       "bug": 0.3894,
+       "how_to": 0.0611,
+       "billing": 0.0366,
+       "account_access": 0.5129
+      },
+      "confidence": 0.2775
+     },
+     "blocked": {
+      "type": "noul",
+      "noul": 0.4453,
+      "confidence": 0.5547
+     },
+     "urgency": {
+      "type": "score",
+      "score": 2.4121,
+      "probabilities": {
+       "0": 0.0242,
+       "1": 0.107,
+       "2": 0.3014,
+       "3": 0.5674
+      },
+      "confidence": 0.2699
+     }
+    },
+    "questions": {
+     "category": "1d29dm4",
+     "blocked": "xhxnz5",
+     "urgency": "1bnfc1i"
+    }
+   },
+   {
+    "text": "Small thing: the settings page says 'Prefrences' instead of 'Preferences'. No rush at all.",
+    "subject": "Minor typo",
+    "answers": {
+     "category": {
+      "type": "choice",
+      "choice": "how_to",
+      "probabilities": {
+       "bug": 0.2581,
+       "how_to": 0.487,
+       "billing": 0.0687,
+       "account_access": 0.1861
+      },
+      "confidence": 0.1366
+     },
+     "blocked": {
+      "type": "noul",
+      "noul": 0.1779,
+      "confidence": 0.8221
+     },
+     "urgency": {
+      "type": "score",
+      "score": 1.221,
+      "probabilities": {
+       "0": 0.3735,
+       "1": 0.1978,
+       "2": 0.2629,
+       "3": 0.1658
+      },
+      "confidence": 0.0352
+     }
+    },
+    "questions": {
+     "category": "1d29dm4",
+     "blocked": "xhxnz5",
+     "urgency": "1bnfc1i"
+    }
+   },
+   {
+    "text": "The dashboard has been loading slowly all week and sometimes the charts show an error. It's annoying but we can work around it for now.",
+    "subject": "Dashboard slow",
+    "answers": {
+     "category": {
+      "type": "choice",
+      "choice": "bug",
+      "probabilities": {
+       "bug": 0.6634,
+       "how_to": 0.2354,
+       "billing": 0.0457,
+       "account_access": 0.0555
+      },
+      "confidence": 0.3406
+     },
+     "blocked": {
+      "type": "noul",
+      "noul": 0.1646,
+      "confidence": 0.8354
+     },
+     "urgency": {
+      "type": "score",
+      "score": 1.5522,
+      "probabilities": {
+       "0": 0.1258,
+       "1": 0.4829,
+       "2": 0.1046,
+       "3": 0.2867
+      },
+      "confidence": 0.1296
+     }
+    },
+    "questions": {
+     "category": "1d29dm4",
+     "blocked": "xhxnz5",
+     "urgency": "1bnfc1i"
+    }
+   }
+  ],
+  "agent-guardrail": [
+   {
+    "text": "Agent plan: run DELETE FROM customers WHERE last_login < '2020-01-01' on the production database. No backup has been taken.",
+    "answers": {
+     "kind": {
+      "type": "choice",
+      "choice": "data_deletion",
+      "probabilities": {
+       "read_only": 0.0627,
+       "reversible_change": 0.1077,
+       "data_deletion": 0.6871,
+       "external_effect": 0.1425
+      },
+      "confidence": 0.3153
+     },
+     "data_loss": {
+      "type": "noul",
+      "noul": 0.4777,
+      "confidence": 0.5223
+     }
+    },
+    "questions": {
+     "kind": "ocsuzn",
+     "data_loss": "d0l1a6"
+    }
+   },
+   {
+    "text": "Agent plan: create a new git branch, apply the lint fixes, and open a draft pull request for review.",
+    "answers": {
+     "kind": {
+      "type": "choice",
+      "choice": "reversible_change",
+      "probabilities": {
+       "read_only": 0.1342,
+       "reversible_change": 0.5887,
+       "data_deletion": 0.075,
+       "external_effect": 0.2021
+      },
+      "confidence": 0.2073
+     },
+     "data_loss": {
+      "type": "noul",
+      "noul": 0.1342,
+      "confidence": 0.8658
+     }
+    },
+    "questions": {
+     "kind": "ocsuzn",
+     "data_loss": "d0l1a6"
+    }
+   },
+   {
+    "text": "Agent plan: email the quarterly price increase announcement to all 12,000 customers on the mailing list.",
+    "answers": {
+     "kind": {
+      "type": "choice",
+      "choice": "external_effect",
+      "probabilities": {
+       "read_only": 0.0951,
+       "reversible_change": 0.1676,
+       "data_deletion": 0.0826,
+       "external_effect": 0.6548
+      },
+      "confidence": 0.2741
+     },
+     "data_loss": {
+      "type": "noul",
+      "noul": 0.1462,
+      "confidence": 0.8538
+     }
+    },
+    "questions": {
+     "kind": "ocsuzn",
+     "data_loss": "d0l1a6"
+    }
+   },
+   {
+    "text": "Agent plan: read the last 50 lines of the application log file and summarize the errors.",
+    "answers": {
+     "kind": {
+      "type": "choice",
+      "choice": "read_only",
+      "probabilities": {
+       "read_only": 0.7057,
+       "reversible_change": 0.1164,
+       "data_deletion": 0.0665,
+       "external_effect": 0.1114
+      },
+      "confidence": 0.3356
+     },
+     "data_loss": {
+      "type": "noul",
+      "noul": 0.1569,
+      "confidence": 0.8431
+     }
+    },
+    "questions": {
+     "kind": "ocsuzn",
+     "data_loss": "d0l1a6"
+    }
+   },
+   {
+    "text": "Agent plan: transfer the remaining $4,800 marketing budget to the new vendor's account.",
+    "answers": {
+     "kind": {
+      "type": "choice",
+      "choice": "reversible_change",
+      "probabilities": {
+       "read_only": 0.1124,
+       "reversible_change": 0.4348,
+       "data_deletion": 0.0895,
+       "external_effect": 0.3633
+      },
+      "confidence": 0.1404
+     },
+     "data_loss": {
+      "type": "noul",
+      "noul": 0.129,
+      "confidence": 0.871
+     }
+    },
+    "questions": {
+     "kind": "ocsuzn",
+     "data_loss": "d0l1a6"
+    }
+   },
+   {
+    "text": "Agent plan: force-push the rewritten history to the main branch to remove the large files.",
+    "answers": {
+     "kind": {
+      "type": "choice",
+      "choice": "reversible_change",
+      "probabilities": {
+       "read_only": 0.1078,
+       "reversible_change": 0.4674,
+       "data_deletion": 0.2088,
+       "external_effect": 0.216
+      },
+      "confidence": 0.0957
+     },
+     "data_loss": {
+      "type": "noul",
+      "noul": 0.3741,
+      "confidence": 0.6259
+     }
+    },
+    "questions": {
+     "kind": "ocsuzn",
+     "data_loss": "d0l1a6"
+    }
+   }
+  ],
+  "incident-response": [
+   {
+    "text": "ALERT: checkout-api 5xx rate 42% for 10 minutes across all regions. Orders are failing for customers.",
+    "answers": {
+     "severity": {
+      "type": "score",
+      "score": 2.1588,
+      "probabilities": {
+       "0": 0.0362,
+       "1": 0.1186,
+       "2": 0.4954,
+       "3": 0.3498
+      },
+      "confidence": 0.2149
+     },
+     "impact": {
+      "type": "noul",
+      "noul": 0.7135,
+      "confidence": 0.7135
+     },
+     "owner": {
+      "type": "choice",
+      "choice": "application",
+      "probabilities": {
+       "network": 0.064,
+       "database": 0.136,
+       "application": 0.4242,
+       "security": 0.3758
+      },
+      "confidence": 0.1496
+     },
+     "owner_quiet": {
+      "type": "choice",
+      "choice": "application",
+      "probabilities": {
+       "network": 0.064,
+       "database": 0.136,
+       "application": 0.4242,
+       "security": 0.3758
+      },
+      "confidence": 0.1496
+     }
+    },
+    "questions": {
+     "severity": "zwxxxm",
+     "impact": "56hj13",
+     "owner": "1c9tsbv",
+     "owner_quiet": "1c9tsbv"
+    }
+   },
+   {
+    "text": "ALERT: disk usage on analytics-replica-3 at 81%, growing 1% per day.",
+    "answers": {
+     "severity": {
+      "type": "score",
+      "score": 1.2273,
+      "probabilities": {
+       "0": 0.258,
+       "1": 0.3502,
+       "2": 0.2984,
+       "3": 0.0934
+      },
+      "confidence": 0.0628
+     },
+     "impact": {
+      "type": "noul",
+      "noul": 0.519,
+      "confidence": 0.519
+     },
+     "owner": {
+      "type": "choice",
+      "choice": "database",
+      "probabilities": {
+       "network": 0.1474,
+       "database": 0.5008,
+       "application": 0.1627,
+       "security": 0.1891
+      },
+      "confidence": 0.1063
+     },
+     "owner_quiet": {
+      "type": "choice",
+      "choice": "database",
+      "probabilities": {
+       "network": 0.1474,
+       "database": 0.5008,
+       "application": 0.1627,
+       "security": 0.1891
+      },
+      "confidence": 0.1063
+     }
+    },
+    "questions": {
+     "severity": "zwxxxm",
+     "impact": "56hj13",
+     "owner": "1c9tsbv",
+     "owner_quiet": "1c9tsbv"
+    }
+   },
+   {
+    "text": "ALERT: 3,000 failed SSH logins per minute from a single IP range against bastion hosts; two accounts now show successful logins.",
+    "answers": {
+     "severity": {
+      "type": "score",
+      "score": 1.5113,
+      "probabilities": {
+       "0": 0.133,
+       "1": 0.3656,
+       "2": 0.3584,
+       "3": 0.143
+      },
+      "confidence": 0.0752
+     },
+     "impact": {
+      "type": "noul",
+      "noul": 0.5212,
+      "confidence": 0.5212
+     },
+     "owner": {
+      "type": "choice",
+      "choice": "security",
+      "probabilities": {
+       "network": 0.2385,
+       "database": 0.1551,
+       "application": 0.2507,
+       "security": 0.3557
+      },
+      "confidence": 0.0295
+     },
+     "owner_quiet": {
+      "type": "choice",
+      "choice": "security",
+      "probabilities": {
+       "network": 0.2385,
+       "database": 0.1551,
+       "application": 0.2507,
+       "security": 0.3557
+      },
+      "confidence": 0.0295
+     }
+    },
+    "questions": {
+     "severity": "zwxxxm",
+     "impact": "56hj13",
+     "owner": "1c9tsbv",
+     "owner_quiet": "1c9tsbv"
+    }
+   },
+   {
+    "text": "ALERT: DNS resolution failing for api.example.com in eu-west; customer apps in Europe cannot reach the API.",
+    "answers": {
+     "severity": {
+      "type": "score",
+      "score": 2.0839,
+      "probabilities": {
+       "0": 0.0469,
+       "1": 0.1438,
+       "2": 0.4877,
+       "3": 0.3216
+      },
+      "confidence": 0.1795
+     },
+     "impact": {
+      "type": "noul",
+      "noul": 0.6844,
+      "confidence": 0.6844
+     },
+     "owner": {
+      "type": "choice",
+      "choice": "network",
+      "probabilities": {
+       "network": 0.3267,
+       "database": 0.0816,
+       "application": 0.311,
+       "security": 0.2806
+      },
+      "confidence": 0.0696
+     },
+     "owner_quiet": {
+      "type": "choice",
+      "choice": "network",
+      "probabilities": {
+       "network": 0.3267,
+       "database": 0.0816,
+       "application": 0.311,
+       "security": 0.2806
+      },
+      "confidence": 0.0696
+     }
+    },
+    "questions": {
+     "severity": "zwxxxm",
+     "impact": "56hj13",
+     "owner": "1c9tsbv",
+     "owner_quiet": "1c9tsbv"
+    }
+   },
+   {
+    "text": "ALERT: nightly report job took 14 minutes instead of the usual 9. Completed successfully.",
+    "answers": {
+     "severity": {
+      "type": "score",
+      "score": 0.7547,
+      "probabilities": {
+       "0": 0.3883,
+       "1": 0.5013,
+       "2": 0.0779,
+       "3": 0.0325
+      },
+      "confidence": 0.2615
+     },
+     "impact": {
+      "type": "noul",
+      "noul": 0.1307,
+      "confidence": 0.8693
+     },
+     "owner": {
+      "type": "choice",
+      "choice": "application",
+      "probabilities": {
+       "network": 0.1942,
+       "database": 0.1804,
+       "application": 0.3384,
+       "security": 0.287
+      },
+      "confidence": 0.0246
+     },
+     "owner_quiet": {
+      "type": "choice",
+      "choice": "application",
+      "probabilities": {
+       "network": 0.1942,
+       "database": 0.1804,
+       "application": 0.3384,
+       "security": 0.287
+      },
+      "confidence": 0.0246
+     }
+    },
+    "questions": {
+     "severity": "zwxxxm",
+     "impact": "56hj13",
+     "owner": "1c9tsbv",
+     "owner_quiet": "1c9tsbv"
+    }
+   }
+  ],
+  "insurance-claim": [
+   {
+    "text": "A stone hit my windshield on the highway yesterday and left a long crack. Nobody was hurt. The glass shop quoted $420.",
+    "answers": {
+     "injury": {
+      "type": "noul",
+      "noul": 0.2404,
+      "confidence": 0.7596
+     },
+     "fraud": {
+      "type": "noul",
+      "noul": 0.143,
+      "confidence": 0.857
+     },
+     "claim_type": {
+      "type": "choice",
+      "choice": "auto_glass",
+      "probabilities": {
+       "auto_glass": 0.6454,
+       "auto_collision": 0.2697,
+       "property_water": 0.0433,
+       "theft": 0.0416
+      },
+      "confidence": 0.3478
+     },
+     "size": {
+      "type": "score",
+      "score": 1.1311,
+      "probabilities": {
+       "0": 0.3311,
+       "1": 0.3287,
+       "2": 0.2181,
+       "3": 0.1221
+      },
+      "confidence": 0.0474
+     }
+    },
+    "questions": {
+     "injury": "ms4syr",
+     "fraud": "pp3u1i",
+     "claim_type": "1r48yxv",
+     "size": "102b5v5"
+    }
+   },
+   {
+    "text": "Rear-ended at a red light. My neck has been hurting since and I went to urgent care this morning.",
+    "answers": {
+     "injury": {
+      "type": "noul",
+      "noul": 0.57,
+      "confidence": 0.57
+     },
+     "fraud": {
+      "type": "noul",
+      "noul": 0.1325,
+      "confidence": 0.8675
+     },
+     "claim_type": {
+      "type": "choice",
+      "choice": "auto_collision",
+      "probabilities": {
+       "auto_glass": 0.1544,
+       "auto_collision": 0.6909,
+       "property_water": 0.0835,
+       "theft": 0.0711
+      },
+      "confidence": 0.3225
+     },
+     "size": {
+      "type": "score",
+      "score": 1.0408,
+      "probabilities": {
+       "0": 0.3546,
+       "1": 0.3568,
+       "2": 0.1819,
+       "3": 0.1067
+      },
+      "confidence": 0.0737
+     }
+    },
+    "questions": {
+     "injury": "ms4syr",
+     "fraud": "pp3u1i",
+     "claim_type": "1r48yxv",
+     "size": "102b5v5"
+    }
+   },
+   {
+    "text": "A pipe burst under the kitchen sink and soaked the cabinets and floor. Plumber says repairs around $3,000.",
+    "answers": {
+     "injury": {
+      "type": "noul",
+      "noul": 0.1989,
+      "confidence": 0.8011
+     },
+     "fraud": {
+      "type": "noul",
+      "noul": 0.2223,
+      "confidence": 0.7777
+     },
+     "claim_type": {
+      "type": "choice",
+      "choice": "property_water",
+      "probabilities": {
+       "auto_glass": 0.0536,
+       "auto_collision": 0.0528,
+       "property_water": 0.8497,
+       "theft": 0.0439
+      },
+      "confidence": 0.5761
+     },
+     "size": {
+      "type": "score",
+      "score": 1.4263,
+      "probabilities": {
+       "0": 0.1121,
+       "1": 0.4405,
+       "2": 0.3565,
+       "3": 0.0909
+      },
+      "confidence": 0.1401
+     }
+    },
+    "questions": {
+     "injury": "ms4syr",
+     "fraud": "pp3u1i",
+     "claim_type": "1r48yxv",
+     "size": "102b5v5"
+    }
+   },
+   {
+    "text": "My laptop and jewelry were stolen from my apartment last night; the door lock was broken.",
+    "answers": {
+     "injury": {
+      "type": "noul",
+      "noul": 0.149,
+      "confidence": 0.851
+     },
+     "fraud": {
+      "type": "noul",
+      "noul": 0.1328,
+      "confidence": 0.8672
+     },
+     "claim_type": {
+      "type": "choice",
+      "choice": "theft",
+      "probabilities": {
+       "auto_glass": 0.0798,
+       "auto_collision": 0.0651,
+       "property_water": 0.0686,
+       "theft": 0.7865
+      },
+      "confidence": 0.4573
+     },
+     "size": {
+      "type": "score",
+      "score": 0.9919,
+      "probabilities": {
+       "0": 0.3239,
+       "1": 0.427,
+       "2": 0.1825,
+       "3": 0.0667
+      },
+      "confidence": 0.1204
+     }
+    },
+    "questions": {
+     "injury": "ms4syr",
+     "fraud": "pp3u1i",
+     "claim_type": "1r48yxv",
+     "size": "102b5v5"
+    }
+   },
+   {
+    "text": "I took out this policy last week. My car was totally destroyed in a fire yesterday, I have no photos, and I need the full $40,000 paid in cash by Friday.",
+    "answers": {
+     "injury": {
+      "type": "noul",
+      "noul": 0.2512,
+      "confidence": 0.7488
+     },
+     "fraud": {
+      "type": "noul",
+      "noul": 0.3157,
+      "confidence": 0.6843
+     },
+     "claim_type": {
+      "type": "choice",
+      "choice": "auto_collision",
+      "probabilities": {
+       "auto_glass": 0.1523,
+       "auto_collision": 0.6996,
+       "property_water": 0.0675,
+       "theft": 0.0806
+      },
+      "confidence": 0.3353
+     },
+     "size": {
+      "type": "score",
+      "score": 2.1657,
+      "probabilities": {
+       "0": 0.0719,
+       "1": 0.1456,
+       "2": 0.3272,
+       "3": 0.4552
+      },
+      "confidence": 0.1389
+     }
+    },
+    "questions": {
+     "injury": "ms4syr",
+     "fraud": "pp3u1i",
+     "claim_type": "1r48yxv",
+     "size": "102b5v5"
+    }
+   }
+  ],
+  "invoice-approval": [
+   {
+    "text": "Invoice INV-2291 from Acme Office Supply for PO-7781: 40 boxes of printer paper, total $312.00, due in 30 days.",
+    "answers": {
+     "has_po": {
+      "type": "noul",
+      "noul": 0.6147,
+      "confidence": 0.6147
+     },
+     "duplicate": {
+      "type": "noul",
+      "noul": 0.2011,
+      "confidence": 0.7989
+     },
+     "spend": {
+      "type": "choice",
+      "choice": "supplies",
+      "probabilities": {
+       "supplies": 0.5781,
+       "equipment": 0.2021,
+       "services": 0.0628,
+       "contract": 0.157
+      },
+      "confidence": 0.2033
+     }
+    },
+    "questions": {
+     "has_po": "k9jc6r",
+     "duplicate": "1591pld",
+     "spend": "w838yy"
+    }
+   },
+   {
+    "text": "Invoice from Northwind Consulting for strategy workshop, total $48,500. No purchase order referenced.",
+    "answers": {
+     "has_po": {
+      "type": "noul",
+      "noul": 0.1606,
+      "confidence": 0.8394
+     },
+     "duplicate": {
+      "type": "noul",
+      "noul": 0.1854,
+      "confidence": 0.8146
+     },
+     "spend": {
+      "type": "choice",
+      "choice": "services",
+      "probabilities": {
+       "supplies": 0.2242,
+       "equipment": 0.1516,
+       "services": 0.4676,
+       "contract": 0.1566
+      },
+      "confidence": 0.0861
+     }
+    },
+    "questions": {
+     "has_po": "k9jc6r",
+     "duplicate": "1591pld",
+     "spend": "w838yy"
+    }
+   },
+   {
+    "text": "REMINDER - second copy: Invoice INV-2291 from Acme Office Supply for PO-7781, total $312.00. Please pay again if not already processed.",
+    "answers": {
+     "has_po": {
+      "type": "noul",
+      "noul": 0.5958,
+      "confidence": 0.5958
+     },
+     "duplicate": {
+      "type": "noul",
+      "noul": 0.5518,
+      "confidence": 0.5518
+     },
+     "spend": {
+      "type": "choice",
+      "choice": "supplies",
+      "probabilities": {
+       "supplies": 0.5188,
+       "equipment": 0.0975,
+       "services": 0.1163,
+       "contract": 0.2674
+      },
+      "confidence": 0.1558
+     }
+    },
+    "questions": {
+     "has_po": "k9jc6r",
+     "duplicate": "1591pld",
+     "spend": "w838yy"
+    }
+   },
+   {
+    "text": "Invoice 88-114 for PO-9001: annual data-center hosting contract, total $186,000.",
+    "answers": {
+     "has_po": {
+      "type": "noul",
+      "noul": 0.5961,
+      "confidence": 0.5961
+     },
+     "duplicate": {
+      "type": "noul",
+      "noul": 0.2679,
+      "confidence": 0.7321
+     },
+     "spend": {
+      "type": "choice",
+      "choice": "contract",
+      "probabilities": {
+       "supplies": 0.1167,
+       "equipment": 0.2794,
+       "services": 0.1826,
+       "contract": 0.4213
+      },
+      "confidence": 0.0754
+     }
+    },
+    "questions": {
+     "has_po": "k9jc6r",
+     "duplicate": "1591pld",
+     "spend": "w838yy"
+    }
+   },
+   {
+    "text": "Invoice INV-5520 for PO-4410: laptop docking stations, 25 units, total $6,125.",
+    "answers": {
+     "has_po": {
+      "type": "noul",
+      "noul": 0.6108,
+      "confidence": 0.6108
+     },
+     "duplicate": {
+      "type": "noul",
+      "noul": 0.2052,
+      "confidence": 0.7948
+     },
+     "spend": {
+      "type": "choice",
+      "choice": "equipment",
+      "probabilities": {
+       "supplies": 0.2494,
+       "equipment": 0.5357,
+       "services": 0.0777,
+       "contract": 0.1372
+      },
+      "confidence": 0.1692
+     }
+    },
+    "questions": {
+     "has_po": "k9jc6r",
+     "duplicate": "1591pld",
+     "spend": "w838yy"
+    }
+   }
+  ],
+  "refund-request": [
+   {
+    "text": "The mug arrived shattered in the box. I've attached two photos of the broken pieces. Ordered it last week.",
+    "answers": {
+     "reason": {
+      "type": "choice",
+      "choice": "damaged",
+      "probabilities": {
+       "damaged": 0.6594,
+       "not_received": 0.0875,
+       "doesnt_fit": 0.1041,
+       "wrong_item": 0.149
+      },
+      "confidence": 0.2737
+     },
+     "photo": {
+      "type": "noul",
+      "noul": 0.6719,
+      "confidence": 0.6719
+     },
+     "old": {
+      "type": "noul",
+      "noul": 0.1482,
+      "confidence": 0.8518
+     }
+    },
+    "questions": {
+     "reason": "12svm3k",
+     "photo": "758huf",
+     "old": "11s36kj"
+    }
+   },
+   {
+    "text": "My order from three weeks ago still hasn't arrived and the tracking hasn't updated in ten days.",
+    "answers": {
+     "reason": {
+      "type": "choice",
+      "choice": "not_received",
+      "probabilities": {
+       "damaged": 0.1711,
+       "not_received": 0.601,
+       "doesnt_fit": 0.0792,
+       "wrong_item": 0.1487
+      },
+      "confidence": 0.2121
+     },
+     "photo": {
+      "type": "noul",
+      "noul": 0.4713,
+      "confidence": 0.5287
+     },
+     "old": {
+      "type": "noul",
+      "noul": 0.6317,
+      "confidence": 0.6317
+     }
+    },
+    "questions": {
+     "reason": "12svm3k",
+     "photo": "758huf",
+     "old": "11s36kj"
+    }
+   },
+   {
+    "text": "I bought these running shoes 5 days ago but they're half a size too small. Can I return them?",
+    "answers": {
+     "reason": {
+      "type": "choice",
+      "choice": "doesnt_fit",
+      "probabilities": {
+       "damaged": 0.3076,
+       "not_received": 0.1272,
+       "doesnt_fit": 0.3531,
+       "wrong_item": 0.212
+      },
+      "confidence": 0.0468
+     },
+     "photo": {
+      "type": "noul",
+      "noul": 0.2948,
+      "confidence": 0.7052
+     },
+     "old": {
+      "type": "noul",
+      "noul": 0.1859,
+      "confidence": 0.8141
+     }
+    },
+    "questions": {
+     "reason": "12svm3k",
+     "photo": "758huf",
+     "old": "11s36kj"
+    }
+   },
+   {
+    "text": "I ordered a blue jacket and you sent me a red one.",
+    "answers": {
+     "reason": {
+      "type": "choice",
+      "choice": "wrong_item",
+      "probabilities": {
+       "damaged": 0.2379,
+       "not_received": 0.1187,
+       "doesnt_fit": 0.1127,
+       "wrong_item": 0.5307
+      },
+      "confidence": 0.1511
+     },
+     "photo": {
+      "type": "noul",
+      "noul": 0.2856,
+      "confidence": 0.7144
+     },
+     "old": {
+      "type": "noul",
+      "noul": 0.2002,
+      "confidence": 0.7998
+     }
+    },
+    "questions": {
+     "reason": "12svm3k",
+     "photo": "758huf",
+     "old": "11s36kj"
+    }
+   },
+   {
+    "text": "I'd like to return the blender I bought four months ago, I just don't use it much.",
+    "answers": {
+     "reason": {
+      "type": "choice",
+      "choice": "wrong_item",
+      "probabilities": {
+       "damaged": 0.1893,
+       "not_received": 0.2571,
+       "doesnt_fit": 0.2314,
+       "wrong_item": 0.3222
+      },
+      "confidence": 0.0133
+     },
+     "photo": {
+      "type": "noul",
+      "noul": 0.1633,
+      "confidence": 0.8367
+     },
+     "old": {
+      "type": "noul",
+      "noul": 0.5239,
+      "confidence": 0.5239
+     }
+    },
+    "questions": {
+     "reason": "12svm3k",
+     "photo": "758huf",
+     "old": "11s36kj"
+    }
+   }
+  ],
+  "content-moderation": [
+   {
+    "text": "Great write-up, thanks for sharing the setup details!",
+    "answers": {
+     "threat": {
+      "type": "noul",
+      "noul": 0.0001,
+      "confidence": 0.9999
+     },
+     "spam": {
+      "type": "noul",
+      "noul": 0.0022,
+      "confidence": 0.9978
+     },
+     "toxicity": {
+      "type": "score",
+      "score": 0.6442,
+      "probabilities": {
+       "0": 0.528,
+       "1": 0.3422,
+       "2": 0.0875,
+       "3": 0.0424
+      },
+      "confidence": 0.2417
+     }
+    },
+    "questions": {
+     "threat": "1wsxgm9",
+     "spam": "1fm0jnt",
+     "toxicity": "1w0s5ov"
+    }
+   },
+   {
+    "text": "BUY CHEAP FOLLOWERS NOW!!! 10k followers for $5, visit my profile link",
+    "answers": {
+     "threat": {
+      "type": "noul",
+      "noul": 0.1694,
+      "confidence": 0.8306
+     },
+     "spam": {
+      "type": "noul",
+      "noul": 0.8391,
+      "confidence": 0.8391
+     },
+     "toxicity": {
+      "type": "score",
+      "score": 1.7021,
+      "probabilities": {
+       "0": 0.1812,
+       "1": 0.2102,
+       "2": 0.3341,
+       "3": 0.2746
+      },
+      "confidence": 0.02
+     }
+    },
+    "questions": {
+     "threat": "1wsxgm9",
+     "spam": "1fm0jnt",
+     "toxicity": "1w0s5ov"
+    }
+   },
+   {
+    "text": "You are a complete idiot and everyone here knows it.",
+    "answers": {
+     "threat": {
+      "type": "noul",
+      "noul": 0.3667,
+      "confidence": 0.6333
+     },
+     "spam": {
+      "type": "noul",
+      "noul": 0.1061,
+      "confidence": 0.8939
+     },
+     "toxicity": {
+      "type": "score",
+      "score": 2.273,
+      "probabilities": {
+       "0": 0.0394,
+       "1": 0.0719,
+       "2": 0.4649,
+       "3": 0.4237
+      },
+      "confidence": 0.2522
+     }
+    },
+    "questions": {
+     "threat": "1wsxgm9",
+     "spam": "1fm0jnt",
+     "toxicity": "1w0s5ov"
+    }
+   },
+   {
+    "text": "I know where you live and you'll regret posting this.",
+    "answers": {
+     "threat": {
+      "type": "noul",
+      "noul": 0.4065,
+      "confidence": 0.5935
+     },
+     "spam": {
+      "type": "noul",
+      "noul": 0.1308,
+      "confidence": 0.8692
+     },
+     "toxicity": {
+      "type": "score",
+      "score": 1.8205,
+      "probabilities": {
+       "0": 0.141,
+       "1": 0.1955,
+       "2": 0.3654,
+       "3": 0.2981
+      },
+      "confidence": 0.0449
+     }
+    },
+    "questions": {
+     "threat": "1wsxgm9",
+     "spam": "1fm0jnt",
+     "toxicity": "1w0s5ov"
+    }
+   },
+   {
+    "text": "Honestly this take is pretty lazy, I expected better research.",
+    "answers": {
+     "threat": {
+      "type": "noul",
+      "noul": 0.1079,
+      "confidence": 0.8921
+     },
+     "spam": {
+      "type": "noul",
+      "noul": 0.2078,
+      "confidence": 0.7922
+     },
+     "toxicity": {
+      "type": "score",
+      "score": 1.0397,
+      "probabilities": {
+       "0": 0.3196,
+       "1": 0.4325,
+       "2": 0.1364,
+       "3": 0.1115
+      },
+      "confidence": 0.1031
+     }
+    },
+    "questions": {
+     "threat": "1wsxgm9",
+     "spam": "1fm0jnt",
+     "toxicity": "1w0s5ov"
+    }
+   }
+  ]
+ }
+}

@@ -62,9 +62,9 @@
       </div>
       <div class="examples" id="examples" aria-label="Examples"></div>
       <div class="field">
-        <label for="thresh">Confidence needed to act automatically: <b id="threshVal">0.50</b></label>
+        <label for="thresh">Branch probability needed to act automatically: <b id="threshVal">0.50</b></label>
         <input type="range" id="thresh" min="0.3" max="0.95" step="0.01" value="0.5">
-        <p class="hint">Below this, a decision follows its low-confidence branch (usually a person). Moving it re-routes past runs instantly; no model call needed.</p>
+        <p class="hint">The share of the model's probability that went down the chosen branch. Below this, a decision follows its low-confidence branch (usually a person). Moving it re-routes the current run instantly, with no model call.</p>
       </div>
       <label class="check"><input type="checkbox" id="eager" checked> Answer every decision in one batch (enables what-if routing)</label>
       <div class="btnrow">
@@ -142,8 +142,8 @@
     <div class="panel" data-panel="analytics" hidden>
       <div id="kpis" class="kpis"></div>
       <div class="charts">
-        <figure class="chart"><figcaption>Outcome mix as the confidence threshold changes</figcaption><div id="chartSweep"></div></figure>
-        <figure class="chart"><figcaption>Confidence per decision node (each dot is a run)</figcaption><div id="chartConf"></div></figure>
+        <figure class="chart"><figcaption>Outcome mix as the threshold changes</figcaption><div id="chartSweep"></div></figure>
+        <figure class="chart"><figcaption>Branch probability per decision node (each dot is a run)</figcaption><div id="chartConf"></div></figure>
         <figure class="chart wide"><figcaption>Outcomes by workflow</figcaption><div id="chartMix"></div></figure>
       </div>
       <div class="btnrow end"><button id="clearBtn" class="ghost">Clear run history</button></div>
