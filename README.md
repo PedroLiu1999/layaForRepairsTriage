@@ -4,7 +4,9 @@
 
 Each workflow is a diagram: diamonds are typed questions answered by a small decision model, boxes are automation steps, and the circles at the end say whether the case was handled automatically, sent to a person, or blocked. Type a support ticket, an alert, an insurance claim or an invoice, and watch the path light up with the model's probability on every branch. The model runs entirely in the tab through ONNX Runtime Web: no server, no API key, and nothing you type leaves the page.
 
-**Live:** https://vishalmysore.github.io/layaForWorkflows/
+**Live:** https://vishalmysore.github.io/layaForWorkflows/ · **Article with screenshots:** [docs/article.md](docs/article.md)
+
+![Laya Workflows](docs/images/01-overview.png)
 
 Model: [`VishalMysore/layaForWebTrained`](https://huggingface.co/VishalMysore/layaForWebTrained), which is [`convaiinnovations/laya-typed-decisions`](https://huggingface.co/convaiinnovations/laya-typed-decisions) (a 421M-parameter ModernBERT-large encoder fine-tuned for typed decisions) converted to ONNX and quantized by [layaForWeb](https://github.com/vishalmysore/layaForWeb).
 

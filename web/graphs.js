@@ -310,7 +310,7 @@ export function renderOntology(container, onto, opts, onSelect) {
     { selector: "edge.prop", style: { "line-style": "dashed", "line-color": P.klass, "target-arrow-color": P.klass, "curve-style": "bezier", "control-point-step-size": 30 } },
     { selector: "edge.type", style: { "line-style": "dotted", "line-color": P.klass, "target-arrow-color": P.klass, opacity: 0.5 } },
     { selector: "node:selected", style: { "underlay-color": P.accent, "underlay-opacity": 0.25, "underlay-padding": 8 } },
-    { selector: ".faded", style: { opacity: 0.15 } },
+    { selector: ".faded", style: { opacity: 0.3 } },
   ];
   const cy = cytoscape({ container, elements: els, style, wheelSensitivity: 0.25, minZoom: 0.08, maxZoom: 3, boxSelectionEnabled: false });
   const layout = opts.view === "schema"
