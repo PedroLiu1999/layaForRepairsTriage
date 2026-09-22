@@ -1,0 +1,19 @@
+{
+  "name": "laya-for-workflows",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "description": "Browser-native workflow automation on the Laya typed-decision model: diagrammatic workflows, decision graphs and an ontology of decisions",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "prepare-site": "node scripts/prepare_site.mjs",
+    "serve": "python serve.py"
+  },
+  "dependencies": {
+    "@huggingface/tokenizers": "0.2.0",
+    "cytoscape": "3.34.3",
+    "cytoscape-dagre": "4.0.1",
+    "onnxruntime-web": "1.30.0"
+  }
+}

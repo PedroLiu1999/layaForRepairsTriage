@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laya Workflows</title>
+<meta name="description" content="Browser-native workflow automation on the Laya typed-decision model: diagrammatic workflows, decision graphs and an ontology of decisions. Nothing leaves the page.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a5bd7'/%3E%3Cpath d='M16 6l8 8-8 8-8-8z' fill='none' stroke='white' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='26' r='2.4' fill='white'/%3E%3C/svg%3E">
+<script src="./coi.js"></script>
+<link rel="stylesheet" href="./styles.css">
+<script src="./vendor/cytoscape.min.js"></script>
+<script src="./vendor/cytoscape-dagre.min.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="7" class="logo-bg"/><path d="M16 6l8 8-8 8-8-8z" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="16" cy="26" r="2.4" fill="#fff"/></svg>
+    <div>
+      <h1>Laya Workflows</h1>
+      <p>Typed decisions that drive automation, in your browser</p>
+    </div>
+  </div>
+  <div class="modelpill" id="modelPill" role="status"><span class="dot"></span><span id="modelPillText">Model not loaded</span></div>
+</header>
+
+<section class="card modelcard" id="modelCard">
+  <div class="modelrow">
+    <div class="field">
+      <label for="variant">Model build</label>
+      <select id="variant"><option>Reading manifest…</option></select>
+    </div>
+    <div class="field">
+      <label for="backend">Backend</label>
+      <select id="backend">
+        <option value="auto">Auto (WebGPU for int4, else WASM)</option>
+        <option value="wasm">WASM (CPU)</option>
+        <option value="webgpu">WebGPU (int4 build only)</option>
+      </select>
+    </div>
+    <button id="loadBtn" class="primary" disabled>Load model</button>
+  </div>
+  <div class="progress" id="progress" hidden><div id="progressBar"></div></div>
+  <p class="status" id="status">Model: <a id="modelLink" target="_blank" rel="noopener"></a>. It downloads once and is cached by your browser. Until it's loaded, the built-in examples play back answers recorded from the same model.</p>
+  <div class="badges" id="badges"></div>
+</section>
+
+<div class="layout">
+  <aside class="side">
+    <section class="card">
+      <div class="field">
+        <label for="workflow">Workflow</label>
+        <select id="workflow"></select>
+        <p class="hint" id="wfDesc"></p>
+      </div>
+      <div class="field" id="subjectField" hidden>
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="message">Input</label>
+        <textarea id="message" rows="5" spellcheck="false" placeholder="Type a message, alert, claim, invoice… or pick an example below"></textarea>
+      </div>
+      <div class="examples" id="examples" aria-label="Examples"></div>
+      <div class="field">
+        <label for="thresh">Confidence needed to act automatically: <b id="threshVal">0.50</b></label>
+        <input type="range" id="thresh" min="0.3" max="0.95" step="0.01" value="0.5">
+        <p class="hint">Below this, a decision follows its low-confidence branch (usually a person). Moving it re-routes past runs instantly; no model call needed.</p>
+      </div>
+      <label class="check"><input type="checkbox" id="eager" checked> Answer every decision in one batch (enables what-if routing)</label>
+      <div class="btnrow">
+        <button id="runBtn" class="primary">Run workflow</button>
+        <button id="runAllBtn">Run all examples</button>
+      </div>
+      <p class="hint" id="runHint"></p>
+    </section>
+
+    <section class="card result" id="resultCard" hidden>
+      <div id="outcome"></div>
+      <ol class="trace" id="trace"></ol>
+      <details><summary>Effects performed</summary><ul class="effects" id="effects"></ul></details>
+      <details><summary>Raw decision record (JSON)</summary><pre id="raw"></pre></details>
+    </section>
+  </aside>
+
+  <main class="stage card">
+    <nav class="tabs" role="tablist">
+      <button role="tab" data-tab="diagram" aria-selected="true">Workflow</button>
+      <button role="tab" data-tab="tree">Decision graph</button>
+      <button role="tab" data-tab="ontology">Ontology</button>
+      <button role="tab" data-tab="analytics">Analytics</button>
+      <button role="tab" data-tab="editor">Editor</button>
+    </nav>
+
+    <div class="panel" data-panel="diagram">
+      <div class="toolbar">
+        <div class="legend">
+          <span><i class="lg decision"></i>decision (model)</span>
+          <span><i class="lg task"></i>automation step</span>
+          <span><i class="lg auto"></i>automated</span>
+          <span><i class="lg human"></i>human review</span>
+          <span><i class="lg block"></i>blocked</span>
+          <span><i class="lg low"></i>low confidence</span>
+        </div>
+        <div class="tools">
+          <label class="check"><input type="checkbox" id="traffic"> Traffic</label>
+          <select id="rankDir" aria-label="Direction"><option value="TB">Top → bottom</option><option value="LR">Left → right</option></select>
+          <button id="fitBtn" class="ghost">Fit</button>
+        </div>
+      </div>
+      <div class="canvas" id="cyDiagram"></div>
+      <p class="caption" id="diagramCaption">Each diamond is one typed question answered by the model. Run the workflow to light up the path it takes; edge labels then show how much probability went down each branch.</p>
+    </div>
+
+    <div class="panel" data-panel="tree" hidden>
+      <div class="toolbar"><p class="caption" id="treeCaption">The latest run, with every decision expanded into all of its options. Node size is the model's probability; the highlighted chain is the path taken.</p><div class="tools"><button id="treeFit" class="ghost">Fit</button></div></div>
+      <div class="canvas" id="cyTree"></div>
+    </div>
+
+    <div class="panel" data-panel="ontology" hidden>
+      <div class="toolbar">
+        <div class="tools">
+          <select id="ontoView" aria-label="Ontology view">
+            <option value="decisions">Decisions (runs as individuals)</option>
+            <option value="workflow">This workflow (nodes, questions, options)</option>
+            <option value="schema">Schema (classes and properties)</option>
+          </select>
+          <label class="check"><input type="checkbox" id="ontoTypes"> rdf:type links</label>
+          <label class="check"><input type="checkbox" id="ontoAll"> all workflows</label>
+        </div>
+        <div class="tools">
+          <button id="ttlBtn" class="ghost">Export Turtle</button>
+          <button id="jsonldBtn" class="ghost">Export JSON-LD</button>
+          <button id="ontoFit" class="ghost">Fit</button>
+        </div>
+      </div>
+      <div class="split">
+        <div class="canvas" id="cyOnto"></div>
+        <div class="inspector" id="inspector"><p class="hint">Click a node to see its triples.</p></div>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="analytics" hidden>
+      <div id="kpis" class="kpis"></div>
+      <div class="charts">
+        <figure class="chart"><figcaption>Outcome mix as the confidence threshold changes</figcaption><div id="chartSweep"></div></figure>
+        <figure class="chart"><figcaption>Confidence per decision node (each dot is a run)</figcaption><div id="chartConf"></div></figure>
+        <figure class="chart wide"><figcaption>Outcomes by workflow</figcaption><div id="chartMix"></div></figure>
+      </div>
+      <div class="btnrow end"><button id="clearBtn" class="ghost">Clear run history</button></div>
+    </div>
+
+    <div class="panel" data-panel="editor" hidden>
+      <div class="toolbar">
+        <p class="caption">Edit the workflow as JSON. Node types: <code>decision</code> (a typed question: <code>choice</code>, <code>score</code> or <code>noul</code> for yes/no), <code>task</code> and <code>outcome</code>. Changes are saved in this browser.</p>
+      </div>
+      <textarea id="editor" spellcheck="false" aria-label="Workflow JSON"></textarea>
+      <div id="editorMsg" class="editormsg"></div>
+      <div class="btnrow">
+        <button id="applyBtn" class="primary">Validate &amp; apply</button>
+        <button id="newBtn">New workflow</button>
+        <button id="resetBtn" class="ghost">Reset to built-in</button>
+        <button id="exportWfBtn" class="ghost">Download JSON</button>
+        <label class="ghost filebtn">Import JSON<input type="file" id="importWf" accept="application/json,.json" hidden></label>
+      </div>
+      <details class="webhook"><summary>Send each decision record to a webhook (optional)</summary>
+        <p class="hint">If set, every run is POSTed as JSON to this URL. The endpoint must allow CORS. Stored only in this browser.</p>
+        <input type="url" id="webhook" placeholder="https://example.com/hooks/laya">
+      </details>
+    </div>
+  </main>
+</div>
+
+<footer class="foot">
+  <p>Every decision is made by the <a id="footModel" target="_blank" rel="noopener">laya-typed-decisions</a> model running in this tab through ONNX Runtime Web. Routing is plain data, so there is no second model on top and nothing is sent to a server.
+  Built on <a href="https://github.com/vishalmysore/layaForWeb" target="_blank" rel="noopener">layaForWeb</a> and Laya by ConvAI Innovations (Apache-2.0); unofficial, not affiliated with ConvAI Innovations.
+  <a href="./NOTICE.txt">Notices</a> · <a href="./LICENSE.txt">License</a> · <a href="https://github.com/vishalmysore/layaForWorkflows" target="_blank" rel="noopener">Source</a></p>
+</footer>
+<script type="module" src="./main.js"></script>
+</body>
+</html>
