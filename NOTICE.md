@@ -10,7 +10,7 @@ The workflow engine, ontology, graph views and page in this repository are Copyr
 
 The page loads [`VishalMysore/layaForWebTrained`](https://huggingface.co/VishalMysore/layaForWebTrained) at runtime. That is a modified derivative of [`convaiinnovations/laya-typed-decisions`](https://huggingface.co/convaiinnovations/laya-typed-decisions) (Copyright ConvAI Innovations, Apache-2.0), exported to ONNX and quantized by the [layaForWeb](https://github.com/vishalmysore/layaForWeb) project. Laya is built on ModernBERT-large by Answer.AI and LightOn (Apache-2.0). The model files are not part of this repository; their own `LICENSE` and `NOTICE.md` are in the model repository.
 
-`web/laya-core.js` is copied unchanged from layaForWeb. It is a JavaScript port of the Python `laya/common.py` (`build_sequence`) and `laya/agent.py` (`system_one`) from https://github.com/NandhaKishorM/laya (Apache-2.0).
+`web/laya-core.js` is copied unchanged from layaForWeb (as of commit 6e67de8, which clamps the calibration temperature to [0.5, 5.0] like upstream `clamp_temperature`; see layaForWeb issue #1). It is a JavaScript port of the Python `laya/common.py` (`build_sequence`) and `laya/agent.py` (`system_one`) from https://github.com/NandhaKishorM/laya (Apache-2.0).
 
 `web/recorded.json` holds answers that the same model produced for the built-in example messages, so the page can show them before the model is downloaded. All example messages are synthetic.
 

@@ -140,3 +140,12 @@ test("recorded.json matches the built-in examples and questions", async () => {
     for (const x of list) { const run = await runWorkflow(wf, x, async (_q, _s, id) => x.answers[id], { threshold: 0.5 }); assert.ok(run.outcome); }
   }
 });
+
+test("laya-core clamps calibration temperature like Python's clamp_temperature (layaForWeb#1)", async () => {
+  const { clampTemperature } = await import("../web/laya-core.js");
+  assert.equal(clampTemperature(0.10058280825614929), 0.5);   // the checkpoints' choice:11+ bucket
+  assert.equal(clampTemperature(1.7601518630981445), 1.7601518630981445); // in-range buckets are untouched
+  assert.equal(clampTemperature(9), 5.0);
+  assert.equal(clampTemperature("2.5"), 2.5);
+  for (const bad of [NaN, Infinity, -Infinity, undefined, null, "", "abc", {}]) assert.equal(clampTemperature(bad), 1.0);
+});
