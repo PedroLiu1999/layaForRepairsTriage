@@ -186,13 +186,25 @@ The layout collapses to one column, and every graph, chart and colour follows th
 
 Deployment is a GitHub Actions workflow. It runs the unit tests, assembles a static site of about 30 MB (the page plus ONNX Runtime Web, Tokenizers.js and Cytoscape), and publishes it to GitHub Pages. GitHub Pages can't send the COOP/COEP headers that multithreaded WebAssembly needs, so a small service worker scoped to the project folder adds them.
 
+## Case study: layaForRepairsTriage & Awaab's Law
+
+In English social housing, Awaab's Law (Section 42 of the Social Housing (Regulation) Act 2023) sets strict statutory timescales for landlords to investigate and make safe hazardous conditions such as damp, mould, and emergency repairs.
+
+**layaForRepairsTriage** adapts this workflow automation architecture into a safety-first repairs triage application:
+
+1. **Model Only Classifies or Escalates**: The in-browser model only classifies repair categories, estimates severity, and flags vulnerability cues. It is mathematically and architecturally barred from ever closing a case or dismissing a report.
+2. **Three Sequential Safety Gates**: The only automated outcome allowed is `routine_outcome`, and only after passing `emergency_danger = false`, `essential_service = false`, and `hidden_hazard = false`.
+3. **Deterministic Statutory Clock**: Code, not the model, calculates working days, skips bank holidays, accounts for daylight saving transitions, checks phase applicability, and computes deadline statuses (Met, On Track, Due Soon, Breached).
+4. **Append-Only Audit Ledger**: Every action (triage, inspection, contact attempt, make-safe, override, case closure) is recorded as an immutable event and exported as a JSON-LD compliance audit pack.
+5. **Interactive Demo Clock**: Housing officers can simulate future dates via a live slider to observe how statutory deadlines progress and trigger alternative accommodation alerts when make-safe timescales are at risk of breach.
+
 ## Try it
 
-1. Open https://vishalmysore.github.io/layaForWorkflows/.
-2. Pick a workflow and click an example, or press **Run all examples**.
-3. Drag the threshold and watch cases re-route.
-4. Open **Ontology** and click a run.
-5. Press **Load model** and type your own ticket, claim or alert. It runs on your device, and nothing you type leaves the page.
+1. Run locally with `python serve.py 8000` or open the live deployment.
+2. Explore built-in synthetic cases on the **Cases & Clock** tab.
+3. Slide the **Demo Clock** to simulate time passage and inspect statutory countdown chips.
+4. Open any case to inspect the audit ledger, record inspections, and draft plain-English tenant letters.
+5. Switch to **Workflow** to see the DAG and lit triage paths.
 
 ---
 

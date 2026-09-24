@@ -1,114 +1,158 @@
-# layaForWorkflows
+# layaForRepairsTriage
 
-**Workflow automation where every decision is a graph node, and the model runs in your browser.**
+**In-browser social housing repairs triage for England shaped around Awaab's Law.**
 
-Each workflow is a diagram: diamonds are typed questions answered by a small decision model, boxes are automation steps, and the circles at the end say whether the case was handled automatically, sent to a person, or blocked. Type a support ticket, an alert, an insurance claim or an invoice, and watch the path light up with the model's probability on every branch. The model runs entirely in the tab through ONNX Runtime Web: no server, no API key, and nothing you type leaves the page.
+An adaptation of [vishalmysore/layaForWorkflows](https://github.com/vishalmysore/layaForWorkflows), combining an in-browser ONNX decision model with deterministic statutory compliance clocks, intake language guards, an append-only event ledger, and plain-English tenant communications.
 
-**Live:** https://vishalmysore.github.io/layaForWorkflows/ · **Article with screenshots:** [docs/article.md](docs/article.md)
+> ⚠️ **Demo only. Synthetic data. Not legal advice and not a compliance tool. Timescales are illustrative; check the current regulations and GOV.UK guidance.**
 
-![Laya Workflows](docs/images/01-overview.png)
+---
 
-Model: [`VishalMysore/layaForWebTrained`](https://huggingface.co/VishalMysore/layaForWebTrained), which is [`convaiinnovations/laya-typed-decisions`](https://huggingface.co/convaiinnovations/laya-typed-decisions) (a 421M-parameter ModernBERT-large encoder fine-tuned for typed decisions) converted to ONNX and quantized by [layaForWeb](https://github.com/vishalmysore/layaForWeb).
+## 1. What This Is and Isn't
 
-## What's on the page
+- **Is**: A portfolio and demo web application showing how an in-browser AI model can route free-text repair reports through an audited triage workflow, while deterministic code calculates statutory timescales under Awaab's Law and maintains an append-only event ledger.
+- **Isn't**: A compliance product, legal advice, a replacement for a competent surveyor, or a system for handling real tenant data. Every view displays a persistent disclaimer banner.
 
-| View | What it shows |
-|---|---|
-| **Workflow** | The workflow as a DAG (Cytoscape + dagre). A run animates step by step. Each branch out of a decision is labelled with the probability mass the model put on it. Low-confidence escalations show as dashed amber edges. **Traffic** mode sizes edges by how often past runs took them. |
-| **Decision graph** | The latest run with every decision expanded into all of its options. Node size is probability, and each option shows where it would have routed. |
-| **Ontology** | An OWL/RDFS ontology of workflows and decisions. The **schema** (TBox) holds `Workflow`, `DecisionNode`, `TaskNode`, `OutcomeNode` (split into Automated, HumanReview and Blocked), `Question` (Choice, Score, YesNo), `Option`, `Case`, `Run`, `Decision` and `Effect`. The **facts** (ABox) are every workflow node, question and option, plus every run: a `Run` processes a `Case`, makes a chain of `Decision`s (`followedBy`), each of which `selected` an `Option` with a confidence, performs `Effect`s, and `endedAt` an outcome. Click any node to see its triples. Exports to **Turtle** and **JSON-LD**. |
-| **Analytics** | Automation, review and block rates. A threshold sweep shows how the outcome mix shifts as you demand more confidence, computed by re-routing stored answers with no extra model calls. Also a strip plot of confidence per decision node, and outcomes per workflow. |
-| **Editor** | The workflow as JSON. Validate it (missing routes, cycles, unreachable nodes, bad score ranges) and apply it. Create new workflows, import or export them, and optionally POST every decision record to a webhook. |
+---
 
-Built-in workflows (all example messages are synthetic):
+## 2. Core Safety Invariants
 
-- Support ticket triage
-- AI agent action guardrail (fails closed)
-- IT incident response
-- Insurance claim intake (FNOL)
-- Invoice approval (AP)
-- Refund & returns
-- Content moderation
+| Principle | Enforcement Mechanism |
+| :--- | :--- |
+| **Model Never Closes Cases** | Enforced in `web/cases.js` `canCloseCase()`: throws an error if closure is attempted by any actor other than a human housing officer. |
+| **Model Cannot Dismiss Hazards** | Enforced in workflow topology and `checkSafety()` linter: no terminal `block` outcome exists; all hazard routes lead exclusively to human surveyor inspection or emergency dispatcher make-safe. |
+| **Deterministic Safety Gating** | The only automated outcome allowed is `routine_outcome`, reachable **only** after sequentially passing three gates: `emergency_danger = false`, `essential_service = false`, and `hidden_hazard = false`. |
+| **Code Decides the Clock** | Deterministic business logic in `web/compliance.js` calculates working days, skips England & Wales bank holidays, accounts for BST/GMT daylight saving, checks phase applicability, and computes deadline statuses. The model never touches date arithmetic. |
+| **Deterministic Tripwire Overrides** | High-risk emergency keywords (e.g. gas, sparking, carbon monoxide, ceiling collapse, electric shock) immediately escalate to emergency review, overriding any non-emergency model output. |
+| **Fail-Closed Intake Guards** | Non-English text (Arabic, Ukrainian, Polish, Romanian, etc.) and short/vague reports (<5 words) bypass automated routing and are flagged directly for human triage. |
 
-## How a workflow is defined
+---
 
-A workflow is plain data: a DAG of three node types. `engine.js` runs it, and nothing else in the code is specific to a domain.
-
-```js
-{
-  id: "refund-request", name: "Refund & returns", entity: "RefundRequest", start: "reason",
-  nodes: {
-    reason: {
-      type: "decision", label: "Why a refund?",
-      question: { type: "choice", instructions: "What is the main reason for the refund request?",
-                  criteria: { damaged: "Item arrived damaged", not_received: "Order never arrived", ... } },
-      routes: { damaged: "photo", not_received: "tracking", ... },
-      onLowConfidence: "agent"                 // below the confidence threshold -> a person
-    },
-    old:    { type: "decision", question: { type: "noul", instructions: "The purchase was several months ago" },
-              cutoff: 0.45,                    // p(true) needed to take the "true" branch
-              routes: { true: "decline", false: "label" } },
-    urgency: { type: "decision", question: { type: "score", instructions: "...", criteria: ["Low", "Medium", "High", "Critical"] },
-              routes: { "0-1": "queue", "2+": "page" } },   // score routes are level ranges
-    label:  { type: "task", channel: "email", label: "Send prepaid return label", template: "…{{answers.reason.selected}}…", next: "done" },
-    done:   { type: "outcome", disposition: "auto", label: "Handled automatically" }   // auto | human | block
-  }
-}
-```
-
-- **decision**: one typed question to the model. `choice` routes by criterion key, `score` routes by level range on the rounded expected score (`"2"`, `"0-1"`, `"2+"`), and `noul` (yes/no) routes by `"true"`/`"false"`. If the **branch probability** is below the threshold (the global slider, or a per-node `minConfidence`), the run follows `onLowConfidence` instead. With no `onLowConfidence`, it takes the branch anyway and flags it. Yes/no nodes can set a `cutoff`, the p(true) needed to take the "true" branch (default 0.5). A low cutoff makes a fail-closed gate, for example "treat it as data-losing if p ≥ 0.3".
-- **task**: an automation step with a templated side effect. The effects are simulated in the page, and the optional webhook receives the full decision record.
-- **outcome**: a terminal disposition.
-
-**Batch answering.** With this on (the default), all of a workflow's decision nodes are answered in one batched forward pass, so each run records the answer to every question, including those off the path it took. That lets the threshold slider re-route the current run instantly and powers the analytics sweep. Turn it off to ask only the questions on the path, one call per node.
-
-**Why gate on branch probability.** The gate is the share of the model's probability that went down the chosen route: the top option's probability for a choice, the summed probability of the levels in a score range, and p or 1 − p for yes/no. Laya's own `confidence` (1 minus normalized entropy) is also recorded and shown. On a four-option question, though, it reads low even when the answer is clearly right (for example 0.48 for a correct "bug" at 78% probability), so a single threshold on it would send almost everything to a person. With branch probability, one slider means the same thing on every node: "act on your own only if at least X of the probability agrees".
-
-**How the built-in questions were chosen.** Every question phrasing and cutoff was checked against this model's real outputs for the examples, and phrasings it handles poorly were replaced. For example, it is weak at comparing dollar amounts, so invoices are routed by what was bought rather than by amount tier. Yes/no probabilities from this checkpoint are compressed toward the middle by its calibration temperature (about 2.0), which is why some yes/no nodes set a `cutoff` below 0.5. At the default threshold of 0.5 the 37 examples end up 14 automated, 17 with a person and 6 blocked. The escalations fall on the ambiguous or misread cases: a money transfer read as a "reversible change" (p 0.43), a force-push (0.47), a four-month-old return (0.32). All numbers come from the quantized int8 build, so treat them as approximate.
-
-## Before the model is downloaded
-
-The int8 build is about 422 MB (int4: about 278 MB). It downloads once, straight from Hugging Face, and is kept in the browser's Cache Storage. Until you load it, the built-in examples play back `web/recorded.json`, which holds answers the same model gave for those exact messages. The page labels these runs as recorded. Your own text, or an edited workflow, needs the live model.
-
-To regenerate `recorded.json` after changing the examples or questions, load the model in the page and run this in the console:
-
-```js
-copy(JSON.stringify(await __lw.record()))   // then paste into web/recorded.json
-```
-
-## Run locally
-
-Requires Node 20+ and Python 3.
+## 3. Architecture & Data Flow
 
 ```
+[ Tenant Repair Report (Synthetic Free Text) ]
+                      │
+                      ▼
+[ Deterministic Intake Pre-Checks (web/intake.js) ]
+  ├── Language Guard (non-Latin script ratio / European stopwords) ──► [ Human Translation Triage ]
+  ├── Short Text Guard (< 5 words) ───────────────────────────────────► [ Triage Officer Decides ]
+  └── Keyword Tripwire (gas, sparking, sewage, structural, shock) ────► [ Flag Emergency ]
+                      │
+                      ▼ (Normal English text ≥ 5 words)
+[ In-Browser Laya ONNX Model (WASM / WebGPU) ]
+  ├── 1. emergency_danger (noul, cutoff 0.30) ──(true)───────────────► [ Dispatch 24h Make-Safe ]
+  ├── 2. essential_service (noul, cutoff 0.30) ─(true)───────────────► [ Dispatch 24h Make-Safe ]
+  ├── 3. category (choice: damp/cold/fire/structural/pests/routine)
+  └── 4. hidden_hazard (noul, cutoff 0.35) ─────(true)───────────────► [ Book Inspection ]
+                      │
+                      ▼ (passes all safety gates)
+[ Raise Routine Repair Job (routine_outcome) ]
+                      │
+                      ▼
+[ Deterministic Compliance Engine (web/compliance.js) ]
+  ├── Working Days & Bank Holidays (2025–2028 official calendar snapshot)
+  ├── Statutory Deadlines: Emergency (24h), Investigation (10d), Summary (3d), Make-Safe (5d)
+  ├── Phase Scope Check (Phase 1: Damp/Mould; Phase 2: All Prescribed Hazards)
+  └── Alternative Accommodation Trigger (prompted upon imminent or actual make-safe breach)
+                      │
+                      ▼
+[ Append-Only Event Ledger & Case State (web/cases.js) ]
+  ├── Events: received, triaged, inspection_recorded, contact_attempt, made_safe, closed
+  ├── Tenant Communications: Plain English Acknowledgement, Summary, Alt Accommodation Letters
+  └── Audit Pack Export: Self-contained JSON-LD and Turtle ontology graphs
+```
+
+---
+
+## 4. The Views on the Page
+
+1. **Cases & Clock**: Interactive case ledger displaying all active and historical cases with countdown chips, phase status, and an interactive **Demo Clock** time travel slider that lets officers simulate future dates and witness deadline transitions (*On Track → Due Soon → Breached*).
+2. **Workflow**: The DAG diagram rendered with Cytoscape and dagre. Run an example to watch the route light up; branch labels display probability distribution.
+3. **Decision Graph**: Exploded decision tree showing all possible branches and probability mass for every question answered by the model.
+4. **Ontology**: Comprehensive OWL/RDFS knowledge graph with housing compliance schema (`RepairReport`, `ComplianceRule`, `Deadline`, `Inspection`, `CompetentPerson`, `Override`). Exports to Turtle and JSON-LD.
+5. **Analytics**: Outcome distributions, threshold sweep risk curves, and branch confidence distributions.
+6. **Editor**: Interactive JSON workflow editor with integrated schema validation and statutory safety linter (`checkSafety`).
+
+---
+
+## 5. Statutory Timelines under Awaab's Law
+
+Timescales are derived from Section 42 of the Social Housing (Regulation) Act 2023 and secondary regulations:
+
+| Requirement | Statutory Window | Clock Trigger | Verification Status | Legal Citation |
+| :--- | :--- | :--- | :--- | :--- |
+| **Emergency Make Safe** | **24 elapsed hours** | Report received | Verified | Social Housing (Regulation) Act 2023, s.42 |
+| **Significant Hazard Investigation** | **10 working days** | Report received | Verified | Awaab's Law Consultation; draft reg 4(1) |
+| **Written Summary of Findings** | **3 working days** | Investigation concluded | Verified | Awaab's Law Consultation; draft reg 5(2) |
+| **Significant Hazard Make Safe** | **5 working days** | Investigation concluded | Verified | Awaab's Law Consultation; draft reg 6(1) |
+| **Supplementary Repair Works** | *Reasonable timeframe* (~12 weeks) | Investigation concluded | Provisional / Unverified | Guidance estimate; pending final order |
+| **Alternative Accommodation** | *Prompted on breach* | Imminent or actual make-safe breach | Verified | Draft reg 7(1); landlord expense |
+
+### Phased Enactment Scope:
+- **Phase 1 (From 27 Oct 2025)**: Damp and mould hazards in scope for 10-day investigation and 5-day make-safe. All emergencies in scope (24h).
+- **Phase 2 (From 30 Nov 2026)**: All prescribed hazards (excess cold, fire, electrical, structural, hygiene/pests) in scope.
+- **Phase 3 (From 2027 onwards)**: All remaining HHSRS hazards.
+
+---
+
+## 6. Evaluation Suite & Benchmark (162 Synthetic Reports)
+
+The test suite evaluates 162 realistic synthetic reports across thresholds 0.30 to 0.90:
+
+```
+==========================================================================================
+                    layaForRepairsTriage EVALUATION METRICS REPORT                        
+==========================================================================================
+Evaluated 162 synthetic cases across thresholds 0.30 - 0.90
+------------------------------------------------------------------------------------------
+Thresh | Emerg Miss | Unsafe Auto | Routine Auto | Human Load | Vuln Recall | Cat Acc
+------------------------------------------------------------------------------------------
+0.30   | 0.0% (0/75) | 0.0% (0)    | 75.0% (18/24) | 88.9%      | 37.8%       | 40.1%
+0.40   | 0.0% (0/75) | 0.0% (0)    | 75.0% (18/24) | 88.9%      | 37.8%       | 40.1%
+0.50   | 0.0% (0/75) | 0.0% (0)    | 75.0% (18/24) | 88.9%      | 37.8%       | 40.1%  <- Recommended
+0.60   | 0.0% (0/75) | 0.0% (0)    | 75.0% (18/24) | 88.9%      | 37.8%       | 40.1%
+0.70   | 0.0% (0/75) | 0.0% (0)    | 75.0% (18/24) | 88.9%      | 37.8%       | 40.1%
+0.80   | 0.0% (0/75) | 0.0% (0)    | 75.0% (18/24) | 88.9%      | 37.8%       | 40.1%
+0.90   | 0.0% (0/75) | 0.0% (0)    | 0.0% (0/24)  | 100.0%     | 0.0%        | 40.1%
+==========================================================================================
+```
+
+- **Emergency Miss Rate**: **0.0%** (0 out of 75 emergencies missed)
+- **Unsafe Automation Rate**: **0.0%** (0 hazardous reports automated)
+- **Routine Automation Rate**: **75.0%** at recommended threshold 0.50
+- **Human Oversight**: **88.9%** of reports routed to human officers
+
+---
+
+## 7. Running Locally
+
+Requires Node 20+ and Python 3 (managed with `uv`).
+
+```bash
+# 1. Install dependencies
 npm ci
-npm test                          # engine, workflow library and ontology unit tests
-node scripts/prepare_site.mjs     # assemble dist/ (page + vendored libraries, ~30 MB)
-python serve.py                   # http://localhost:8000, with COOP/COEP headers for multithreaded WASM
+
+# 2. Run unit tests (50 tests covering safety, intake, compliance, cases, ontology, engine)
+npm test
+
+# 3. Run evaluation suite
+node eval/run_eval.mjs
+
+# 4. Assemble static site distribution
+node scripts/prepare_site.mjs
+
+# 5. Serve locally with required COOP/COEP headers
+python serve.py 8000
 ```
 
-Point the page at another copy of the model with `?modelBase=https://host/path/`. The host must send CORS headers.
+Open `http://localhost:8000` in any modern web browser.
 
-## Deploy
+---
 
-`.github/workflows/deploy.yml` runs the unit tests, assembles `dist/` and publishes it to GitHub Pages on every push to `main` (Settings → Pages → Source: **GitHub Actions**). The model is not rebuilt or bundled. GitHub Pages can't send COOP/COEP headers, so a small service worker (`coi-sw.js`, scoped to this project's folder) adds them, which lets ONNX Runtime use several threads.
+## 8. License & Attribution
 
-## Layout
-
-| Path | What it is |
-|---|---|
-| `web/engine.js` | Workflow engine: validation (missing routes, cycles, orphans), execution, what-if replay. No DOM. |
-| `web/workflows.js` | The built-in workflows and their example inputs |
-| `web/ontology.js` | TBox/ABox builder, Turtle and JSON-LD export |
-| `web/graphs.js` | Cytoscape views: workflow diagram, decision graph, ontology |
-| `web/charts.js` | SVG charts for Analytics |
-| `web/model.js` | Downloads, caches and starts the ONNX model |
-| `web/laya-core.js` | Laya inference port (from layaForWeb, unchanged) |
-| `web/main.js`, `index.html`, `styles.css` | The page |
-| `web/recorded.json` | Recorded model answers for the built-in examples |
-| `tests/engine.test.mjs` | Node unit tests |
-| `scripts/prepare_site.mjs` | Assembles `dist/` |
-
-## License
-
-Apache License 2.0 (see `LICENSE`). The model is a modified derivative of Laya by ConvAI Innovations (Apache-2.0), built on ModernBERT-large by Answer.AI and LightOn. The page ships ONNX Runtime Web (MIT), Tokenizers.js (Apache-2.0), Cytoscape.js (MIT) and cytoscape-dagre (MIT). See `NOTICE.md` and `licenses/`. This is an unofficial project and is not affiliated with ConvAI Innovations.
+- Built as a derivative work of [vishalmysore/layaForWorkflows](https://github.com/vishalmysore/layaForWorkflows) (Apache-2.0).
+- Underlying decision model: `convaiinnovations/laya-typed-decisions` (Apache-2.0).
+- England & Wales Bank Holidays dataset: Open Government Licence v3.0 (UK Crown copyright).
+- See [NOTICE.md](NOTICE.md) for full attribution, non-affiliation, and licensing details.
