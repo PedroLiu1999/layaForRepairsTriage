@@ -1,10 +1,28 @@
 # Notice
 
-layaForWorkflows is an unofficial project built on a browser port of the Laya typed-decisions checkpoint. It is not affiliated with or endorsed by ConvAI Innovations, Microsoft, Hugging Face, Answer.AI, LightOn or the Cytoscape Consortium.
+iayaForRepairsTriage is an unofficial project built on a browser port of the Laya typed-decisions checkpoint. It is not affiliated with or endorsed by ConvAI Innovations, the layaForWorkflows author (Vishal Mysore), any social landlord, any housing association, any local authority, any government body (including the UK Ministry of Housing, Communities & Local Government or the Regulator of Social Housing), Microsoft, Hugging Face, Answer.AI, LightOn or the Cytoscape Consortium.
 
-## This project
+## Derivative Work
 
-The workflow engine, ontology, graph views and page in this repository are Copyright 2026 vishalmysore and licensed under the Apache License, Version 2.0 (see `LICENSE`).
+This repository (`iayaForRepairsTriage`) is a modified derivative of [`layaForWorkflows`](https://github.com/vishalmysore/layaForWorkflows) by Vishal Mysore (licensed under the Apache License, Version 2.0).
+
+Modifications and additions in this derivative:
+- Replaced domain workflows in `web/workflows.js` with England social housing repairs triage (`awaab-triage`) structured around Awaab's Law.
+- Added deterministic workflow safety linter in `web/safety.js`.
+- Added deterministic intake pre-checks in `web/intake.js`.
+- Added deterministic statutory compliance engine in `web/compliance.js`.
+- Added statutory rules dataset in `web/rules/awaab-england.js`.
+- Added England & Wales bank holidays snapshot in `web/bankholidays.js`.
+- Added append-only case management store and event ledger in `web/cases.js`.
+- Added draft tenant letter templates in `web/letters.js`.
+- Extended ontology classes and JSON-LD audit pack export in `web/ontology.js`.
+- Extended UI with persistent disclaimer banner, intake panel, Cases tab, case detail modal, demo clock, and analytics in `web/index.html`, `web/main.js`, and `web/styles.css`.
+- Added evaluation dataset (`eval/reports.jsonl`), evaluation runner (`eval/run_eval.mjs`), and answer recorder (`scripts/record_answers.py`).
+- Added comprehensive unit tests in `tests/compliance.test.mjs`, `tests/safety.test.mjs`, `tests/intake.test.mjs`, and `tests/cases.test.mjs`.
+
+## Upstream Project
+
+The original workflow engine, ontology, graph views and page from layaForWorkflows are Copyright 2026 vishalmysore and licensed under the Apache License, Version 2.0 (see `LICENSE`).
 
 ## The model
 

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Laya Workflows</title>
-<meta name="description" content="Browser-native workflow automation on the Laya typed-decision model: diagrammatic workflows, decision graphs and an ontology of decisions. Nothing leaves the page.">
+<title>iayaForRepairsTriage — Social Housing Repairs Triage (Awaab's Law)</title>
+<meta name="description" content="Browser-only repairs triage tool for social housing in England, shaped around Awaab's Law.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a5bd7'/%3E%3Cpath d='M16 6l8 8-8 8-8-8z' fill='none' stroke='white' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='26' r='2.4' fill='white'/%3E%3C/svg%3E">
 <script src="./coi.js"></script>
 <link rel="stylesheet" href="./styles.css">
@@ -12,12 +12,15 @@
 <script src="./vendor/cytoscape-dagre.min.js"></script>
 </head>
 <body>
+<aside class="persistent-banner" role="banner">
+  Demo only. Synthetic data. Not legal advice and not a compliance tool. Timescales are illustrative; check the current regulations and GOV.UK guidance.
+</aside>
 <header class="top">
   <div class="brand">
     <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="7" class="logo-bg"/><path d="M16 6l8 8-8 8-8-8z" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="16" cy="26" r="2.4" fill="#fff"/></svg>
     <div>
-      <h1>Laya Workflows</h1>
-      <p>Typed decisions that drive automation, in your browser</p>
+      <h1>iayaForRepairsTriage</h1>
+      <p>Repairs triage &amp; Awaab's Law compliance clock (browser-only)</p>
     </div>
   </div>
   <div class="modelpill" id="modelPill" role="status"><span class="dot"></span><span id="modelPillText">Model not loaded</span></div>
