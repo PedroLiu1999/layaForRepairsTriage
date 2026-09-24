@@ -1,334 +1,194 @@
-// Built-in workflows. Each is a DAG of decision / task / outcome nodes (see engine.js for the format).
-// Every decision node is ONE typed question that the Laya model answers; routing is plain data, so a workflow
-// can be edited in the page's JSON editor without touching code. All example messages are synthetic.
+// Repairs triage workflow shaped around Awaab's Law and social housing repairs in England.
+// All decision questions are answered by the in-browser Laya model or read from recorded answers.
 
 export const WORKFLOWS = [
   {
-    id: "support-triage",
-    name: "Support ticket triage",
-    domain: "Customer support",
-    entity: "SupportTicket",
-    description: "Classify a ticket, pick a priority, and either auto-reply, file it in the right queue, or page on-call.",
-    input: { subject: true, key: "ticket" },
-    start: "category",
-    nodes: {
-      category: {
-        type: "decision", label: "What kind of request?",
-        question: { type: "choice", instructions: "Which team should handle this ticket?", criteria: {
-          bug: "Something is broken or not working", how_to: "A question about how to use the product",
-          billing: "Charges, invoices, refunds or plans", account_access: "Login, password or account access" } },
-        routes: { bug: "blocked", how_to: "send_article", billing: "billing_queue", account_access: "reset_link" },
-        onLowConfidence: "human_triage",
-      },
-      blocked: {
-        type: "decision", label: "Customer blocked right now?",
-        question: { type: "noul", instructions: "The customer cannot work at all right now because of this problem" },
-        routes: { true: "page_oncall", false: "urgency" },
-      },
-      urgency: {
-        type: "decision", label: "How urgent is the bug?",
-        question: { type: "score", instructions: "How urgent is this problem for the customer?", criteria: ["Can wait", "This week", "Today", "Right now"] },
-        routes: { "0-1": "backlog", "2+": "eng_queue" },
-      },
-      send_article: { type: "task", channel: "email", label: "Reply with help-center article", template: "Auto-reply to customer re: \"{{input.subject}}\" with the top help-center article.", next: "resolved" },
-      reset_link: { type: "task", channel: "email", label: "Send secure reset link", template: "Send a password/2FA reset link for \"{{input.subject}}\".", next: "resolved" },
-      billing_queue: { type: "task", channel: "ticket", label: "File in Billing queue", template: "Create billing ticket: {{input.subject}}", next: "billing_review" },
-      backlog: { type: "task", channel: "ticket", label: "File bug in backlog", template: "Create P3 bug: {{input.subject}} (urgency {{answers.urgency.label}})", next: "filed" },
-      eng_queue: { type: "task", channel: "ticket", label: "File P2 in Engineering", template: "Create P2 bug: {{input.subject}}", next: "filed" },
-      page_oncall: { type: "task", channel: "page", label: "Page on-call engineer", template: "PAGE on-call: {{input.subject}}", next: "filed" },
-      resolved: { type: "outcome", disposition: "auto", label: "Resolved automatically" },
-      filed: { type: "outcome", disposition: "auto", label: "Routed automatically" },
-      billing_review: { type: "outcome", disposition: "human", label: "Billing agent reviews" },
-      human_triage: { type: "outcome", disposition: "human", label: "Human triage queue", detail: "Category unclear; an agent picks the team." },
-    },
-    examples: [
-      { subject: "App crashes on launch", text: "Since the last update the app closes as soon as I open it. I have a client demo in one hour and nothing works!" },
-      { subject: "How do I export to CSV?", text: "Hi, where can I find the option to export my reports as a CSV file? I looked in settings but couldn't see it." },
-      { subject: "Charged twice", text: "I was billed twice for my monthly plan this month. Please refund the duplicate charge." },
-      { subject: "Locked out", text: "I changed phones and now I can't get the two-factor code, so I can't log in to my account." },
-      { subject: "Minor typo", text: "Small thing: the settings page says 'Prefrences' instead of 'Preferences'. No rush at all." },
-      { subject: "Dashboard slow", text: "The dashboard has been loading slowly all week and sometimes the charts show an error. It's annoying but we can work around it for now." },
-    ],
-  },
-
-  {
-    id: "agent-guardrail",
-    name: "AI agent action guardrail",
-    domain: "AI safety",
-    entity: "AgentAction",
-    description: "Gate an action an autonomous agent wants to take. Fails closed: deletions are blocked, and anything the model is unsure about waits for a person.",
+    id: "awaab-triage",
+    name: "Repairs triage (Awaab's Law)",
+    domain: "Social housing repairs",
+    entity: "RepairReport",
+    description: "Screen a tenant's repair report for emergencies, classify the hazard, flag vulnerability and book the right inspection. Fails closed: anything unclear goes to a person.",
     input: {},
-    start: "kind",
+    start: "emergency_danger",
+    safety: {
+      autoOutcomes: ["routine_outcome"],
+      mustPassFalse: ["emergency_danger", "essential_service"], // every auto path must take the "false" edge through these
+      mustPassOneOfFalse: [["hidden_hazard"]], // and through at least one of these groups
+      lowConfidenceMustBeHuman: true, // every onLowConfidence target leads only to human outcomes
+      forbiddenDispositions: ["block"]
+    },
     nodes: {
-      kind: {
-        type: "decision", label: "What kind of action?",
-        question: { type: "choice", instructions: "What kind of action is this?", criteria: {
-          read_only: "Only reads or summarizes information", reversible_change: "A change that can easily be reviewed or undone",
-          data_deletion: "Deletes or overwrites data", external_effect: "Sends money, emails or messages to people outside" } },
-        routes: { read_only: "log_run", reversible_change: "data_loss", data_deletion: "block", external_effect: "approval" },
-        onLowConfidence: "approval",
-      },
-      data_loss: {
-        type: "decision", label: "Could it lose data?",
-        question: { type: "noul", instructions: "Running this could permanently lose data" },
+      emergency_danger: {
+        type: "decision",
+        label: "Immediate danger?",
+        question: {
+          type: "noul",
+          instructions: "The report describes an immediate danger to someone's health or safety in the home"
+        },
         cutoff: 0.3,
-        routes: { true: "block", false: "log_run" },
+        minConfidence: 0.75,
+        routes: { true: "make_safe_24h", false: "essential_service" },
+        onLowConfidence: "urgent_review"
       },
-      log_run: { type: "task", channel: "audit", label: "Write audit log entry", template: "Audit: agent action auto-approved ({{answers.kind.selected}}).", next: "approved" },
-      approval: { type: "task", channel: "chat", label: "Request approval in #agent-ops", template: "Approval requested: {{input.text}}", next: "held" },
-      block: { type: "task", channel: "audit", label: "Block and record reason", template: "Blocked agent action ({{answers.kind.selected}}).", next: "blocked" },
-      approved: { type: "outcome", disposition: "auto", label: "Approved, runs automatically" },
-      held: { type: "outcome", disposition: "human", label: "Held for human approval" },
-      blocked: { type: "outcome", disposition: "block", label: "Blocked" },
-    },
-    examples: [
-      { text: "Agent plan: run DELETE FROM customers WHERE last_login < '2020-01-01' on the production database. No backup has been taken." },
-      { text: "Agent plan: create a new git branch, apply the lint fixes, and open a draft pull request for review." },
-      { text: "Agent plan: email the quarterly price increase announcement to all 12,000 customers on the mailing list." },
-      { text: "Agent plan: read the last 50 lines of the application log file and summarize the errors." },
-      { text: "Agent plan: transfer the remaining $4,800 marketing budget to the new vendor's account." },
-      { text: "Agent plan: force-push the rewritten history to the main branch to remove the large files." },
-    ],
-  },
-
-  {
-    id: "incident-response",
-    name: "IT incident response",
-    domain: "Operations",
-    entity: "Incident",
-    description: "Turn a monitoring alert into an incident: rate severity, find the owning team, and decide whether to page and update the status page.",
-    input: {},
-    start: "severity",
-    nodes: {
+      essential_service: {
+        type: "decision",
+        label: "Essential service lost?",
+        question: {
+          type: "noul",
+          instructions: "The home has no heating, no hot water, no water supply or no electricity"
+        },
+        cutoff: 0.3,
+        minConfidence: 0.75,
+        routes: { true: "make_safe_24h", false: "category" },
+        onLowConfidence: "urgent_review"
+      },
+      category: {
+        type: "decision",
+        label: "Hazard type",
+        question: {
+          type: "choice",
+          instructions: "What is the main problem in the home?",
+          criteria: {
+            damp_mould: "Damp, mould or condensation",
+            cold_heat: "Home too cold or too hot, heating or insulation",
+            fire_electrical: "Fire risk or electrical fault",
+            falls_structural: "Trip, fall or structural risk such as stairs, floors, ceilings or walls",
+            hygiene_pests: "Drains, toilets, pests, rubbish or kitchen hygiene",
+            general_repair: "Other repair"
+          }
+        },
+        routes: {
+          damp_mould: "vulnerable",
+          cold_heat: "vulnerable",
+          fire_electrical: "vulnerable",
+          falls_structural: "vulnerable",
+          hygiene_pests: "vulnerable",
+          general_repair: "hidden_hazard"
+        },
+        onLowConfidence: "triage_officer"
+      },
+      hidden_hazard: {
+        type: "decision",
+        label: "Could it harm health?",
+        question: {
+          type: "noul",
+          instructions: "This problem could harm someone's health or safety if it is not fixed"
+        },
+        cutoff: 0.35,
+        routes: { true: "vulnerable", false: "routine_repair" },
+        onLowConfidence: "triage_officer"
+      },
+      vulnerable: {
+        type: "decision",
+        label: "Vulnerable occupant?",
+        question: {
+          type: "noul",
+          instructions: "Someone in the home is especially vulnerable, such as a baby, young child, pregnant person, older person, or someone with a health condition or disability"
+        },
+        cutoff: 0.35,
+        routes: { true: "flag_vulnerable", false: "severity" },
+        onLowConfidence: "flag_vulnerable"
+      },
+      flag_vulnerable: {
+        type: "task",
+        channel: "audit",
+        label: "Flag vulnerable household",
+        template: "Vulnerability flagged for this case; raise priority.",
+        next: "severity"
+      },
       severity: {
-        type: "decision", label: "Severity",
-        question: { type: "score", instructions: "How severe is this incident?", criteria: ["Minor", "Moderate", "Major", "Critical"] },
-        routes: { "0-1": "ticket", "2-3": "impact" },
+        type: "decision",
+        label: "Health impact",
+        question: {
+          type: "score",
+          instructions: "How serious is the risk to the health of the people living there?",
+          criteria: ["Minor", "Moderate", "Serious", "Severe"]
+        },
+        routes: { "0-1": "book_inspection", "2+": "book_inspection_priority" },
+        onLowConfidence: "book_inspection_priority"
       },
-      impact: {
-        type: "decision", label: "Customers affected now?",
-        question: { type: "noul", instructions: "Customers are affected by this problem right now" },
-        cutoff: 0.6,
-        routes: { true: "owner", false: "owner_quiet" },
+      book_inspection: {
+        type: "task",
+        channel: "ticket",
+        label: "Book competent-person inspection",
+        template: "Book inspection ({{answers.category.selected}}).",
+        next: "ack_tenant"
       },
-      owner: {
-        type: "decision", label: "Owning team",
-        question: { type: "choice", instructions: "Which team should own this incident?", criteria: {
-          network: "Networking, DNS or load balancers", database: "Databases and storage", application: "Application code and services", security: "Security incident or attack" } },
-        routes: { network: "page", database: "page", application: "page", security: "security_bridge" },
+      book_inspection_priority: {
+        type: "task",
+        channel: "ticket",
+        label: "Book PRIORITY inspection",
+        template: "Book priority inspection ({{answers.category.selected}}, severity {{answers.severity.label}}).",
+        next: "ack_tenant"
       },
-      owner_quiet: {
-        type: "decision", label: "Owning team (no impact)",
-        question: { type: "choice", instructions: "Which team should own this incident?", criteria: {
-          network: "Networking, DNS or load balancers", database: "Databases and storage", application: "Application code and services", security: "Security incident or attack" } },
-        routes: { network: "ticket", database: "ticket", application: "ticket", security: "security_bridge" },
+      ack_tenant: {
+        type: "task",
+        channel: "sms",
+        label: "Acknowledge to tenant",
+        template: "Thank you, we have logged your report and will contact you to arrange an inspection.",
+        next: "inspection_outcome"
       },
-      page: { type: "task", channel: "page", label: "Page owning team", template: "PAGE {{answers.owner.selected}} on-call (severity {{answers.severity.label}}).", next: "statuspage" },
-      statuspage: { type: "task", channel: "webhook", label: "Post status-page update", template: "Status page: investigating degraded service.", next: "commander" },
-      security_bridge: { type: "task", channel: "page", label: "Open security bridge", template: "Open security incident bridge; notify CISO.", next: "commander" },
-      ticket: { type: "task", channel: "ticket", label: "Open incident ticket", template: "Create incident ticket (severity {{answers.severity.label}}).", next: "logged" },
-      commander: { type: "outcome", disposition: "human", label: "Incident commander takes over" },
-      logged: { type: "outcome", disposition: "auto", label: "Logged, no page" },
+      make_safe_24h: {
+        type: "task",
+        channel: "page",
+        label: "Dispatch emergency make-safe",
+        template: "EMERGENCY report: {{input.text}}",
+        next: "emergency_outcome"
+      },
+      routine_repair: {
+        type: "task",
+        channel: "ticket",
+        label: "Raise routine repair job",
+        template: "Routine repair: {{input.text}}",
+        next: "routine_outcome"
+      },
+      urgent_review: {
+        type: "outcome",
+        disposition: "human",
+        label: "Urgent human review (possible emergency)"
+      },
+      triage_officer: {
+        type: "outcome",
+        disposition: "human",
+        label: "Triage officer decides"
+      },
+      emergency_outcome: {
+        type: "outcome",
+        disposition: "human",
+        label: "Emergency: dispatcher confirms make-safe"
+      },
+      inspection_outcome: {
+        type: "outcome",
+        disposition: "human",
+        label: "Inspection booked, clock running"
+      },
+      routine_outcome: {
+        type: "outcome",
+        disposition: "auto",
+        label: "Routine repair raised automatically"
+      }
     },
     examples: [
-      { text: "ALERT: checkout-api 5xx rate 42% for 10 minutes across all regions. Orders are failing for customers." },
-      { text: "ALERT: disk usage on analytics-replica-3 at 81%, growing 1% per day." },
-      { text: "ALERT: 3,000 failed SSH logins per minute from a single IP range against bastion hosts; two accounts now show successful logins." },
-      { text: "ALERT: DNS resolution failing for api.example.com in eu-west; customer apps in Europe cannot reach the API." },
-      { text: "ALERT: nightly report job took 14 minutes instead of the usual 9. Completed successfully." },
-    ],
-  },
-
-  {
-    id: "insurance-claim",
-    name: "Insurance claim intake (FNOL)",
-    domain: "Insurance",
-    entity: "Claim",
-    description: "First notice of loss: classify the claim, screen for injury and fraud signals, and fast-track simple claims.",
-    input: {},
-    start: "injury",
-    nodes: {
-      injury: {
-        type: "decision", label: "Anyone injured?",
-        question: { type: "noul", instructions: "Someone was injured or needed medical treatment" },
-        cutoff: 0.45,
-        routes: { true: "bodily_injury", false: "fraud" },
-      },
-      fraud: {
-        type: "decision", label: "Fraud indicators?",
-        question: { type: "noul", instructions: "The claim shows signs of possible fraud, such as inconsistent details, a very recent policy, or pressure to pay quickly in cash" },
-        cutoff: 0.28,
-        routes: { true: "siu", false: "claim_type" },
-      },
-      claim_type: {
-        type: "decision", label: "Claim type",
-        question: { type: "choice", instructions: "What type of claim is this?", criteria: {
-          auto_glass: "Windshield or window glass damage only", auto_collision: "Vehicle collision damage", property_water: "Water damage to a home", theft: "Theft or burglary" } },
-        routes: { auto_glass: "size", auto_collision: "adjuster", property_water: "size", theft: "police_report" },
-        onLowConfidence: "adjuster",
-      },
-      size: {
-        type: "decision", label: "Estimated loss size",
-        question: { type: "score", instructions: "How large is the likely loss?", criteria: ["Under $1,000", "$1,000 to $5,000", "$5,000 to $25,000", "Over $25,000"] },
-        routes: { "0-1": "fast_track", "2+": "adjuster" },
-      },
-      police_report: { type: "task", channel: "email", label: "Request police report number", template: "Ask claimant for the police report number.", next: "adjuster" },
-      fast_track: { type: "task", channel: "webhook", label: "Straight-through payment", template: "Approve fast-track payment ({{answers.claim_type.selected}}, {{answers.size.label}}).", next: "paid" },
-      siu: { type: "task", channel: "ticket", label: "Refer to Special Investigations", template: "SIU referral with fraud indicators.", next: "investigate" },
-      bodily_injury: { type: "task", channel: "ticket", label: "Open bodily-injury file", template: "Open BI file; assign senior adjuster.", next: "senior" },
-      adjuster: { type: "outcome", disposition: "human", label: "Assigned to adjuster" },
-      senior: { type: "outcome", disposition: "human", label: "Senior injury adjuster" },
-      investigate: { type: "outcome", disposition: "block", label: "Payment held pending SIU" },
-      paid: { type: "outcome", disposition: "auto", label: "Paid automatically" },
-    },
-    examples: [
-      { text: "A stone hit my windshield on the highway yesterday and left a long crack. Nobody was hurt. The glass shop quoted $420." },
-      { text: "Rear-ended at a red light. My neck has been hurting since and I went to urgent care this morning." },
-      { text: "A pipe burst under the kitchen sink and soaked the cabinets and floor. Plumber says repairs around $3,000." },
-      { text: "My laptop and jewelry were stolen from my apartment last night; the door lock was broken." },
-      { text: "I took out this policy last week. My car was totally destroyed in a fire yesterday, I have no photos, and I need the full $40,000 paid in cash by Friday." },
-    ],
-  },
-
-  {
-    id: "invoice-approval",
-    name: "Invoice approval (AP)",
-    domain: "Finance operations",
-    entity: "Invoice",
-    description: "Accounts payable: check that an incoming invoice references a purchase order, catch repeats, and route approval by what was bought.",
-    input: {},
-    start: "has_po",
-    nodes: {
-      has_po: {
-        type: "decision", label: "References a purchase order?",
-        question: { type: "noul", instructions: "The invoice references a purchase order number" },
-        cutoff: 0.4,
-        routes: { true: "duplicate", false: "request_po" },
-      },
-      duplicate: {
-        type: "decision", label: "Repeat of an earlier invoice?",
-        question: { type: "noul", instructions: "The sender says this is a repeat or second copy of an invoice they already sent" },
-        cutoff: 0.4,
-        routes: { true: "dup_hold", false: "spend" },
-      },
-      spend: {
-        type: "decision", label: "What is it for?",
-        question: { type: "choice", instructions: "What is this invoice for?", criteria: {
-          supplies: "Office supplies and small consumables", equipment: "Computer hardware or equipment",
-          services: "Consulting or professional services", contract: "A large annual contract or subscription" } },
-        routes: { supplies: "schedule", equipment: "manager", services: "manager", contract: "cfo" },
-        onLowConfidence: "ap_review",
-      },
-      request_po: { type: "task", channel: "email", label: "Ask vendor for PO number", template: "Email vendor: please resend the invoice with a PO number.", next: "waiting" },
-      schedule: { type: "task", channel: "webhook", label: "Schedule payment run", template: "Schedule for next payment run ({{answers.spend.selected}}).", next: "approved" },
-      manager: { type: "task", channel: "chat", label: "Request budget-owner sign-off", template: "Budget-owner sign-off needed ({{answers.spend.selected}}).", next: "signoff" },
-      cfo: { type: "task", channel: "chat", label: "Request CFO sign-off", template: "CFO sign-off needed for an annual contract.", next: "signoff" },
-      dup_hold: { type: "task", channel: "ticket", label: "Hold as suspected duplicate", template: "Hold: suspected duplicate invoice.", next: "blocked" },
-      approved: { type: "outcome", disposition: "auto", label: "Approved and scheduled" },
-      signoff: { type: "outcome", disposition: "human", label: "Awaiting sign-off" },
-      waiting: { type: "outcome", disposition: "human", label: "Waiting on vendor" },
-      ap_review: { type: "outcome", disposition: "human", label: "AP clerk review" },
-      blocked: { type: "outcome", disposition: "block", label: "Payment blocked" },
-    },
-    examples: [
-      { text: "Invoice INV-2291 from Acme Office Supply for PO-7781: 40 boxes of printer paper, total $312.00, due in 30 days." },
-      { text: "Invoice from Northwind Consulting for strategy workshop, total $48,500. No purchase order referenced." },
-      { text: "REMINDER - second copy: Invoice INV-2291 from Acme Office Supply for PO-7781, total $312.00. Please pay again if not already processed." },
-      { text: "Invoice 88-114 for PO-9001: annual data-center hosting contract, total $186,000." },
-      { text: "Invoice INV-5520 for PO-4410: laptop docking stations, 25 units, total $6,125." },
-    ],
-  },
-
-  {
-    id: "refund-request",
-    name: "Refund & returns",
-    domain: "E-commerce",
-    entity: "RefundRequest",
-    description: "Decide whether a refund can be issued automatically, needs a return label first, or goes to a person.",
-    input: {},
-    start: "reason",
-    nodes: {
-      reason: {
-        type: "decision", label: "Why a refund?",
-        question: { type: "choice", instructions: "Why does the customer want a refund or return?", criteria: {
-          damaged: "The item arrived broken or defective", not_received: "The order never arrived",
-          doesnt_fit: "Wrong size, doesn't fit, or they no longer want it", wrong_item: "A different item than ordered was sent" } },
-        routes: { damaged: "photo", not_received: "tracking", doesnt_fit: "old", wrong_item: "label" },
-        onLowConfidence: "agent",
-      },
-      photo: {
-        type: "decision", label: "Photo evidence given?",
-        question: { type: "noul", instructions: "The customer says they have attached or can provide photos of the problem" },
-        routes: { true: "refund", false: "ask_photo" },
-      },
-      old: {
-        type: "decision", label: "Bought months ago?",
-        question: { type: "noul", instructions: "The purchase was several months ago" },
-        cutoff: 0.45,
-        routes: { true: "decline", false: "label" },
-        onLowConfidence: "agent",
-      },
-      tracking: { type: "task", channel: "webhook", label: "Check carrier tracking", template: "Query carrier API for tracking status.", next: "agent" },
-      ask_photo: { type: "task", channel: "email", label: "Ask for a photo", template: "Ask customer for a photo of the damage.", next: "waiting" },
-      label: { type: "task", channel: "email", label: "Send prepaid return label", template: "Email prepaid return label; refund on receipt.", next: "auto_done" },
-      refund: { type: "task", channel: "webhook", label: "Issue refund", template: "Refund issued to original payment method.", next: "auto_done" },
-      decline: { type: "task", channel: "email", label: "Explain return policy", template: "Explain 30-day policy; offer store credit.", next: "declined" },
-      auto_done: { type: "outcome", disposition: "auto", label: "Handled automatically" },
-      waiting: { type: "outcome", disposition: "human", label: "Waiting on customer" },
-      agent: { type: "outcome", disposition: "human", label: "Support agent decides" },
-      declined: { type: "outcome", disposition: "block", label: "Refund declined" },
-    },
-    examples: [
-      { text: "The mug arrived shattered in the box. I've attached two photos of the broken pieces. Ordered it last week." },
-      { text: "My order from three weeks ago still hasn't arrived and the tracking hasn't updated in ten days." },
-      { text: "I bought these running shoes 5 days ago but they're half a size too small. Can I return them?" },
-      { text: "I ordered a blue jacket and you sent me a red one." },
-      { text: "I'd like to return the blender I bought four months ago, I just don't use it much." },
-    ],
-  },
-
-  {
-    id: "content-moderation",
-    name: "Content moderation",
-    domain: "Trust & safety",
-    entity: "Post",
-    description: "Publish, hold or remove a user comment. Only acts on its own when the model is confident.",
-    input: {},
-    start: "threat",
-    nodes: {
-      threat: {
-        type: "decision", label: "Threat of violence?",
-        question: { type: "noul", instructions: "The comment threatens violence or harm against a person" },
-        cutoff: 0.4,
-        routes: { true: "escalate", false: "spam" },
-      },
-      spam: {
-        type: "decision", label: "Spam or ad?",
-        question: { type: "noul", instructions: "The comment is spam or an unsolicited advertisement" },
-        routes: { true: "remove", false: "toxicity" },
-        onLowConfidence: "review",
-      },
-      toxicity: {
-        type: "decision", label: "Toxicity",
-        question: { type: "score", instructions: "How toxic or insulting is the language?", criteria: ["None", "Mild", "Strong", "Severe"] },
-        routes: { "0-1": "publish", "2+": "remove" },
-        onLowConfidence: "review",
-      },
-      escalate: { type: "task", channel: "page", label: "Escalate to safety team", template: "Escalate possible threat to the safety team.", next: "removed" },
-      remove: { type: "task", channel: "webhook", label: "Remove post", template: "Remove post and notify author.", next: "removed" },
-      publish: { type: "task", channel: "webhook", label: "Publish", template: "Publish comment.", next: "published" },
-      published: { type: "outcome", disposition: "auto", label: "Published" },
-      review: { type: "outcome", disposition: "human", label: "Moderator queue" },
-      removed: { type: "outcome", disposition: "block", label: "Removed" },
-    },
-    examples: [
-      { text: "Great write-up, thanks for sharing the setup details!" },
-      { text: "BUY CHEAP FOLLOWERS NOW!!! 10k followers for $5, visit my profile link" },
-      { text: "You are a complete idiot and everyone here knows it." },
-      { text: "I know where you live and you'll regret posting this." },
-      { text: "Honestly this take is pretty lazy, I expected better research." },
-    ],
-  },
+      { text: "There's a strong smell of gas in the kitchen and it's getting worse, I've opened the windows." },
+      { text: "The socket behind the fridge sparked and now there's a burning smell." },
+      { text: "Our boiler stopped working yesterday, no heating or hot water, and my mum is 84." },
+      { text: "Water is pouring through the bathroom ceiling into the light fitting." },
+      { text: "Front door lock snapped, I can't lock the flat tonight." },
+      { text: "Black mould is spreading on the wall behind my baby's cot and she keeps coughing." },
+      { text: "Bit of condensation on the bedroom windows most mornings, some black spots on the seal." },
+      { text: "The whole bedroom smells musty, wallpaper peeling, mould on the ceiling. I have asthma." },
+      { text: "The flat is freezing even with the heating on full, the windows don't close properly." },
+      { text: "Top-floor flat gets unbearably hot in summer, we can't sleep." },
+      { text: "The banister on the stairs is loose and wobbles when you lean on it." },
+      { text: "There's a big crack in the living-room wall that has got wider this month." },
+      { text: "We've seen rats in the kitchen and droppings in the cupboards." },
+      { text: "The only toilet is blocked and won't flush." },
+      { text: "The kitchen cupboard door hinge has come loose." },
+      { text: "Dripping tap in the bathroom sink, not urgent." },
+      { text: "A fence panel in the garden blew down in the wind." },
+      { text: "flat is horrible pls help nobody listens" },
+      { text: "Z powodu cieknącej rury na ścianie w sypialni pojawił się grzyb i pleśń, śmierdzi stęchlizną." },
+      { text: "The smoke alarm keeps beeping and I took the battery out." }
+    ]
+  }
 ];
-
-export const WORKFLOW_BY_ID = Object.fromEntries(WORKFLOWS.map((w) => [w.id, w]));

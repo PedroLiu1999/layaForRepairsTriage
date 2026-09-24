@@ -50,57 +50,59 @@ test("validation catches missing routes, cycles and orphans", () => {
   assert.match(validateWorkflow(badScore).join(), /no route for option\(s\) "2: c"/);
 });
 
-test("support triage: confident bug, customer blocked -> page on-call", async () => {
-  const wf = WORKFLOWS.find((w) => w.id === "support-triage");
+test("awaab-triage: emergency danger -> dispatch emergency make-safe", async () => {
+  const wf = WORKFLOWS.find((w) => w.id === "awaab-triage");
   const ask = async (q, state, id) => {
-    assert.equal(state.ticket.subject, "Crash");
-    if (id === "category") return choice({ bug: 0.9, how_to: 0.05, billing: 0.03, account_access: 0.02 }, 0.8);
-    if (id === "blocked") return noul(0.8);
+    assert.equal(state, "Gas leak");
+    if (id === "emergency_danger") return noul(0.95);
     throw new Error("unexpected " + id);
   };
-  const run = await runWorkflow(wf, { subject: "Crash", text: "down" }, ask, { threshold: 0.5 });
-  assert.deepEqual(run.steps.map((s) => s.nodeId), ["category", "blocked", "page_oncall", "filed"]);
-  assert.equal(run.outcome.disposition, "auto");
-  assert.equal(run.effects[0].text, "PAGE on-call: Crash");
-  // the gate is the branch probability: 0.9 for "bug", 0.8 for "blocked = yes"
-  assert.equal(run.minConfidence, 0.8);
-  assert.equal(run.steps[0].layaConfidence, 0.8);
+  const run = await runWorkflow(wf, { text: "Gas leak" }, ask, { threshold: 0.5 });
+  assert.deepEqual(run.steps.map((s) => s.nodeId), ["emergency_danger", "make_safe_24h", "emergency_outcome"]);
+  assert.equal(run.outcome.disposition, "human");
+  assert.equal(run.effects[0].text, "EMERGENCY report: Gas leak");
+  assert.equal(run.minConfidence, 0.95);
 });
 
 test("low confidence follows onLowConfidence", async () => {
-  const wf = WORKFLOWS.find((w) => w.id === "support-triage");
-  const run = await runWorkflow(wf, { subject: "?", text: "hmm" }, async () => choice({ bug: 0.3, how_to: 0.3, billing: 0.2, account_access: 0.2 }, 0.1), { threshold: 0.5 });
+  const wf = WORKFLOWS.find((w) => w.id === "awaab-triage");
+  const run = await runWorkflow(wf, { text: "vague" }, async () => noul(0.5, 0.1), { threshold: 0.5 });
   assert.equal(run.steps[0].routeKey, LOW);
-  assert.equal(run.outcome.nodeId, "human_triage");
+  assert.equal(run.outcome.nodeId, "urgent_review");
   assert.equal(run.lowConfidence, true);
 });
 
 test("routeMass sums options sharing a score route", () => {
-  const wf = WORKFLOWS.find((w) => w.id === "support-triage");
-  const m = routeMass(wf.nodes.urgency, score([0.1, 0.2, 0.3, 0.4]));
+  const wf = WORKFLOWS.find((w) => w.id === "awaab-triage");
+  const m = routeMass(wf.nodes.severity, score([0.1, 0.2, 0.3, 0.4]));
   assert.deepEqual(m, { "0-1": 0.3, "2+": 0.7 });
 });
 
 test("yes/no cutoff makes a fail-closed gate", () => {
-  const wf = WORKFLOWS.find((w) => w.id === "agent-guardrail");
-  const b = branchOf(wf.nodes.data_loss, noul(0.37));      // cutoff 0.3 -> "true" (could lose data)
-  assert.equal(b.selected, "true"); assert.equal(b.routeKey, "true"); assert.equal(b.p, 0.37);
-  assert.equal(branchOf(wf.nodes.data_loss, noul(0.2)).selected, "false");
-  const bad = structuredClone(wf); bad.nodes.kind.cutoff = 0.3;
+  const wf = WORKFLOWS.find((w) => w.id === "awaab-triage");
+  const b = branchOf(wf.nodes.emergency_danger, noul(0.35)); // cutoff 0.3 -> "true"
+  assert.equal(b.selected, "true"); assert.equal(b.routeKey, "true"); assert.equal(b.p, 0.35);
+  assert.equal(branchOf(wf.nodes.emergency_danger, noul(0.2)).selected, "false");
+  const bad = structuredClone(wf); bad.nodes.category.cutoff = 0.3;
   assert.match(validateWorkflow(bad).join(), /cutoff is for yes\/no questions/);
 });
 
 test("replayAt re-routes a stored run at a new threshold without the model", async () => {
-  const wf = WORKFLOWS.find((w) => w.id === "refund-request");
-  const answers = { reason: choice({ damaged: 0.7, not_received: 0.1, doesnt_fit: 0.1, wrong_item: 0.1 }, 0.55), photo: noul(0.9) };
-  const run = await runWorkflow(wf, { text: "broken" }, async (_q, _s, id) => answers[id], { threshold: 0.5 });
-  assert.equal(run.outcome.nodeId, "auto_done");
+  const wf = WORKFLOWS.find((w) => w.id === "awaab-triage");
+  const answers = {
+    emergency_danger: noul(0.02, 0.98),
+    essential_service: noul(0.01, 0.99),
+    category: choice({ general_repair: 0.7, falls_structural: 0.1, damp_mould: 0.1, cold_heat: 0.05, fire_electrical: 0.03, hygiene_pests: 0.02 }, 0.55),
+    hidden_hazard: noul(0.05, 0.95),
+  };
+  const run = await runWorkflow(wf, { text: "cupboard hinge loose" }, async (_q, _s, id) => answers[id], { threshold: 0.5 });
+  assert.equal(run.outcome.nodeId, "routine_outcome");
   const strict = await replayAt(wf, run, 0.75, answers);
-  assert.equal(strict.outcome.nodeId, "agent");
+  assert.equal(strict.outcome.nodeId, "triage_officer");
 });
 
 test("edgesOf lists routes, low-confidence and next edges", () => {
-  const wf = WORKFLOWS.find((w) => w.id === "content-moderation");
+  const wf = WORKFLOWS.find((w) => w.id === "awaab-triage");
   const kinds = new Set(edgesOf(wf).map((e) => e.kind));
   assert.deepEqual([...kinds].sort(), ["low", "next", "route"]);
 });
@@ -110,19 +112,20 @@ test("template fills nested placeholders", () => {
 });
 
 test("ontology exports parse-able turtle and json-ld with runs as individuals", async () => {
-  const wf = WORKFLOWS.find((w) => w.id === "agent-guardrail");
-  const ask = async (q) => (q.type === "choice" ? choice({ read_only: 0.1, reversible_change: 0.1, data_deletion: 0.7, external_effect: 0.1 }) : noul(0.95));
-  const run = await runWorkflow(wf, { text: "delete prod" }, ask, { threshold: 0.5, runId: "run-1" });
-  assert.equal(run.outcome.nodeId, "blocked");
+  const wf = WORKFLOWS.find((w) => w.id === "awaab-triage");
+  const ask = async (q, _s, id) => {
+    if (id === "emergency_danger") return noul(0.95);
+    return noul(0.9);
+  };
+  const run = await runWorkflow(wf, { text: "gas leak" }, ask, { threshold: 0.5, runId: "run-1" });
+  assert.equal(run.outcome.nodeId, "emergency_outcome");
   const onto = buildOntology(WORKFLOWS, [run]);
-  assert.ok(onto.links.some((l) => l.p === "selected" && l.o.endsWith("__kind__data_deletion")));
   const ttl = toTurtle(onto);
   assert.match(ttl, /@prefix lw: </);
   assert.match(ttl, /lw:DecisionNode rdfs:subClassOf lw:Node/);
   assert.match(ttl, /run_run-1 a lw:Run/);
-  assert.match(ttl, /lw:selected /);
   const jl = toJsonLd(onto);
-  assert.ok(Array.isArray(jl["@graph"]) && jl["@graph"].length > 50);
+  assert.ok(Array.isArray(jl["@graph"]) && jl["@graph"].length > 10);
   assert.equal(JSON.parse(JSON.stringify(jl))["@context"].lw.startsWith("https://"), true);
 });
 

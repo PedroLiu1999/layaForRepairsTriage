@@ -5,6 +5,7 @@ import { WORKFLOWS } from "./workflows.js";
 import { renderDiagram, overlayRun, overlayTraffic, clearOverlay, renderTree, renderOntology } from "./graphs.js";
 import { buildOntology, toTurtle, toJsonLd, describe } from "./ontology.js";
 import { kpis, sweepChart, confChart, mixChart } from "./charts.js";
+import { checkSafety } from "./safety.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -13,8 +14,8 @@ const pct = (p) => `${Math.round(p * 100)}%`;
 
 // ---- persistence (per-browser conveniences; everything works without it) -------------------
 const store = {
-  get(k, d) { try { const v = localStorage.getItem("lw." + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
-  set(k, v) { try { localStorage.setItem("lw." + k, JSON.stringify(v)); return true; } catch { return false; } },
+  get(k, d) { try { const v = localStorage.getItem("irt." + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("irt." + k, JSON.stringify(v)); return true; } catch { return false; } },
 };
 const MAX_RUNS = 200;
 
@@ -401,7 +402,9 @@ function applyEditor() {
   try { obj = JSON.parse($("editor").value); } catch (e) { msg.className = "editormsg err"; msg.textContent = "Not valid JSON: " + e.message; return; }
   obj.examples ||= [];
   const errs = validateWorkflow(obj);
-  if (errs.length) { msg.className = "editormsg err"; msg.innerHTML = `${errs.length} problem${errs.length > 1 ? "s" : ""}:<ul>${errs.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>`; return; }
+  const safetyViolations = checkSafety(obj);
+  const allErrs = [...errs, ...safetyViolations.map((v) => `[Safety policy violation] ${v}`)];
+  if (allErrs.length) { msg.className = "editormsg err"; msg.innerHTML = `${allErrs.length} problem${allErrs.length > 1 ? "s" : ""}:<ul>${allErrs.map((e) => `<li>${esc(e)}</li>`).join("")}</ul>`; return; }
   const prevId = S.wfId;
   S.custom[obj.id] = obj; store.set("custom", S.custom);
   if (obj.id !== prevId && S.custom[prevId] && !WORKFLOWS.some((b) => b.id === prevId)) { delete S.custom[prevId]; store.set("custom", S.custom); }
@@ -561,6 +564,7 @@ window.__lw = {
     return out;
   },
 };
+window.__irt = window.__lw;
 
 wire();
 fillWorkflowSelect();
