@@ -1,0 +1,457 @@
+[
+  {
+    "threshold": 0.3,
+    "totalReports": 162,
+    "emergencyMissRate": 0,
+    "emergencyMisses": 0,
+    "totalEmergencies": 75,
+    "unsafeAutomationRate": 0,
+    "unsafeAutomations": 0,
+    "routineAutomationRate": 0.75,
+    "routineAutomations": 18,
+    "totalRoutine": 24,
+    "humanReviewLoad": 0.8888888888888888,
+    "vulnerabilityRecall": 0.3783783783783784,
+    "categoryAccuracy": 0.40131578947368424,
+    "confusion": {
+      "damp_mould": {
+        "damp_mould": 32,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 1
+      },
+      "cold_heat": {
+        "damp_mould": 0,
+        "cold_heat": 2,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 14
+      },
+      "fire_electrical": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 35
+      },
+      "falls_structural": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 4,
+        "hygiene_pests": 0,
+        "general_repair": 27
+      },
+      "hygiene_pests": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 1,
+        "general_repair": 14
+      },
+      "general_repair": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 22
+      }
+    }
+  },
+  {
+    "threshold": 0.4,
+    "totalReports": 162,
+    "emergencyMissRate": 0,
+    "emergencyMisses": 0,
+    "totalEmergencies": 75,
+    "unsafeAutomationRate": 0,
+    "unsafeAutomations": 0,
+    "routineAutomationRate": 0.75,
+    "routineAutomations": 18,
+    "totalRoutine": 24,
+    "humanReviewLoad": 0.8888888888888888,
+    "vulnerabilityRecall": 0.3783783783783784,
+    "categoryAccuracy": 0.40131578947368424,
+    "confusion": {
+      "damp_mould": {
+        "damp_mould": 32,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 1
+      },
+      "cold_heat": {
+        "damp_mould": 0,
+        "cold_heat": 2,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 14
+      },
+      "fire_electrical": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 35
+      },
+      "falls_structural": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 4,
+        "hygiene_pests": 0,
+        "general_repair": 27
+      },
+      "hygiene_pests": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 1,
+        "general_repair": 14
+      },
+      "general_repair": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 22
+      }
+    }
+  },
+  {
+    "threshold": 0.5,
+    "totalReports": 162,
+    "emergencyMissRate": 0,
+    "emergencyMisses": 0,
+    "totalEmergencies": 75,
+    "unsafeAutomationRate": 0,
+    "unsafeAutomations": 0,
+    "routineAutomationRate": 0.75,
+    "routineAutomations": 18,
+    "totalRoutine": 24,
+    "humanReviewLoad": 0.8888888888888888,
+    "vulnerabilityRecall": 0.3783783783783784,
+    "categoryAccuracy": 0.40131578947368424,
+    "confusion": {
+      "damp_mould": {
+        "damp_mould": 32,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 1
+      },
+      "cold_heat": {
+        "damp_mould": 0,
+        "cold_heat": 2,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 14
+      },
+      "fire_electrical": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 35
+      },
+      "falls_structural": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 4,
+        "hygiene_pests": 0,
+        "general_repair": 27
+      },
+      "hygiene_pests": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 1,
+        "general_repair": 14
+      },
+      "general_repair": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 22
+      }
+    }
+  },
+  {
+    "threshold": 0.6,
+    "totalReports": 162,
+    "emergencyMissRate": 0,
+    "emergencyMisses": 0,
+    "totalEmergencies": 75,
+    "unsafeAutomationRate": 0,
+    "unsafeAutomations": 0,
+    "routineAutomationRate": 0.75,
+    "routineAutomations": 18,
+    "totalRoutine": 24,
+    "humanReviewLoad": 0.8888888888888888,
+    "vulnerabilityRecall": 0.3783783783783784,
+    "categoryAccuracy": 0.40131578947368424,
+    "confusion": {
+      "damp_mould": {
+        "damp_mould": 32,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 1
+      },
+      "cold_heat": {
+        "damp_mould": 0,
+        "cold_heat": 2,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 14
+      },
+      "fire_electrical": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 35
+      },
+      "falls_structural": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 4,
+        "hygiene_pests": 0,
+        "general_repair": 27
+      },
+      "hygiene_pests": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 1,
+        "general_repair": 14
+      },
+      "general_repair": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 22
+      }
+    }
+  },
+  {
+    "threshold": 0.7,
+    "totalReports": 162,
+    "emergencyMissRate": 0,
+    "emergencyMisses": 0,
+    "totalEmergencies": 75,
+    "unsafeAutomationRate": 0,
+    "unsafeAutomations": 0,
+    "routineAutomationRate": 0.75,
+    "routineAutomations": 18,
+    "totalRoutine": 24,
+    "humanReviewLoad": 0.8888888888888888,
+    "vulnerabilityRecall": 0.3783783783783784,
+    "categoryAccuracy": 0.40131578947368424,
+    "confusion": {
+      "damp_mould": {
+        "damp_mould": 32,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 1
+      },
+      "cold_heat": {
+        "damp_mould": 0,
+        "cold_heat": 2,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 14
+      },
+      "fire_electrical": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 35
+      },
+      "falls_structural": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 4,
+        "hygiene_pests": 0,
+        "general_repair": 27
+      },
+      "hygiene_pests": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 1,
+        "general_repair": 14
+      },
+      "general_repair": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 22
+      }
+    }
+  },
+  {
+    "threshold": 0.8,
+    "totalReports": 162,
+    "emergencyMissRate": 0,
+    "emergencyMisses": 0,
+    "totalEmergencies": 75,
+    "unsafeAutomationRate": 0,
+    "unsafeAutomations": 0,
+    "routineAutomationRate": 0.75,
+    "routineAutomations": 18,
+    "totalRoutine": 24,
+    "humanReviewLoad": 0.8888888888888888,
+    "vulnerabilityRecall": 0.3783783783783784,
+    "categoryAccuracy": 0.40131578947368424,
+    "confusion": {
+      "damp_mould": {
+        "damp_mould": 32,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 1
+      },
+      "cold_heat": {
+        "damp_mould": 0,
+        "cold_heat": 2,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 14
+      },
+      "fire_electrical": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 35
+      },
+      "falls_structural": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 4,
+        "hygiene_pests": 0,
+        "general_repair": 27
+      },
+      "hygiene_pests": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 1,
+        "general_repair": 14
+      },
+      "general_repair": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 22
+      }
+    }
+  },
+  {
+    "threshold": 0.9,
+    "totalReports": 162,
+    "emergencyMissRate": 0,
+    "emergencyMisses": 0,
+    "totalEmergencies": 75,
+    "unsafeAutomationRate": 0,
+    "unsafeAutomations": 0,
+    "routineAutomationRate": 0,
+    "routineAutomations": 0,
+    "totalRoutine": 24,
+    "humanReviewLoad": 1,
+    "vulnerabilityRecall": 0,
+    "categoryAccuracy": 0.40131578947368424,
+    "confusion": {
+      "damp_mould": {
+        "damp_mould": 32,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 1
+      },
+      "cold_heat": {
+        "damp_mould": 0,
+        "cold_heat": 2,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 14
+      },
+      "fire_electrical": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 35
+      },
+      "falls_structural": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 4,
+        "hygiene_pests": 0,
+        "general_repair": 27
+      },
+      "hygiene_pests": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 1,
+        "general_repair": 14
+      },
+      "general_repair": {
+        "damp_mould": 0,
+        "cold_heat": 0,
+        "fire_electrical": 0,
+        "falls_structural": 0,
+        "hygiene_pests": 0,
+        "general_repair": 22
+      }
+    }
+  }
+]

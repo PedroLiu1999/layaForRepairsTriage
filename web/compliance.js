@@ -169,17 +169,17 @@ export function checkPhaseScope(category, track, receivedAt, phases = PHASES) {
  * @returns {"emergency" | "significant" | "routine" | "manual"}
  */
 export function deriveTrack(run, intakeFlags) {
-  // 1. Language guard or short text forced outcomes
+  // 1. Keyword tripwire escalation: safety invariant always takes precedence
+  if (intakeFlags?.tripwireEscalated || intakeFlags?.tripwire) {
+    return "emergency";
+  }
+
+  // 2. Language guard or short text forced outcomes
   if (intakeFlags?.languageGuard || intakeFlags?.forcedOutcome === "Needs translation / human triage") {
     return "manual";
   }
   if (intakeFlags?.shortText || intakeFlags?.forcedOutcome === "Triage officer decides") {
     return "manual";
-  }
-
-  // 2. Keyword tripwire escalation
-  if (intakeFlags?.tripwireEscalated) {
-    return "emergency";
   }
 
   // 3. Model run outcome

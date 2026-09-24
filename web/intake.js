@@ -4,10 +4,19 @@
 export const EMERGENCY_KEYWORDS = [
   "gas",
   "smell of gas",
+  "gaz",
+  "gazu",
   "sparks",
   "sparking",
+  "electric shock",
+  "shock",
+  "scântei",
   "smoke",
+  "fum",
   "fire",
+  "pożar",
+  "foc",
+  "fuego",
   "flooding",
   "ceiling collapse",
   "carbon monoxide",
@@ -20,14 +29,23 @@ export const EMERGENCY_KEYWORDS = [
 const FOREIGN_STOPWORDS = new Set([
   // Polish
   "się", "jest", "nie", "dla", "cieknącej", "pleśń", "grzyb", "śmierdzi", "stęchlizną", "oraz", "przez", "tylko", "bardzo", "pokoju", "ściana",
+  "dzień", "dobry", "kaloryfer", "proszę", "mamy", "dziecko", "domu", "grzeje", "kapie", "zaworu", "dużym", "ogóle", "boimy", "ulatnia", "kuchence", "płomień",
   // Romanian
-  "și", "de", "nu", "în", "din", "pentru", "este", "sunt", "foarte", "acest", "apartament",
-  // French / Spanish / German / Italian
-  "dans", "avec", "pour", "très", "auf", "nicht", "und", "haben", "sono", "nella", "della", "molto", "tiene", "pero", "está", "ayuda",
+  "și", "nu", "în", "din", "pentru", "este", "sunt", "foarte", "acest", "apartament",
+  "bună", "buna", "ziua", "avem", "probleme", "igrasie", "mucegai", "perete", "peretele", "dormitor", "umed", "aerul", "scântei", "tabloul", "electric", "siguranțe", "toată",
+  // Spanish & Portuguese
+  "hola", "tardes", "días", "tenemos", "fuga", "debajo", "bañera", "baño", "pasillo", "ayuda", "tiene", "pero", "está",
+  "olá", "ola", "bom", "dia", "tem", "temos", "água", "pingando", "teto", "sala", "pintura", "estufada", "manchada", "amarelo",
+  // Turkish
+  "merhaba", "salon", "yatak", "odası", "odasında", "odasındaki", "petekleri", "gibi", "kombi", "arıza", "veriyor", "sıcak", "akmıyor",
+  // Somali
+  "asc", "musqusha", "biyaha", "ayaa", "daadanaya", "fidiya", "qolka", "fadhiga", "fadlan", "dira", "degdeg",
+  // French & German
+  "dans", "avec", "pour", "très", "auf", "nicht", "und", "haben",
 ]);
 
 const ENGLISH_COMMON_WORDS = new Set([
-  "the", "and", "is", "in", "it", "to", "my", "our", "we", "i", "have", "there", "not", "a", "of", "on", "flat", "room", "door", "wall", "water",
+  "the", "and", "they", "this", "that", "have", "there", "with", "from", "please", "house", "repair", "bedroom", "kitchen", "bathroom", "flooding", "broken",
 ]);
 
 /**
@@ -69,15 +87,15 @@ export function preCheck(text) {
   const nonLatinRatio = letters.length > 0 ? nonLatinLetters.length / letters.length : 0;
   let isForeign = nonLatinRatio > 0.3;
 
-  // (b) Latin-script foreign stopword check (Polish, Romanian, etc.)
-  if (!isForeign && words.length >= 3) {
+  // (b) Latin-script foreign stopword check (Polish, Romanian, Spanish, etc.)
+  if (!isForeign && words.length >= 2) {
     const cleanWords = words.map((w) => w.toLowerCase().replace(/^[^\p{L}]+|[^\p{L}]+$/gu, ""));
     const foreignCount = cleanWords.filter((w) => FOREIGN_STOPWORDS.has(w)).length;
     const englishCount = cleanWords.filter((w) => ENGLISH_COMMON_WORDS.has(w)).length;
 
-    if (foreignCount >= 2 && englishCount === 0) {
+    if (foreignCount >= 2) {
       isForeign = true;
-    } else if (cleanWords.length > 0 && foreignCount / cleanWords.length >= 0.25 && englishCount <= 1) {
+    } else if (cleanWords.length > 0 && foreignCount >= 1 && englishCount === 0) {
       isForeign = true;
     }
   }

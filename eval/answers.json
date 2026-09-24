@@ -1,0 +1,7298 @@
+{
+  "model": "laya-typed-decisions",
+  "source": "convaiinnovations/laya-typed-decisions",
+  "createdAt": "2026-09-24T02:30:00.000Z",
+  "total": 162,
+  "answers": {
+    "REP-001": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-002": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-003": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-004": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-005": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-006": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-007": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-008": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-009": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-010": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-011": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-012": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-013": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-014": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-015": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-016": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-017": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-018": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-019": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-020": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-021": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-022": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-023": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-024": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-025": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-026": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-027": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-028": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-029": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.94,
+        "confidence": 0.94
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-030": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-031": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-032": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-033": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-034": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-035": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-036": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-037": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-038": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-039": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-040": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-041": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-042": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-043": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-044": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-045": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-046": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-047": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-048": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-049": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-050": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-051": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-052": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-053": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-054": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-055": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-056": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-057": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-058": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-059": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-060": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-061": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-062": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-063": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-064": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-065": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-066": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-067": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-068": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-069": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-070": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-071": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-072": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-073": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-074": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-075": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-076": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.85,
+        "confidence": 0.85
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-077": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-078": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-079": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-080": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-081": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-082": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-083": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.85,
+        "confidence": 0.85
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-084": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-085": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-086": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-087": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-088": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-089": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-090": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-091": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-092": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-093": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-094": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.85,
+        "confidence": 0.85
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-095": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-096": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-097": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.42,
+        "confidence": 0.58
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-098": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-099": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-100": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-101": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-102": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-103": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-104": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-105": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.85,
+        "confidence": 0.85
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-106": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-107": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.85,
+        "confidence": 0.85
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-108": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-109": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-110": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-111": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-112": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-113": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-114": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-115": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-116": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-117": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-118": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-119": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-120": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-121": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-122": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-123": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-124": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-125": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-126": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-127": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-128": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-129": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-130": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-131": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-132": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.92,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.03,
+          "1": 0.12,
+          "2": 0.55,
+          "3": 0.3
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-133": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-134": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.85,
+        "confidence": 0.85
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-135": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-136": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-137": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-138": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "cold_heat",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.85,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-139": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.88,
+        "confidence": 0.88
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "fire_electrical",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.85,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 3,
+        "probabilities": {
+          "0": 0.02,
+          "1": 0.03,
+          "2": 0.15,
+          "3": 0.8
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-140": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-141": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "hygiene_pests",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.85,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-142": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-143": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "falls_structural",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.85,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-144": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "damp_mould",
+        "probabilities": {
+          "damp_mould": 0.85,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.03
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 2,
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.2,
+          "2": 0.65,
+          "3": 0.1
+        },
+        "confidence": 0.82
+      }
+    },
+    "REP-145": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.85,
+        "confidence": 0.85
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-146": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-147": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-148": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-149": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-150": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.85,
+        "confidence": 0.85
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-151": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-152": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.85,
+        "confidence": 0.85
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-153": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-154": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-155": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-156": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-157": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-158": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-159": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-160": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-161": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    },
+    "REP-162": {
+      "emergency_danger": {
+        "type": "noul",
+        "noul": 0.04,
+        "confidence": 0.96
+      },
+      "essential_service": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "category": {
+        "type": "choice",
+        "choice": "general_repair",
+        "probabilities": {
+          "damp_mould": 0.03,
+          "cold_heat": 0.03,
+          "fire_electrical": 0.03,
+          "falls_structural": 0.03,
+          "hygiene_pests": 0.03,
+          "general_repair": 0.85
+        }
+      },
+      "hidden_hazard": {
+        "type": "noul",
+        "noul": 0.05,
+        "confidence": 0.95
+      },
+      "vulnerable": {
+        "type": "noul",
+        "noul": 0.08,
+        "confidence": 0.92
+      },
+      "severity": {
+        "type": "score",
+        "score": 0,
+        "probabilities": {
+          "0": 0.85,
+          "1": 0.11,
+          "2": 0.03,
+          "3": 0.01
+        },
+        "confidence": 0.85
+      }
+    }
+  }
+}
