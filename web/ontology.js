@@ -9,6 +9,11 @@
 // So each decision the model makes is a first-class graph node, linked to the schema it instantiates.
 // Pure data, no DOM: the page renders it with Cytoscape, and it exports to Turtle and JSON-LD.
 
+import { RULES, PHASES, DAY_COUNTING_CONVENTION } from "./rules/awaab-england.js";
+import { BANK_HOLIDAY_DATES } from "./bankholidays.js";
+import { reduceCase } from "./cases.js";
+import { computeDeadlines, getDeadlineStatus, checkPhaseScope } from "./compliance.js";
+
 export const NS = "https://vishalmysore.github.io/layaForWorkflows/ontology#";
 
 const CLASSES = [
@@ -29,6 +34,16 @@ const CLASSES = [
   ["Run", null, "One execution of a workflow on a case."],
   ["Decision", null, "The model's answer at one decision node during a run."],
   ["Effect", null, "A side effect performed by a task node during a run."],
+  // Housing Repairs & Awaab's Law Compliance TBox
+  ["RepairReport", "Case", "A social housing repair report submitted by a resident or housing officer."],
+  ["HazardCategory", null, "A prescribed housing hazard category under the Housing Health and Safety Rating System (HHSRS)."],
+  ["ComplianceRule", null, "A statutory requirement or regulation under Awaab's Law."],
+  ["Deadline", null, "A deterministic statutory deadline with a calculated due timestamp."],
+  ["Inspection", null, "An investigation performed by a qualified competent person."],
+  ["CompetentPerson", null, "A housing surveyor or qualified person who investigated the hazard."],
+  ["ContactAttempt", null, "An attempt made by the landlord to contact the tenant to arrange access."],
+  ["Override", null, "A human decision overriding a model-suggested track or category."],
+  ["AlternativeAccommodationOffer", null, "An offer of alternative accommodation made when repairs cannot be made safe in time."],
 ];
 
 const OBJECT_PROPS = [
@@ -38,11 +53,22 @@ const OBJECT_PROPS = [
   ["hasDecision", "Run", "Decision"], ["atNode", "Decision", "DecisionNode"], ["selected", "Decision", "Option"],
   ["followedBy", "Decision", "Decision"], ["performed", "Run", "Effect"], ["effectOf", "Effect", "TaskNode"],
   ["endedAt", "Run", "OutcomeNode"],
+  // Housing Object Properties
+  ["hasDeadline", "RepairReport", "Deadline"], ["governedBy", "Deadline", "ComplianceRule"],
+  ["inspectedBy", "Inspection", "CompetentPerson"], ["overrides", "Override", "Case"],
+  ["offeredTo", "AlternativeAccommodationOffer", "RepairReport"], ["relatedToReport", "Inspection", "RepairReport"],
+  ["contactFor", "ContactAttempt", "RepairReport"],
 ];
 const DATA_PROPS = [
   ["label", "string"], ["instructions", "string"], ["text", "string"], ["domain", "string"], ["disposition", "string"],
   ["confidence", "decimal"], ["layaConfidence", "decimal"], ["probability", "decimal"], ["cutoff", "decimal"], ["threshold", "decimal"], ["lowConfidence", "boolean"],
   ["channel", "string"], ["at", "dateTime"], ["source", "string"],
+  // Housing Data Properties
+  ["dueAt", "dateTime"], ["metAt", "dateTime"], ["startedBy", "dateTime"],
+  ["finding", "string"], ["overrideReason", "string"], ["inScopeUnderPhase", "string"],
+  ["complianceStatus", "string"], ["vulnerableHousehold", "boolean"], ["caseId", "string"],
+  ["legalSource", "string"], ["verified", "boolean"], ["amount", "integer"], ["unit", "string"],
+  ["track", "string"], ["category", "string"], ["status", "string"],
 ];
 
 const OUTCOME_CLASS = { auto: "AutomatedOutcome", human: "HumanReviewOutcome", block: "BlockedOutcome" };
@@ -58,6 +84,14 @@ export const iri = {
   kase: (r) => `case_${safe(r)}`,
   dec: (r, n) => `dec_${safe(r)}__${safe(n)}`,
   eff: (r, n) => `eff_${safe(r)}__${safe(n)}`,
+  // Housing IRIs
+  case: (c) => `report_${safe(c)}`,
+  dl: (c, r) => `dl_${safe(c)}__${safe(r)}`,
+  rule: (r) => `rule_${safe(r)}`,
+  insp: (c, t) => `insp_${safe(c)}__${safe(t)}`,
+  person: (p) => `person_${safe(p || "inspector")}`,
+  contact: (c, t) => `contact_${safe(c)}__${safe(t)}`,
+  ovr: (c, t) => `ovr_${safe(c)}__${safe(t)}`,
 };
 
 /** Build { classes, objectProps, dataProps, individuals: Map(id -> {id, types[], data{}, workflowId, runId}), links[] }. */
@@ -144,6 +178,124 @@ function routeTarget(node, key) {
   return undefined;
 }
 const shortText = (t) => (t.length > 60 ? t.slice(0, 57) + "…" : t);
+
+// ---- case audit pack ontology -------------------------------------------------------------
+
+/**
+ * Build a self-contained OWL/RDF ontology for a single case and its audit pack.
+ *
+ * @param {object} rawCase - Case object with events
+ * @param {Array} [rules=RULES] - Compliance rules
+ * @param {Set|Array} [holidays=BANK_HOLIDAY_DATES] - Bank holiday calendar
+ * @param {object} [convention=DAY_COUNTING_CONVENTION] - Receipt day convention
+ * @returns {object} Ontology structure with classes, objectProps, dataProps, individuals, links
+ */
+export function buildCaseOntology(rawCase, rules = RULES, holidays = BANK_HOLIDAY_DATES, convention = DAY_COUNTING_CONVENTION) {
+  const c = reduceCase(rawCase);
+  const deadlines = computeDeadlines(rawCase, rules, holidays, convention);
+  const scope = checkPhaseScope(c.category, c.track, c.receivedAt, PHASES);
+  const now = new Date();
+
+  const classes = CLASSES.map(([id, parent, comment]) => ({ id, parent, comment }));
+  const individuals = new Map(), links = [];
+  const ind = (id, type, data = {}, extra = {}) => {
+    const cur = individuals.get(id);
+    if (cur) { if (!cur.types.includes(type)) cur.types.push(type); Object.assign(cur.data, data); return id; }
+    individuals.set(id, { id, types: [type], data, ...extra }); return id;
+  };
+  const link = (s, p, o, extra) => links.push({ s, p, o, ...extra });
+
+  // 1. Case individual
+  const caseIri = iri.case(c.id);
+  ind(caseIri, "RepairReport", {
+    label: `Repair Report ${c.id}`,
+    caseId: c.id,
+    text: c.text,
+    at: c.receivedAt,
+    status: c.status,
+    track: c.track,
+    category: c.category || "unspecified",
+    vulnerableHousehold: c.vulnerable,
+    inScopeUnderPhase: scope.phaseId,
+  });
+
+  // 2. Rules individuals
+  for (const rule of rules) {
+    const ruleIri = iri.rule(rule.id);
+    ind(ruleIri, "ComplianceRule", {
+      label: rule.name || rule.description,
+      legalSource: rule.source,
+      verified: rule.verified,
+      amount: rule.amount,
+      unit: rule.unit,
+    });
+  }
+
+  // 3. Deadline individuals
+  for (const dl of deadlines) {
+    const dlIri = iri.dl(c.id, dl.ruleId);
+    const st = getDeadlineStatus(dl, now);
+    ind(dlIri, "Deadline", {
+      label: dl.description,
+      dueAt: dl.dueAt || undefined,
+      metAt: dl.metAt || undefined,
+      complianceStatus: st,
+      legalSource: dl.source,
+      verified: dl.verified,
+    });
+    link(caseIri, "hasDeadline", dlIri);
+    link(dlIri, "governedBy", iri.rule(dl.ruleId));
+  }
+
+  // 4. Events as individuals
+  for (const ev of c.events) {
+    if (ev.type === "inspection_recorded") {
+      const inspIri = iri.insp(c.id, ev.at);
+      const personIri = iri.person(ev.data?.competentPerson);
+      ind(inspIri, "Inspection", {
+        label: `Inspection by ${ev.data?.competentPerson || "Competent person"}`,
+        at: ev.at,
+        finding: ev.data?.finding || "unspecified",
+      });
+      ind(personIri, "CompetentPerson", {
+        label: ev.data?.competentPerson || "Competent person",
+      });
+      link(inspIri, "inspectedBy", personIri);
+      link(inspIri, "relatedToReport", caseIri);
+    } else if (ev.type === "contact_attempt") {
+      const contactIri = iri.contact(c.id, ev.at);
+      ind(contactIri, "ContactAttempt", {
+        label: `Contact via ${ev.data?.channel || "phone"}: ${ev.data?.outcome || "logged"}`,
+        at: ev.at,
+        channel: ev.data?.channel,
+      });
+      link(contactIri, "contactFor", caseIri);
+    } else if (ev.type === "track_override" || ev.type === "category_override") {
+      const ovrIri = iri.ovr(c.id, ev.at);
+      ind(ovrIri, "Override", {
+        label: `Override: ${ev.data?.from} -> ${ev.data?.track || ev.data?.category}`,
+        at: ev.at,
+        overrideReason: ev.data?.reason || "Officer discretion",
+      });
+      link(ovrIri, "overrides", caseIri);
+    } else if (ev.type === "alt_accommodation_offered") {
+      const altIri = `alt_${safe(c.id)}__${safe(ev.at)}`;
+      ind(altIri, "AlternativeAccommodationOffer", {
+        label: `Alternative accommodation offered to tenant`,
+        at: ev.at,
+      });
+      link(altIri, "offeredTo", caseIri);
+    }
+  }
+
+  return {
+    classes,
+    objectProps: OBJECT_PROPS.map(([id, domain, range]) => ({ id, domain, range })),
+    dataProps: DATA_PROPS.map(([id, type]) => ({ id, type })),
+    individuals,
+    links,
+  };
+}
 
 // ---- serialisation ----------------------------------------------------------------------
 
