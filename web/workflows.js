@@ -26,7 +26,6 @@ export const WORKFLOWS = [
           instructions: "The report describes an immediate danger to someone's health or safety in the home"
         },
         cutoff: 0.3,
-        minConfidence: 0.75,
         routes: { true: "make_safe_24h", false: "essential_service" },
         onLowConfidence: "urgent_review"
       },
@@ -38,7 +37,6 @@ export const WORKFLOWS = [
           instructions: "The home has no heating, no hot water, no water supply or no electricity"
         },
         cutoff: 0.3,
-        minConfidence: 0.75,
         routes: { true: "make_safe_24h", false: "category" },
         onLowConfidence: "urgent_review"
       },

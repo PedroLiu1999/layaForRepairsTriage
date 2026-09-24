@@ -66,7 +66,7 @@ test("awaab-triage: emergency danger -> dispatch emergency make-safe", async () 
 
 test("low confidence follows onLowConfidence", async () => {
   const wf = WORKFLOWS.find((w) => w.id === "awaab-triage");
-  const run = await runWorkflow(wf, { text: "vague" }, async () => noul(0.5, 0.1), { threshold: 0.5 });
+  const run = await runWorkflow(wf, { text: "vague" }, async () => noul(0.4), { threshold: 0.5 });
   assert.equal(run.steps[0].routeKey, LOW);
   assert.equal(run.outcome.nodeId, "urgent_review");
   assert.equal(run.lowConfidence, true);
