@@ -6,6 +6,12 @@ import { renderDiagram, overlayRun, overlayTraffic, clearOverlay, renderTree, re
 import { buildOntology, toTurtle, toJsonLd, describe } from "./ontology.js";
 import { kpis, sweepChart, confChart, mixChart } from "./charts.js";
 import { checkSafety } from "./safety.js";
+import { preCheck, postCheck } from "./intake.js";
+import { deriveTrack, computeDeadlines, getDeadlineStatus, alternativeAccommodationPrompt, checkPhaseScope, toLondonDateString } from "./compliance.js";
+import { RULES, PHASES, DAY_COUNTING_CONVENTION } from "./rules/awaab-england.js";
+import { BANK_HOLIDAY_DATES } from "./bankholidays.js";
+import { createCase, reduceCase, appendEvent, canCloseCase, loadCases, saveCases, clearCases } from "./cases.js";
+import { generateAcknowledgementLetter, generateSummaryLetter, generateAlternativeAccommodationLetter, formatDateWords } from "./letters.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -28,8 +34,12 @@ const S = {
   laya: null, model: null, loading: false, busy: false,
   recorded: null,                           // recorded.json: answers from the same model for the built-in examples
   last: null,                               // run shown in the result card (may be a what-if re-route)
-  tab: "diagram", cy: {}, dirty: { tree: true, ontology: true, analytics: true },
+  tab: store.get("tab", "cases"), cy: {}, dirty: { tree: true, ontology: true, analytics: true },
   selectedExample: null,
+  cases: [],
+  simulatedDate: null,
+  goodPractice: true,
+  selectedCaseId: null,
 };
 const allWorkflows = () => {
   const list = WORKFLOWS.map((w) => S.custom[w.id] || w);
@@ -153,13 +163,99 @@ async function execute(w, input, { animate = true } = {}) {
   return run;
 }
 
+function showCaseCreated(c) {
+  const n = $("caseCreatedNotice");
+  if (!n) return;
+  n.hidden = false;
+  const link = $("caseCreatedLink");
+  if (link) {
+    link.textContent = `Case #${c.id} created (${c.track.toUpperCase()}) — Click to view details & compliance clock →`;
+    link.onclick = (e) => {
+      e.preventDefault();
+      openCaseModal(c.id);
+    };
+  }
+}
+
 async function runOne() {
   if (S.busy) return;
   const w = wf(), input = currentInput();
   if (!input.text) { $("runHint").textContent = "Type something or pick an example first."; return; }
   setBusy(true);
   try {
+    const receivedInput = $("receivedAt")?.value;
+    const receivedAt = receivedInput ? new Date(receivedInput).toISOString() : new Date().toISOString();
+
+    // 1. Deterministic intake pre-checks
+    const pre = preCheck(input.text);
+
+    if (!pre.proceed) {
+      const forcedOutcomeNode = "triage_officer";
+      const forcedRun = {
+        id: `run-${Date.now().toString(36)}`,
+        workflowId: w.id,
+        at: new Date().toISOString(),
+        source: "intake_guard",
+        threshold: S.threshold,
+        input,
+        steps: [],
+        effects: [],
+        outcome: { nodeId: forcedOutcomeNode, disposition: "human", label: pre.forcedOutcome },
+        totalMs: 5,
+      };
+
+      const track = deriveTrack(forcedRun, pre.flags);
+      const caseObj = createCase({
+        text: input.text,
+        receivedAt,
+        track,
+        category: null,
+        vulnerable: false,
+        intake: pre.flags,
+        run: forcedRun,
+        actor: "system",
+      });
+
+      S.cases.unshift(caseObj);
+      saveCases(S.cases);
+      renderCasesTable();
+      showCaseCreated(caseObj);
+      commitRun(forcedRun);
+      return;
+    }
+
+    // 2. Normal execution through model or recorded answers
     const run = await execute(w, input);
+
+    // 3. Post-check tripwire
+    const post = postCheck(run, pre.flags);
+    if (post.escalate) {
+      run.outcome = { nodeId: "urgent_review", disposition: "human", label: "Urgent human review (tripwire escalated)" };
+      run.tripwireEscalated = true;
+    }
+
+    const categorySelected = run.steps?.find((s) => s.nodeId === "category")?.selected || null;
+    const vulnerableSelected = run.steps?.find((s) => s.nodeId === "vulnerable")?.selected === "true" ||
+                               run.steps?.some((s) => s.nodeId === "flag_vulnerable");
+
+    const track = deriveTrack(run, { ...pre.flags, tripwireEscalated: post.escalate });
+
+    const caseObj = createCase({
+      text: input.text,
+      receivedAt,
+      track,
+      category: categorySelected,
+      vulnerable: vulnerableSelected,
+      intake: { ...pre.flags, tripwireEscalated: post.escalate },
+      run,
+      actor: run.source === "model" ? "model" : "system",
+    });
+
+    S.cases.unshift(caseObj);
+    saveCases(S.cases);
+    renderCasesTable();
+    showCaseCreated(caseObj);
+
     commitRun(run);
     postWebhook(run);
   } catch (e) {
@@ -264,6 +360,645 @@ async function whatIf() {
   }
 }
 
+// ---- cases & compliance UI ------------------------------------------------------------------
+
+function getSimulatedNow() {
+  return S.simulatedDate ? new Date(S.simulatedDate) : new Date();
+}
+
+function formatCategoryName(cat) {
+  const map = {
+    damp_mould: "Damp & Mould",
+    cold_heat: "Excess Cold / Heat",
+    fire_electrical: "Fire & Electrical",
+    falls_structural: "Falls & Structural",
+    hygiene_pests: "Hygiene & Pests",
+    general_repair: "General / Routine Repair",
+  };
+  return map[cat] || (cat ? String(cat).replace(/_/g, " ") : "Unspecified");
+}
+
+function getNextDeadlineInfo(caseObj, now, goodPractice = true) {
+  const reduced = reduceCase(caseObj);
+  if (reduced.status === "closed") {
+    return { text: "Case Closed", status: "met", badgeClass: "met" };
+  }
+  const scopeInfo = checkPhaseScope(reduced.category, reduced.track, reduced.receivedAt, PHASES);
+  if (!goodPractice && !scopeInfo.inScope) {
+    return { text: "Out of statutory scope", status: "pending", badgeClass: "pending" };
+  }
+  if (reduced.track === "routine") {
+    return { text: "Routine repair (standard timescales)", status: "met", badgeClass: "met" };
+  }
+  const deadlines = computeDeadlines(caseObj, RULES, BANK_HOLIDAY_DATES, DAY_COUNTING_CONVENTION);
+  const activeDeadlines = deadlines.filter((d) => !d.metAt && d.dueAt);
+  if (activeDeadlines.length === 0) {
+    const pendingDeadlines = deadlines.filter((d) => !d.metAt && d.pending);
+    if (pendingDeadlines.length > 0) {
+      return { text: pendingDeadlines[0].pending, status: "pending", badgeClass: "pending" };
+    }
+    return { text: "All statutory deadlines met", status: "met", badgeClass: "met" };
+  }
+  activeDeadlines.sort((a, b) => new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime());
+  const nextDl = activeDeadlines[0];
+  const st = getDeadlineStatus(nextDl, now);
+  const nowMs = new Date(now).getTime();
+  const dueMs = new Date(nextDl.dueAt).getTime();
+  const diffHours = (dueMs - nowMs) / (3600 * 1000);
+  let timeStr = "";
+  if (st === "breached") {
+    const overdueHours = Math.abs(diffHours);
+    timeStr = overdueHours < 24 ? `OVERDUE by ${overdueHours.toFixed(1)}h` : `OVERDUE by ${(overdueHours / 24).toFixed(1)}d`;
+  } else {
+    timeStr = diffHours < 24 ? `${diffHours.toFixed(1)}h left` : `${(diffHours / 24).toFixed(1)}d left`;
+  }
+  return {
+    deadline: nextDl,
+    status: st,
+    badgeClass: st,
+    text: `${nextDl.description}: ${timeStr}`,
+  };
+}
+
+function renderCasesTable() {
+  const tbody = $("casesTableBody");
+  if (!tbody) return;
+
+  const now = getSimulatedNow();
+  let emergencyCount = 0;
+  let significantCount = 0;
+  let dueSoonCount = 0;
+  let breachedCount = 0;
+
+  if (!S.cases || S.cases.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--ink2)">No cases recorded yet. Run a repair report or click an example on the left.</td></tr>`;
+    $("kpiTotal").textContent = "0";
+    $("kpiEmergency").textContent = "0";
+    $("kpiSignificant").textContent = "0";
+    $("kpiDueSoon").textContent = "0";
+    $("kpiBreached").textContent = "0";
+    return;
+  }
+
+  tbody.innerHTML = "";
+
+  S.cases.forEach((rawCase) => {
+    const c = reduceCase(rawCase);
+    if (c.track === "emergency") emergencyCount++;
+    if (c.track === "significant") significantCount++;
+
+    const scope = checkPhaseScope(c.category, c.track, c.receivedAt, PHASES);
+    const nextDl = getNextDeadlineInfo(rawCase, now, S.goodPractice);
+
+    if (nextDl.status === "due_soon") dueSoonCount++;
+    if (nextDl.status === "breached") breachedCount++;
+
+    const tr = document.createElement("tr");
+
+    const recD = new Date(c.receivedAt);
+    const recStr = recD.toLocaleDateString("en-GB", { timeZone: "Europe/London", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+
+    const trackBadge = `<span class="badge ${esc(c.track)}">${esc(c.track.toUpperCase())}</span>`;
+    const vulnBadge = c.vulnerable ? `<span class="badge vulnerable">VULNERABLE</span>` : `<span style="color:var(--ink2)">No</span>`;
+    const scopeBadge = scope.inScope
+      ? `<span class="badge scope-in">${esc(scope.badgeText)}</span>`
+      : `<span class="badge scope-out">${esc(scope.badgeText)}</span>`;
+    const chipHtml = `<span class="chip ${esc(nextDl.badgeClass)}">${esc(nextDl.text)}</span>`;
+
+    tr.innerHTML = `
+      <td><strong>${esc(c.id)}</strong></td>
+      <td style="font-size:12px">${esc(recStr)}</td>
+      <td>${esc(formatCategoryName(c.category))}</td>
+      <td>${trackBadge}</td>
+      <td>${vulnBadge}</td>
+      <td>${scopeBadge}</td>
+      <td>${chipHtml}</td>
+      <td style="font-size:11px;color:var(--ink2)">${esc(rawCase.actor || "model")}</td>
+      <td><button type="button" class="ghost small view-case-btn" data-id="${esc(c.id)}">View / Manage</button></td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+
+  tbody.querySelectorAll(".view-case-btn").forEach((btn) => {
+    btn.addEventListener("click", () => openCaseModal(btn.dataset.id));
+  });
+
+  $("kpiTotal").textContent = String(S.cases.length);
+  $("kpiEmergency").textContent = String(emergencyCount);
+  $("kpiSignificant").textContent = String(significantCount);
+  $("kpiDueSoon").textContent = String(dueSoonCount);
+  $("kpiBreached").textContent = String(breachedCount);
+}
+
+function openCaseModal(caseId) {
+  S.selectedCaseId = caseId;
+  const modal = $("caseDetailModal");
+  if (!modal) return;
+  renderCaseDetail(caseId);
+  if (typeof modal.showModal === "function") {
+    modal.showModal();
+  } else {
+    modal.hidden = false;
+  }
+}
+
+function closeCaseModal() {
+  const modal = $("caseDetailModal");
+  if (!modal) return;
+  if (typeof modal.close === "function") {
+    modal.close();
+  } else {
+    modal.hidden = true;
+  }
+  S.selectedCaseId = null;
+}
+
+function renderCaseDetail(caseId) {
+  const rawCase = S.cases.find((c) => c.id === caseId);
+  const body = $("modalCaseBody");
+  if (!rawCase || !body) return;
+
+  const c = reduceCase(rawCase);
+  const now = getSimulatedNow();
+  const deadlines = computeDeadlines(rawCase, RULES, BANK_HOLIDAY_DATES, DAY_COUNTING_CONVENTION);
+  const scope = checkPhaseScope(c.category, c.track, c.receivedAt, PHASES);
+  const altPrompt = alternativeAccommodationPrompt(rawCase, now);
+
+  $("modalCaseTitle").textContent = `${c.id} — ${formatCategoryName(c.category)} (${c.status.toUpperCase()})`;
+
+  let altAlertHtml = "";
+  if (altPrompt && !c.isSafe && c.track !== "routine") {
+    altAlertHtml = `
+      <div class="alt-accomm-alert">
+        <span style="font-size:20px">⚠️</span>
+        <div>
+          <strong>Statutory Make-Safe Deadline Imminent or Breached:</strong>
+          Under Awaab's Law regulations, when repairs cannot be made safe within statutory timescales, the landlord MUST offer suitable alternative accommodation at no expense to the tenant.
+          <div style="margin-top:6px">
+            <button type="button" id="modalAltOfferBtn" class="primary small">Offer Alternative Accommodation</button>
+            <button type="button" id="modalAltLetterBtn" class="ghost small">Draft Accommodation Letter</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  const deadlineRows = deadlines.map((d) => {
+    const st = getDeadlineStatus(d, now);
+    const badgeClass = `chip ${st}`;
+    const verifiedBadge = d.verified
+      ? `<span class="badge verified">Verified (s.42)</span>`
+      : `<span class="badge unverified" title="Provisional regulatory guidance; pending final ministerial order">Provisional / Unverified</span>`;
+
+    const dueFormatted = d.dueAt
+      ? new Date(d.dueAt).toLocaleDateString("en-GB", { timeZone: "Europe/London", weekday: "short", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" })
+      : `<span style="color:var(--ink2)">${esc(d.pending || "Pending prerequisite")}</span>`;
+
+    const metFormatted = d.metAt
+      ? `<div style="font-size:11px;color:var(--task)">Met: ${new Date(d.metAt).toLocaleDateString("en-GB", { timeZone: "Europe/London", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</div>`
+      : "";
+
+    return `
+      <tr>
+        <td><strong>${esc(d.description)}</strong><br><span style="font-size:11px;color:var(--ink2)">${esc(d.from)} (${esc(d.basis)})</span></td>
+        <td>${dueFormatted}${metFormatted}</td>
+        <td><span class="${badgeClass}">${st.replace(/_/g, " ").toUpperCase()}</span></td>
+        <td>${verifiedBadge}<br><a href="${esc(d.source)}" target="_blank" rel="noopener" style="font-size:11px">Source legal text →</a></td>
+      </tr>
+    `;
+  }).join("");
+
+  const timelineItems = c.events.map((ev) => {
+    const evTime = new Date(ev.at).toLocaleDateString("en-GB", { timeZone: "Europe/London", day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+    const evActor = `<span style="font-weight:600">${esc(ev.actor)}</span>`;
+    let detail = "";
+    if (ev.type === "received") detail = `Report received: "<em>${esc(ev.data?.text)}</em>"`;
+    else if (ev.type === "triaged") detail = `Triage completed. Track: <strong>${esc(ev.data?.track)}</strong>, Category: <strong>${esc(formatCategoryName(ev.data?.category))}</strong>, Vulnerable: <strong>${ev.data?.vulnerable ? "Yes" : "No"}</strong>`;
+    else if (ev.type === "tripwire_escalation") detail = `⚠️ Tripwire escalation: ${esc(ev.data?.reason)} (matched: ${esc((ev.data?.matches || []).join(", "))})`;
+    else if (ev.type === "inspection_booked") detail = `Inspection booked for ${esc(ev.data?.bookedFor || "scheduled date")}`;
+    else if (ev.type === "inspection_recorded") detail = `Inspection finding: <strong>${esc(ev.data?.finding)}</strong> by ${esc(ev.data?.competentPerson)}`;
+    else if (ev.type === "summary_sent") detail = `Written summary of findings provided to tenant`;
+    else if (ev.type === "made_safe") detail = `Hazard made safe: ${esc(ev.data?.note || "Temporary or permanent safety measures installed")}`;
+    else if (ev.type === "works_started") detail = `Subsequent repair works commenced: ${esc(ev.data?.description || "Work in progress")}`;
+    else if (ev.type === "contact_attempt") detail = `Contact attempt via ${esc(ev.data?.channel || "phone")}: ${esc(ev.data?.outcome || "logged")}`;
+    else if (ev.type === "track_override") detail = `Track overridden from ${esc(ev.data?.from)} to <strong>${esc(ev.data?.track)}</strong>. Reason: ${esc(ev.data?.reason)}`;
+    else if (ev.type === "category_override") detail = `Category overridden from ${esc(ev.data?.from)} to <strong>${esc(ev.data?.category)}</strong>. Reason: ${esc(ev.data?.reason)}`;
+    else if (ev.type === "alt_accommodation_offered") detail = `Alternative accommodation offered to resident`;
+    else if (ev.type === "alt_accommodation_declined") detail = `Alternative accommodation declined by resident`;
+    else if (ev.type === "closed") detail = `Case closed by officer. Reason: ${esc(ev.data?.reason || "Resolved")}`;
+    else detail = JSON.stringify(ev.data || {});
+
+    return `
+      <li class="timeline-item">
+        <div class="timeline-meta">${esc(evTime)} · ${evActor} · <span class="badge ${esc(ev.type)}">${esc(ev.type)}</span></div>
+        <div class="timeline-body">${detail}</div>
+      </li>
+    `;
+  }).join("");
+
+  body.innerHTML = `
+    ${altAlertHtml}
+
+    <div class="modal-section">
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+        <div><strong>Status:</strong> <span class="badge ${c.status === "closed" ? "routine" : "emergency"}">${esc(c.status.toUpperCase())}</span></div>
+        <div><strong>Track:</strong> <span class="badge ${esc(c.track)}">${esc(c.track.toUpperCase())}</span></div>
+        <div><strong>Phase Scope:</strong> ${scope.inScope ? `<span class="badge scope-in">${esc(scope.badgeText)}</span>` : `<span class="badge scope-out">${esc(scope.badgeText)}</span>`}</div>
+        <div><strong>Vulnerable Household:</strong> ${c.vulnerable ? `<span class="badge vulnerable">YES (Health / Age Cues)</span>` : `No`}</div>
+      </div>
+      <div><strong>Original Tenant Report:</strong></div>
+      <blockquote style="margin:6px 0;padding:10px 14px;background:var(--soft);border-left:3px solid var(--accent);border-radius:4px;font-style:italic">
+        ${esc(c.text)}
+      </blockquote>
+      ${c.intake?.languageGuard ? `<div class="badge manual" style="margin-top:4px">🌐 Non-English language detected: ${esc(c.intake.detectedScript || c.intake.detectedLanguage || "Foreign language")}</div>` : ""}
+      ${c.intake?.tripwireEscalated ? `<div class="badge emergency" style="margin-top:4px">⚠️ Escalated by deterministic keyword tripwire</div>` : ""}
+    </div>
+
+    <div class="modal-section">
+      <h3>Statutory Deadlines (Awaab's Law)</h3>
+      <table class="cases-table" style="margin-top:8px">
+        <thead>
+          <tr>
+            <th>Statutory Requirement</th>
+            <th>Due Date &amp; Time (Europe/London)</th>
+            <th>Compliance Status</th>
+            <th>Legal Basis &amp; Verification</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${deadlineRows || `<tr><td colspan="4">No statutory deadlines computed for this case.</td></tr>`}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="modal-section">
+      <h3>Tenant Communications (Plain English Drafts)</h3>
+      <div class="btn-group">
+        <button type="button" id="modalGenAckBtn" class="ghost small">Generate Acknowledgement Letter</button>
+        <button type="button" id="modalGenSumBtn" class="ghost small">Generate Inspection Summary Letter</button>
+        <button type="button" id="modalGenAltBtn" class="ghost small">Generate Alternative Accommodation Letter</button>
+      </div>
+      <div id="modalLetterContainer" style="margin-top:10px" hidden>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <strong id="modalLetterTitle">Draft Letter</strong>
+          <button type="button" id="modalCopyLetterBtn" class="ghost small">Copy to Clipboard</button>
+        </div>
+        <pre id="modalLetterContent" class="letter-box"></pre>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Officer Action Drawer (Human Decisions &amp; Interventions)</h3>
+      <p class="hint" style="margin-bottom:10px">The model classifies or escalates. Only a human housing officer or competent person can record inspections, overrides, safety status, or close cases.</p>
+      
+      <div class="action-grid">
+        <div class="action-form">
+          <label>Record Inspection</label>
+          <div class="field" style="margin-top:6px">
+            <input type="text" id="actInspector" placeholder="Competent person name" value="Duty Surveyor (HHSRS Qualified)" style="width:100%;font-size:12px">
+          </div>
+          <div class="field">
+            <select id="actFinding" style="width:100%;font-size:12px">
+              <option value="significant">Finding: Significant Hazard (Awaab In Scope)</option>
+              <option value="emergency">Finding: Emergency Hazard (Immediate danger)</option>
+              <option value="not_significant">Finding: Hazard Not Significant / Low Risk</option>
+              <option value="no_access">Finding: No Access / Failed Attempt</option>
+            </select>
+          </div>
+          <button type="button" id="actRecordInspBtn" class="primary small" style="width:100%">Record Inspection Finding</button>
+        </div>
+
+        <div class="action-form">
+          <label>Log Contact Attempt</label>
+          <div class="field" style="margin-top:6px">
+            <select id="actContactChannel" style="width:100%;font-size:12px">
+              <option value="phone">Phone call</option>
+              <option value="sms">SMS / Text</option>
+              <option value="email">Email</option>
+              <option value="in_person">In-person visit</option>
+            </select>
+          </div>
+          <div class="field">
+            <select id="actContactOutcome" style="width:100%;font-size:12px">
+              <option value="answered">Answered / Agreed access</option>
+              <option value="voicemail">Left voicemail message</option>
+              <option value="no_answer">No answer</option>
+              <option value="access_refused">Tenant refused access</option>
+            </select>
+          </div>
+          <button type="button" id="actLogContactBtn" class="ghost small" style="width:100%">Log Contact Attempt</button>
+        </div>
+
+        <div class="action-form">
+          <label>Safety &amp; Works Milestones</label>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
+            <button type="button" id="actMadeSafeBtn" class="small ${c.isSafe ? "ghost" : "primary"}" ${c.isSafe ? "disabled" : ""}>
+              ${c.isSafe ? "✓ Marked Made Safe" : "Mark Hazard Made Safe"}
+            </button>
+            <button type="button" id="actWorksStartedBtn" class="small ${c.worksStarted ? "ghost" : "primary"}" ${c.worksStarted ? "disabled" : ""}>
+              ${c.worksStarted ? "✓ Repair Works Started" : "Record Works Started"}
+            </button>
+            <button type="button" id="actSummarySentBtn" class="small ${c.summarySent ? "ghost" : "primary"}" ${c.summarySent ? "disabled" : ""}>
+              ${c.summarySent ? "✓ Written Summary Sent" : "Mark Written Summary Sent"}
+            </button>
+          </div>
+        </div>
+
+        <div class="action-form">
+          <label>Officer Override &amp; Closure</label>
+          <div class="field" style="margin-top:6px">
+            <select id="actOverrideTrack" style="width:100%;font-size:12px">
+              <option value="emergency">Override to Emergency</option>
+              <option value="significant">Override to Significant</option>
+              <option value="routine">Override to Routine</option>
+              <option value="manual">Override to Manual Review</option>
+            </select>
+          </div>
+          <div class="field">
+            <input type="text" id="actOverrideReason" placeholder="Reason for override..." style="width:100%;font-size:12px">
+          </div>
+          <button type="button" id="actApplyOverrideBtn" class="ghost small" style="width:100%;margin-bottom:6px">Apply Override</button>
+          <button type="button" id="actCloseCaseBtn" class="danger small" style="width:100%" ${c.status === "closed" ? "disabled" : ""}>
+            ${c.status === "closed" ? "Case is Closed" : "Close Case"}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <h3>Append-Only Event Ledger (${c.events.length} events)</h3>
+        <button type="button" id="modalExportAuditBtn" class="ghost small">Export JSON-LD Audit Pack</button>
+      </div>
+      <ul class="timeline">
+        ${timelineItems}
+      </ul>
+    </div>
+  `;
+
+  function showLetter(title, content) {
+    $("modalLetterTitle").textContent = title;
+    $("modalLetterContent").textContent = content;
+    $("modalLetterContainer").hidden = false;
+  }
+
+  $("modalAltOfferBtn")?.addEventListener("click", () => {
+    appendEvent(rawCase, { actor: "officer:housing_manager", type: "alt_accommodation_offered", data: { offeredAt: now.toISOString() } });
+    saveCases(S.cases);
+    renderCasesTable();
+    renderCaseDetail(caseId);
+  });
+
+  $("modalAltLetterBtn")?.addEventListener("click", () => {
+    showLetter("Alternative Accommodation Offer Letter", generateAlternativeAccommodationLetter(c));
+  });
+
+  $("modalGenAckBtn")?.addEventListener("click", () => {
+    showLetter("Tenant Acknowledgement Letter", generateAcknowledgementLetter(c));
+  });
+
+  $("modalGenSumBtn")?.addEventListener("click", () => {
+    showLetter("Written Summary of Investigation Findings", generateSummaryLetter(c, c.inspectionFinding ? { finding: c.inspectionFinding, date: c.inspectionDate, inspector: c.competentPerson } : null, deadlines));
+  });
+
+  $("modalGenAltBtn")?.addEventListener("click", () => {
+    showLetter("Alternative Accommodation Offer Letter", generateAlternativeAccommodationLetter(c));
+  });
+
+  $("modalCopyLetterBtn")?.addEventListener("click", () => {
+    const text = $("modalLetterContent").textContent;
+    navigator.clipboard?.writeText(text).then(() => alert("Letter copied to clipboard!"))
+      .catch(() => alert("Failed to copy automatically; please copy the text manually."));
+  });
+
+  $("actRecordInspBtn")?.addEventListener("click", () => {
+    const inspector = $("actInspector").value.trim() || "Competent person";
+    const finding = $("actFinding").value;
+    appendEvent(rawCase, {
+      actor: `officer:${inspector.toLowerCase().replace(/[^a-z0-9]/g, "_")}`,
+      type: "inspection_recorded",
+      at: now.toISOString(),
+      data: { date: now.toISOString(), competentPerson: inspector, finding },
+    });
+    saveCases(S.cases);
+    renderCasesTable();
+    renderCaseDetail(caseId);
+  });
+
+  $("actLogContactBtn")?.addEventListener("click", () => {
+    const channel = $("actContactChannel").value;
+    const outcome = $("actContactOutcome").value;
+    appendEvent(rawCase, {
+      actor: "officer:triage_officer",
+      type: "contact_attempt",
+      at: now.toISOString(),
+      data: { channel, outcome },
+    });
+    saveCases(S.cases);
+    renderCasesTable();
+    renderCaseDetail(caseId);
+  });
+
+  $("actMadeSafeBtn")?.addEventListener("click", () => {
+    appendEvent(rawCase, {
+      actor: "officer:safety_engineer",
+      type: "made_safe",
+      at: now.toISOString(),
+      data: { note: "Hazard made safe by attending officer" },
+    });
+    saveCases(S.cases);
+    renderCasesTable();
+    renderCaseDetail(caseId);
+  });
+
+  $("actWorksStartedBtn")?.addEventListener("click", () => {
+    appendEvent(rawCase, {
+      actor: "officer:works_coordinator",
+      type: "works_started",
+      at: now.toISOString(),
+      data: { description: "Contractor appointed and works initiated" },
+    });
+    saveCases(S.cases);
+    renderCasesTable();
+    renderCaseDetail(caseId);
+  });
+
+  $("actSummarySentBtn")?.addEventListener("click", () => {
+    appendEvent(rawCase, {
+      actor: "officer:triage_officer",
+      type: "summary_sent",
+      at: now.toISOString(),
+      data: { method: "written_summary" },
+    });
+    saveCases(S.cases);
+    renderCasesTable();
+    renderCaseDetail(caseId);
+  });
+
+  $("actApplyOverrideBtn")?.addEventListener("click", () => {
+    const targetTrack = $("actOverrideTrack").value;
+    const reason = $("actOverrideReason").value.trim() || "Housing officer professional judgment";
+    appendEvent(rawCase, {
+      actor: "officer:senior_officer",
+      type: "track_override",
+      at: now.toISOString(),
+      data: { from: c.track, track: targetTrack, reason },
+    });
+    saveCases(S.cases);
+    renderCasesTable();
+    renderCaseDetail(caseId);
+  });
+
+  $("actCloseCaseBtn")?.addEventListener("click", () => {
+    const reason = prompt("Enter closure note / justification:") || "Repair completed and verified";
+    try {
+      appendEvent(rawCase, {
+        actor: "officer:housing_manager",
+        type: "closed",
+        at: now.toISOString(),
+        data: { reason },
+      });
+      saveCases(S.cases);
+      renderCasesTable();
+      renderCaseDetail(caseId);
+    } catch (err) {
+      alert(`Closure not permitted: ${err.message}`);
+    }
+  });
+
+  $("modalExportAuditBtn")?.addEventListener("click", () => {
+    exportCaseAuditPack(caseId);
+  });
+}
+
+function exportCaseAuditPack(caseId) {
+  const rawCase = S.cases.find((c) => c.id === caseId);
+  if (!rawCase) return;
+  const c = reduceCase(rawCase);
+  const now = getSimulatedNow();
+  const deadlines = computeDeadlines(rawCase, RULES, BANK_HOLIDAY_DATES, DAY_COUNTING_CONVENTION);
+
+  const doc = {
+    "@context": {
+      "irt": "https://laya.rocks/repairs-triage#",
+      "awaab": "https://www.legislation.gov.uk/ukpga/2023/36/section/42/enacted#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+    },
+    "@type": "irt:CaseAuditPack",
+    "irt:caseId": c.id,
+    "irt:receivedAt": c.receivedAt,
+    "irt:status": c.status,
+    "irt:track": c.track,
+    "irt:category": c.category,
+    "irt:vulnerable": c.vulnerable,
+    "irt:originalText": c.text,
+    "irt:events": c.events,
+    "irt:deadlines": deadlines.map((d) => ({
+      "@type": "irt:Deadline",
+      "irt:rule": d.ruleId,
+      "irt:description": d.description,
+      "irt:dueAt": d.dueAt,
+      "irt:metAt": d.metAt,
+      "irt:basis": d.basis,
+      "irt:complianceStatus": getDeadlineStatus(d, now),
+      "irt:legalSource": d.source,
+      "irt:verified": d.verified,
+    })),
+  };
+
+  download(`${c.id}-audit-pack.jsonld`, JSON.stringify(doc, null, 2), "application/ld+json");
+}
+
+function initSeedCases() {
+  S.cases = loadCases();
+  if (S.cases && S.cases.length > 0) return;
+
+  const now = Date.now();
+  const h = 3600 * 1000;
+  const d = 24 * h;
+
+  const seed1 = createCase({
+    id: "IRT-DEMO-001",
+    text: "Smell of gas in the hallway and the carbon monoxide alarm keeps beeping. Resident feels dizzy and nauseous.",
+    receivedAt: new Date(now - 6 * h).toISOString(),
+    track: "emergency",
+    category: "fire_electrical",
+    vulnerable: true,
+    intake: { tripwireEscalated: true, tripwireMatches: ["smell of gas", "carbon monoxide", "co alarm"] },
+    actor: "system",
+  });
+
+  const seed2 = createCase({
+    id: "IRT-DEMO-002",
+    text: "Severe black mould spreading across child's bedroom wall behind wardrobe. 4-year-old child has asthma and persistent night cough.",
+    receivedAt: new Date(now - 3 * d).toISOString(),
+    track: "significant",
+    category: "damp_mould",
+    vulnerable: true,
+    intake: {},
+    actor: "model",
+  });
+  appendEvent(seed2, {
+    actor: "officer:allocator",
+    type: "inspection_booked",
+    at: new Date(now - 2 * d).toISOString(),
+    data: { bookedFor: new Date(now + 2 * d).toISOString(), surveyor: "David Vance" },
+  });
+
+  const seed3 = createCase({
+    id: "IRT-DEMO-003",
+    text: "Water pouring through first-floor ceiling following storm damage to roof tiles. Ceiling plaster is sagging and water pooling on floor.",
+    receivedAt: new Date(now - 8 * d).toISOString(),
+    track: "significant",
+    category: "falls_structural",
+    vulnerable: false,
+    intake: {},
+    actor: "model",
+  });
+  appendEvent(seed3, {
+    actor: "officer:sarah_jenkins",
+    type: "inspection_recorded",
+    at: new Date(now - 3 * d).toISOString(),
+    data: {
+      date: new Date(now - 3 * d).toISOString(),
+      competentPerson: "Sarah Jenkins (Senior Structural Surveyor)",
+      finding: "significant",
+    },
+  });
+  appendEvent(seed3, {
+    actor: "officer:sarah_jenkins",
+    type: "summary_sent",
+    at: new Date(now - 2 * d).toISOString(),
+    data: { channel: "written_letter", address: "14 Elmhurst Road" },
+  });
+
+  const seed4 = createCase({
+    id: "IRT-DEMO-004",
+    text: "Cold water tap in kitchen drips slowly when shut tight. Sink drains normally and there is no leak beneath the cupboard.",
+    receivedAt: new Date(now - 1 * d).toISOString(),
+    track: "routine",
+    category: "general_repair",
+    vulnerable: false,
+    intake: {},
+    actor: "model",
+  });
+
+  const seed5 = createCase({
+    id: "IRT-DEMO-005",
+    text: "Dzień dobry, kaloryfer w salonie jest zupełnie zimny i cieknie z zaworu na podłogę. Proszę o pomoc.",
+    receivedAt: new Date(now - 2 * h).toISOString(),
+    track: "manual",
+    category: null,
+    vulnerable: false,
+    intake: { languageGuard: true, forcedOutcome: "Needs translation / human triage" },
+    actor: "system",
+  });
+
+  S.cases = [seed1, seed2, seed3, seed4, seed5];
+  saveCases(S.cases);
+}
+
 // ---- views ------------------------------------------------------------------------------------
 
 function showTab(tab) {
@@ -276,7 +1011,9 @@ function showTab(tab) {
 
 function refreshActive(tabSwitch = false) {
   const w = wf();
-  if (S.tab === "diagram") {
+  if (S.tab === "cases") {
+    renderCasesTable();
+  } else if (S.tab === "diagram") {
     const cy = S.cy.diagram;
     if (!cy) return drawDiagram();
     if (tabSwitch) { cy.resize(); cy.fit(undefined, 16); }
@@ -540,6 +1277,76 @@ function wire() {
   $("webhook").value = store.get("webhook", "");
   $("webhook").addEventListener("change", () => store.set("webhook", $("webhook").value.trim()));
 
+  // Demo clock controls
+  $("clockSlider")?.addEventListener("input", (e) => {
+    const days = +e.target.value;
+    if (days === 0) {
+      S.simulatedDate = null;
+      $("clockDisplay").textContent = "Current time (real)";
+      $("clockPicker").value = "";
+    } else {
+      const sim = new Date(Date.now() + days * 24 * 3600 * 1000);
+      S.simulatedDate = sim.toISOString();
+      const localSim = new Date(sim.getTime() - sim.getTimezoneOffset() * 60000);
+      $("clockPicker").value = localSim.toISOString().slice(0, 16);
+      $("clockDisplay").textContent = `Simulated: ${formatDateWords(sim)} (+${days.toFixed(1)}d)`;
+    }
+    renderCasesTable();
+    if (S.selectedCaseId) renderCaseDetail(S.selectedCaseId);
+  });
+
+  $("clockPicker")?.addEventListener("change", (e) => {
+    const val = e.target.value;
+    if (!val) {
+      S.simulatedDate = null;
+      $("clockSlider").value = 0;
+      $("clockDisplay").textContent = "Current time (real)";
+    } else {
+      const sim = new Date(val);
+      S.simulatedDate = sim.toISOString();
+      const diffDays = Math.max(0, (sim.getTime() - Date.now()) / (24 * 3600 * 1000));
+      $("clockSlider").value = Math.min(30, diffDays);
+      $("clockDisplay").textContent = `Simulated: ${formatDateWords(sim)}`;
+    }
+    renderCasesTable();
+    if (S.selectedCaseId) renderCaseDetail(S.selectedCaseId);
+  });
+
+  $("resetClockBtn")?.addEventListener("click", () => {
+    S.simulatedDate = null;
+    $("clockSlider").value = 0;
+    $("clockPicker").value = "";
+    $("clockDisplay").textContent = "Current time (real)";
+    renderCasesTable();
+    if (S.selectedCaseId) renderCaseDetail(S.selectedCaseId);
+  });
+
+  $("goodPracticeToggle")?.addEventListener("change", (e) => {
+    S.goodPractice = e.target.checked;
+    renderCasesTable();
+    if (S.selectedCaseId) renderCaseDetail(S.selectedCaseId);
+  });
+
+  $("clearCasesBtn")?.addEventListener("click", () => {
+    if (!confirm("Are you sure you want to clear all stored cases?")) return;
+    clearCases();
+    S.cases = [];
+    renderCasesTable();
+    if (S.selectedCaseId) closeCaseModal();
+  });
+
+  $("closeModalBtn")?.addEventListener("click", closeCaseModal);
+  $("caseDetailModal")?.addEventListener("click", (e) => {
+    if (e.target === $("caseDetailModal")) closeCaseModal();
+  });
+
+  const recAt = $("receivedAt");
+  if (recAt && !recAt.value) {
+    const nowLocal = new Date();
+    nowLocal.setMinutes(nowLocal.getMinutes() - nowLocal.getTimezoneOffset());
+    recAt.value = nowLocal.toISOString().slice(0, 16);
+  }
+
   // theme changes: redraw graphs so their colours follow
   matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change", () => { S.dirty = { tree: true, ontology: true, analytics: true }; drawDiagram(); refreshActive(); });
   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => Object.values(S.cy).forEach((c) => c?.resize()), 150); });
@@ -566,9 +1373,10 @@ window.__lw = {
 };
 window.__irt = window.__lw;
 
+initSeedCases();
 wire();
 fillWorkflowSelect();
-showTab(["diagram", "tree", "ontology", "analytics", "editor"].includes(store.get("tab")) ? store.get("tab") : "diagram");
+showTab(["cases", "diagram", "tree", "ontology", "analytics", "editor"].includes(store.get("tab")) ? store.get("tab") : "cases");
 selectWorkflow(wf().id);
 loadRecorded().then(updateRunHint);
 initModelCard();

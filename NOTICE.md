@@ -1,10 +1,10 @@
 # Notice
 
-iayaForRepairsTriage is an unofficial project built on a browser port of the Laya typed-decisions checkpoint. It is not affiliated with or endorsed by ConvAI Innovations, the layaForWorkflows author (Vishal Mysore), any social landlord, any housing association, any local authority, any government body (including the UK Ministry of Housing, Communities & Local Government or the Regulator of Social Housing), Microsoft, Hugging Face, Answer.AI, LightOn or the Cytoscape Consortium.
+layaForRepairsTriage is an unofficial project built on a browser port of the Laya typed-decisions checkpoint. It is not affiliated with or endorsed by ConvAI Innovations, the layaForWorkflows author (Vishal Mysore), any social landlord, any housing association, any local authority, any government body (including the UK Ministry of Housing, Communities & Local Government or the Regulator of Social Housing), Microsoft, Hugging Face, Answer.AI, LightOn or the Cytoscape Consortium.
 
 ## Derivative Work
 
-This repository (`iayaForRepairsTriage`) is a modified derivative of [`layaForWorkflows`](https://github.com/vishalmysore/layaForWorkflows) by Vishal Mysore (licensed under the Apache License, Version 2.0).
+This repository (`layaForRepairsTriage`) is a modified derivative of [`layaForWorkflows`](https://github.com/vishalmysore/layaForWorkflows) by Vishal Mysore (licensed under the Apache License, Version 2.0).
 
 Modifications and additions in this derivative:
 - Replaced domain workflows in `web/workflows.js` with England social housing repairs triage (`awaab-triage`) structured around Awaab's Law.

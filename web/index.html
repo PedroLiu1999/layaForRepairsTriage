@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>iayaForRepairsTriage — Social Housing Repairs Triage (Awaab's Law)</title>
+<title>layaForRepairsTriage — Social Housing Repairs Triage (Awaab's Law)</title>
 <meta name="description" content="Browser-only repairs triage tool for social housing in England, shaped around Awaab's Law.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232a5bd7'/%3E%3Cpath d='M16 6l8 8-8 8-8-8z' fill='none' stroke='white' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='26' r='2.4' fill='white'/%3E%3C/svg%3E">
 <script src="./coi.js"></script>
@@ -19,7 +19,7 @@
   <div class="brand">
     <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><rect width="32" height="32" rx="7" class="logo-bg"/><path d="M16 6l8 8-8 8-8-8z" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="16" cy="26" r="2.4" fill="#fff"/></svg>
     <div>
-      <h1>iayaForRepairsTriage</h1>
+      <h1>layaForRepairsTriage</h1>
       <p>Repairs triage &amp; Awaab's Law compliance clock (browser-only)</p>
     </div>
   </div>
@@ -60,8 +60,13 @@
         <input type="text" id="subject" autocomplete="off">
       </div>
       <div class="field">
-        <label for="message">Input</label>
-        <textarea id="message" rows="5" spellcheck="false" placeholder="Type a message, alert, claim, invoice… or pick an example below"></textarea>
+        <label for="receivedAt">Received at (UTC / London)</label>
+        <input type="datetime-local" id="receivedAt">
+        <p class="hint">Adjust date/time to test Phase 1 (pre-30 Nov 2026) vs Phase 2, out-of-hours, or weekend deadlines.</p>
+      </div>
+      <div class="field">
+        <label for="message">Tenant report</label>
+        <textarea id="message" rows="5" spellcheck="false" placeholder="Type a repair report or pick an example below..."></textarea>
       </div>
       <div class="examples" id="examples" aria-label="Examples"></div>
       <div class="field">
@@ -71,8 +76,11 @@
       </div>
       <label class="check"><input type="checkbox" id="eager" checked> Answer every decision in one batch (enables what-if routing)</label>
       <div class="btnrow">
-        <button id="runBtn" class="primary">Run workflow</button>
+        <button id="runBtn" class="primary">Run triage</button>
         <button id="runAllBtn">Run all examples</button>
+      </div>
+      <div id="caseCreatedNotice" class="case-notice" hidden>
+        ✅ Case created: <a id="caseCreatedLink" href="#">View case details &amp; compliance clock →</a>
       </div>
       <p class="hint" id="runHint"></p>
     </section>
@@ -87,14 +95,59 @@
 
   <main class="stage card">
     <nav class="tabs" role="tablist">
-      <button role="tab" data-tab="diagram" aria-selected="true">Workflow</button>
+      <button role="tab" data-tab="cases" class="tab-highlight" aria-selected="true">Cases &amp; Clock</button>
+      <button role="tab" data-tab="diagram">Workflow</button>
       <button role="tab" data-tab="tree">Decision graph</button>
       <button role="tab" data-tab="ontology">Ontology</button>
       <button role="tab" data-tab="analytics">Analytics</button>
       <button role="tab" data-tab="editor">Editor</button>
     </nav>
 
-    <div class="panel" data-panel="diagram">
+    <div class="panel" data-panel="cases">
+      <div class="demo-clock-bar">
+        <label for="clockSlider">🕒 Demo Clock (Simulate Now):</label>
+        <input type="range" id="clockSlider" min="0" max="30" step="0.25" value="0" title="Slide to advance simulated time">
+        <input type="datetime-local" id="clockPicker" title="Pick an exact simulated date and time">
+        <span class="clock-display" id="clockDisplay">Current time</span>
+        <button id="resetClockBtn" class="ghost small">Reset to Real Time</button>
+      </div>
+      <div class="cases-toolbar">
+        <label class="check">
+          <input type="checkbox" id="goodPracticeToggle" checked>
+          Apply Awaab timescales to not-yet-in-scope hazards as good practice
+        </label>
+        <button id="clearCasesBtn" class="ghost danger">Clear all demo cases</button>
+      </div>
+      <div class="kpis" id="casesKpis">
+        <div class="kpi"><div class="l">Total Cases</div><div class="v" id="kpiTotal">0</div></div>
+        <div class="kpi"><div class="l">Emergency (24h)</div><div class="v" id="kpiEmergency">0</div></div>
+        <div class="kpi"><div class="l">Significant Hazards</div><div class="v" id="kpiSignificant">0</div></div>
+        <div class="kpi"><div class="l">Due Soon / At Risk</div><div class="v" id="kpiDueSoon" style="color:var(--human)">0</div></div>
+        <div class="kpi"><div class="l">Breached Deadlines</div><div class="v" id="kpiBreached" style="color:var(--block)">0</div></div>
+      </div>
+      <div class="table-wrap">
+        <table class="cases-table">
+          <thead>
+            <tr>
+              <th>Case ID</th>
+              <th>Received (London)</th>
+              <th>Hazard Category</th>
+              <th>Track</th>
+              <th>Vulnerable</th>
+              <th>Scope Phase</th>
+              <th>Next Deadline</th>
+              <th>Origin</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="casesTableBody">
+            <tr><td colspan="9" style="text-align:center;padding:24px;color:var(--ink2)">No cases recorded yet. Run a repair report or click an example on the left.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel" data-panel="diagram" hidden>
       <div class="toolbar">
         <div class="legend">
           <span><i class="lg decision"></i>decision (model)</span>
@@ -165,17 +218,25 @@
         <button id="exportWfBtn" class="ghost">Download JSON</button>
         <label class="ghost filebtn">Import JSON<input type="file" id="importWf" accept="application/json,.json" hidden></label>
       </div>
-      <details class="webhook"><summary>Send each decision record to a webhook (optional)</summary>
-        <p class="hint">If set, every run is POSTed as JSON to this URL. The endpoint must allow CORS. Stored only in this browser.</p>
-        <input type="url" id="webhook" placeholder="https://example.com/hooks/laya">
+      <details class="webhook"><summary>Send case decisions to external webhook (off by default)</summary>
+        <p class="hint" style="color:var(--human);font-weight:500">⚠️ Warning: If a webhook URL is configured, report text and triage decisions are transmitted to this external server. By default this is empty and all data stays private in your browser.</p>
+        <input type="url" id="webhook" placeholder="https://example.com/hooks/awaab-triage">
       </details>
     </div>
   </main>
 </div>
 
+<dialog id="caseDetailModal" class="case-modal">
+  <div class="modal-header">
+    <h2 id="modalCaseTitle">Case Details</h2>
+    <button id="closeModalBtn" class="close-btn" aria-label="Close modal">&times;</button>
+  </div>
+  <div class="modal-body" id="modalCaseBody"></div>
+</dialog>
+
 <footer class="foot">
   <p>Every decision is made by the <a id="footModel" target="_blank" rel="noopener">laya-typed-decisions</a> model running in this tab through ONNX Runtime Web. Routing is plain data, so there is no second model on top and nothing is sent to a server.
-  Built on <a href="https://github.com/vishalmysore/layaForWeb" target="_blank" rel="noopener">layaForWeb</a> and Laya by ConvAI Innovations (Apache-2.0); unofficial, not affiliated with ConvAI Innovations.
+  Built on <a href="https://github.com/vishalmysore/layaForWeb" target="_blank" rel="noopener">layaForWeb</a> and Laya by ConvAI Innovations (Apache-2.0); unofficial, not affiliated with ConvAI Innovations, any landlord, or any government body.
   <a href="./NOTICE.txt">Notices</a> · <a href="./LICENSE.txt">License</a> · <a href="https://github.com/vishalmysore/layaForWorkflows" target="_blank" rel="noopener">Source</a></p>
 </footer>
 <script type="module" src="./main.js"></script>
