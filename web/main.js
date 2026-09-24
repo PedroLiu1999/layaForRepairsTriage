@@ -1189,20 +1189,38 @@ function selectWorkflow(id) {
   fillWorkflowSelect();
   $("wfDesc").textContent = `${w.domain ? w.domain + " · " : ""}${w.description || ""}`;
   $("subjectField").hidden = !w.input?.subject;
-  $("examples").innerHTML = "";
-  (w.examples || []).forEach((ex, i) => {
-    const b = document.createElement("button"); b.type = "button";
-    b.textContent = ex.subject || ex.text.slice(0, 38) + (ex.text.length > 38 ? "…" : "");
-    b.title = ex.text; b.addEventListener("click", () => fillExample(i));
-    $("examples").appendChild(b);
-  });
+
+  // Populate example dropdown
+  const exSel = $("exampleSelect");
+  if (exSel) {
+    exSel.innerHTML = '<option value="">— Choose a synthetic example —</option>';
+    (w.examples || []).forEach((ex, i) => {
+      const opt = document.createElement("option");
+      opt.value = String(i);
+      const title = ex.subject || ex.text.slice(0, 48) + (ex.text.length > 48 ? "…" : "");
+      opt.textContent = `${i + 1}. ${title}`;
+      exSel.appendChild(opt);
+    });
+  }
+
+  if ($("examples")) {
+    $("examples").innerHTML = "";
+    (w.examples || []).forEach((ex, i) => {
+      const b = document.createElement("button"); b.type = "button";
+      b.textContent = ex.subject || ex.text.slice(0, 38) + (ex.text.length > 38 ? "…" : "");
+      b.title = ex.text; b.addEventListener("click", () => fillExample(i));
+      $("examples").appendChild(b);
+    });
+  }
+
   S.last = [...runsOf(w.id)].pop() || null; S.shown = null;
   if (S.last) showResult(S.last); else $("resultCard").hidden = true;
   if (S.last) {
     // show the input of the run that is on screen
     $("message").value = S.last.input.text; $("subject").value = S.last.input.subject || "";
     S.selectedExample = w.examples.findIndex((ex) => ex.text === S.last.input.text);
-    [...$("examples").children].forEach((b, j) => b.classList.toggle("active", j === S.selectedExample));
+    if ($("exampleSelect")) $("exampleSelect").value = S.selectedExample >= 0 ? String(S.selectedExample) : "";
+    if ($("examples")) [...$("examples").children].forEach((b, j) => b.classList.toggle("active", j === S.selectedExample));
     updateRunHint();
   } else if (!$("message").value || S.selectedExample != null) fillExample(0);
   S.dirty = { tree: true, ontology: true, analytics: true };
@@ -1217,7 +1235,8 @@ function fillExample(i) {
   if (!ex) return;
   $("message").value = ex.text; $("subject").value = ex.subject || "";
   S.selectedExample = i;
-  [...$("examples").children].forEach((b, j) => b.classList.toggle("active", j === i));
+  if ($("exampleSelect")) $("exampleSelect").value = String(i);
+  if ($("examples")) [...$("examples").children].forEach((b, j) => b.classList.toggle("active", j === i));
   updateRunHint();
 }
 
@@ -1238,7 +1257,16 @@ function wire() {
   $("workflow").addEventListener("change", (e) => selectWorkflow(e.target.value));
   $("runBtn").addEventListener("click", runOne);
   $("runAllBtn").addEventListener("click", runAll);
-  $("message").addEventListener("input", () => { S.selectedExample = null; [...$("examples").children].forEach((b) => b.classList.remove("active")); updateRunHint(); });
+  $("exampleSelect")?.addEventListener("change", (e) => {
+    const val = e.target.value;
+    if (val !== "") fillExample(+val);
+  });
+  $("message").addEventListener("input", () => {
+    S.selectedExample = null;
+    if ($("exampleSelect")) $("exampleSelect").value = "";
+    if ($("examples")) [...$("examples").children].forEach((b) => b.classList.remove("active"));
+    updateRunHint();
+  });
   $("subject").addEventListener("input", updateRunHint);
   document.addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter" && document.activeElement !== $("editor")) runOne(); });
 
